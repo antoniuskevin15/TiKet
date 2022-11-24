@@ -1,0 +1,7 @@
+{
+  "name": "tiket",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
