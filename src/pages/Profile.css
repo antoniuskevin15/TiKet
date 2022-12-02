@@ -1,0 +1,43 @@
+.profile_image{
+    background: url("../assets/profile.jpeg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    box-shadow: inset 0 0 0 12px rgba(210, 223, 254, 0.533);
+    order: 1;
+    width: 300px;
+    height: 300px;
+    justify-self: center;
+    animation: profile 8s ease-in-out infinite 1s;
+}
+.btnEdit{
+    position: absolute;
+    width: 60px !important;
+    height: 60px !important;
+    right:0%;
+    top:0%;
+    --border-radius: 50%;
+    margin: 15px 15px 0px 0px;
+
+}
+.editIcon{
+    /* margin: 0px 1px 0px 1px; */
+}
+
+@keyframes profile{
+    0% {
+        border-radius: 60% 40% 30% 70%/ 60% 30% 70% 40%;
+    }
+    25% {
+        border-radius: 40% 50% 40% 70%/ 30% 40% 60% 60%;
+    }
+    50% {
+        border-radius: 30% 60% 70% 40%/ 50% 60% 30% 60%;
+    }
+    75% {
+        border-radius: 40% 50% 40% 70%/ 30% 40% 60% 60%;
+    }
+    100% {
+        border-radius: 60% 40% 30% 70%/ 60% 30% 70% 40%;
+    }
+}
