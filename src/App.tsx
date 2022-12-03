@@ -24,6 +24,7 @@ import './theme/variables.css';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import Package from './pages/PackageUser';
 
 setupIonicReact();
 
@@ -42,6 +43,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/profile">
           <Profile />
+        </Route>
+        <Route exact path="/user/package">
+          <Package />
         </Route>
         <Route exact path="/">
           <Redirect to="/home" />
