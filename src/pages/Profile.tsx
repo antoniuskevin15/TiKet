@@ -15,7 +15,6 @@ const Profile: React.FC = () => {
           <IonGrid className='ion-text-center' >
             <IonRow className='ion-margin-horizontal ion-justify-content-end'>
 
-
             </IonRow>
             <IonRow className='ion-justify-content-center'>
               <div className="ion-margin profile_image" />
