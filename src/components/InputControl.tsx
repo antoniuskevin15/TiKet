@@ -14,7 +14,7 @@ const InputControl: React.FC<{
       <IonSegmentButton value="new">
         <IonLabel>New</IonLabel>
       </IonSegmentButton>
-      <IonSegmentButton value="history">
+      <IonSegmentButton value="hist">
         <IonLabel>History</IonLabel>
       </IonSegmentButton>
     </IonSegment>
