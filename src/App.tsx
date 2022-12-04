@@ -50,7 +50,7 @@ const App: React.FC = () => (
           <TabsUser />
         </Route>
         <Route exact path="/">
-          <Redirect to="/home" />
+          <Redirect to="/user" />
         </Route>
         {/* </Switch> */}
       </IonRouterOutlet>
