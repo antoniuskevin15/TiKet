@@ -4,6 +4,10 @@ ion-item {
     --background: #f6f6f6;
 }
 
+IonLabel{
+    --background: #f6f6f6;
+}
+
 .subheader {
     color: grey;
     font-size: 1.8vh;
