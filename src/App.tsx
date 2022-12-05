@@ -26,6 +26,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import TabsUser from './pages/TabsUser';
+import SelectCircle from './pages/SelectCircle';
 
 setupIonicReact();
 
@@ -45,6 +46,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/profile">
           <Profile />
+        </Route>
+        <Route exact path="/select">
+          <SelectCircle />
         </Route>
         <Route path="/user">
           <TabsUser />
