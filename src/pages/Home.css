@@ -4,7 +4,7 @@
 } */
 
 
-.segment {
+.segmentHome {
     border-style: solid;
     border-radius: 12px;
     width: 100%;
@@ -12,8 +12,8 @@
     margin-bottom: 30px;
 }
 
-ion-segment-button {
-    --background-checked: black;
+.segmentHome ion-segment-button {
+    --background-checked: black !important;
     --color-checked: white;
 }
 
