@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonIcon, IonGrid, IonRow, IonLabel, IonItem, IonInput, IonButton, IonCol } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonIcon, IonGrid, IonRow, IonLabel, IonItem, IonInput, IonButton, IonCol, IonTextarea } from '@ionic/react';
 import { personOutline } from 'ionicons/icons';
 import { useForm } from "react-hook-form";
 import { useHistory } from 'react-router';
@@ -38,9 +38,9 @@ const CreateCircle: React.FC = () => {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <IonRow>
                             <IonCol>
-                                <IonItem >
+                                <IonItem className='inputItem ion-padding-right'>
                                     <IonLabel className='ion-padding-start' position="floating">Circle Name</IonLabel>
-                                    <IonInput clearInput={true} className='ion-margin-horizontal inputItem' type="text" {...register("circlename", {
+                                    <IonInput clearInput={true} className='ion-margin-horizontal ion-padding-horizontal' type="text" {...register("circlename", {
                                         required: "Full Name is Required"
                                     })}></IonInput>
                                 </IonItem>
@@ -48,9 +48,9 @@ const CreateCircle: React.FC = () => {
                         </IonRow>
                         <IonRow>
                             <IonCol>
-                                <IonItem >
+                                <IonItem className='inputItem' >
                                     <IonLabel className='ion-padding-start' position="floating">Address</IonLabel>
-                                    <IonInput clearInput={true} className='ion-margin-horizontal inputItem' type="text"  {...register("address", {
+                                    <IonInput clearInput={true} className='ion-margin-horizontal' type="text"  {...register("address", {
                                         required: "Phone Number is Required"
                                     })}></IonInput>
                                 </IonItem>
@@ -58,11 +58,11 @@ const CreateCircle: React.FC = () => {
                         </IonRow>
                         <IonRow>
                             <IonCol>
-                                <IonItem >
+                                <IonItem className='inputItem'>
                                     <IonLabel className='ion-padding-start' position="floating">Description</IonLabel>
-                                    <IonInput clearInput={true} className='ion-margin-horizontal inputItem' type="text"  {...register("desc", {
+                                    <IonTextarea autoGrow={true} className='ion-margin-horizontal' {...register("desc", {
                                         required: "Phone Number is Required"
-                                    })}></IonInput>
+                                    })}></IonTextarea>
                                 </IonItem>
                             </IonCol>
                         </IonRow>

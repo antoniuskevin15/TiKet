@@ -1,7 +1,15 @@
 .inputItem {
     border-radius: 2vh;
-    border: 0.2vh solid rgba(128, 128, 128, 0);
-    --background: #f6f6f600;
+    border: 0.2vh solid grey;
+    --background: #f6f6f6;
+}
+
+
+.input-clear-icon.sc-ion-input-md {
+    margin-right: 20px;
+}
+.input-clear-icon.sc-ion-input-ios {
+    margin-right: 20px;
 }
 
 .tableGrid {
