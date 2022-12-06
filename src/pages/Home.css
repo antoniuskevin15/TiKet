@@ -11,3 +11,13 @@
     height: 50px;
     margin-bottom: 30px;
 }
+
+ion-segment-button {
+    --background-checked: black;
+    --color-checked: white;
+}
+
+.detail {
+    text-align: justify;
+    justify-content: inherit;
+}

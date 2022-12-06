@@ -25,8 +25,8 @@ const Home: React.FC = () => {
             <IonImg src={apart.photoURL} class="imgApart" />
           </IonRow>
         ))}
-        <IonRow className='ion-padding'>
-          <IonSegment color="" class="segment" value={descActive ? "Description" : "Members"}>
+        <IonRow className='ion-padding-horizontal ion-padding-top'>
+          <IonSegment class="segment" value={descActive ? "Description" : "Members"}>
             <IonSegmentButton
               class="segmentContent"
               value="Description"
@@ -50,7 +50,7 @@ const Home: React.FC = () => {
         </IonRow>
         <IonRow>
           {descActive && (
-            <IonGrid>
+            <IonGrid className='ion-padding'>
               {DATA_APART.map(apart => (
                 <>
                   <IonRow>
@@ -66,7 +66,7 @@ const Home: React.FC = () => {
                   <IonRow>
                   </IonRow>
                   <IonRow>
-                    <IonLabel>
+                    <IonLabel class="detail">
                       <h2>{apart.detail}</h2>
                     </IonLabel>
                   </IonRow>
