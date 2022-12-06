@@ -1,7 +1,7 @@
-ion-grid{
+.gridSelect{
   transform: translate(0, 100%);
 }
-ion-button{
+.btnSelect{
   margin-top: 30px;
   width: 100%;
 }
@@ -14,13 +14,13 @@ ion-button{
   margin-bottom: 20px;
 }
 @media (max-width:768px) {
-  ion-grid{
+  .gridSelect{
       margin: 0px 20px 0px 20px;
       transform: translate(0, 80%);
   }
 }
 @media (max-width:428px) {
-  ion-grid{
+  .gridSelect{
       margin: 0px 20px 0px 20px;
       transform: translate(0, 60%);
   }
