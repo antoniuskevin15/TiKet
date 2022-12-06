@@ -15,7 +15,7 @@ type authDataTypes = {
   };
   token: {
     type: string;
-    token: string;
+    value: string;
   };
 };
 
