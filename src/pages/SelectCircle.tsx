@@ -23,7 +23,6 @@ const SelectCircle: React.FC = () => {
                             <IonLabel>No, create a new one</IonLabel>
                         </IonButton>
                     </IonRow>
-
                 </IonGrid>
             </IonContent>
         </IonPage >
