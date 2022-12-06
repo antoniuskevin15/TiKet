@@ -16,7 +16,7 @@ const Register: React.FC = () => {
       try{
         const res = await authRegister(data.fullName, data.phoneNumber, data.email, data.password);
         auth.set(res);
-        history.push("/user/home");
+        history.push("/select");
       }catch(error: any){
         console.log(error);
       }
