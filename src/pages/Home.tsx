@@ -26,7 +26,7 @@ const Home: React.FC = () => {
           </IonRow>
         ))}
         <IonRow className='ion-padding-horizontal ion-padding-top'>
-          <IonSegment class="segment" value={descActive ? "Description" : "Members"}>
+          <IonSegment class="segmentHome" value={descActive ? "Description" : "Members"}>
             <IonSegmentButton
               class="segmentContent"
               value="Description"

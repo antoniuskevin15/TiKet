@@ -108,7 +108,7 @@ const Home: React.FC = () => {
               </IonRow>
               <IonRow>
                 <IonButton
-                  color="tertiary"
+                  color="primary"
                   class="loginBtn"
                   onClick={handleLogin}
                   className="ion-text-center ion-justify-content-center"
@@ -144,7 +144,7 @@ const Home: React.FC = () => {
                 ></IonInput>
               </IonRow>
               <IonRow>
-                <IonButton color="tertiary" class="loginBtn" className="ion-text-center ion-justify-content-center">
+                <IonButton color="primary" class="loginBtn" className="ion-text-center ion-justify-content-center">
                   <IonLabel>Send OTP</IonLabel>
                 </IonButton>
               </IonRow>
