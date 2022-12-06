@@ -10,11 +10,11 @@ const InputControl: React.FC<{
   };
 
   return (
-    <IonSegment value={props.selectedValue} onIonChange={inputChangeHandler}>
-      <IonSegmentButton value="new">
+    <IonSegment value={props.selectedValue} onIonChange={inputChangeHandler} className="package-segment">
+      <IonSegmentButton value="new" className="package-segment-button">
         <IonLabel>New</IonLabel>
       </IonSegmentButton>
-      <IonSegmentButton value="hist">
+      <IonSegmentButton value="hist" className="package-segment-button">
         <IonLabel>History</IonLabel>
       </IonSegmentButton>
     </IonSegment>
