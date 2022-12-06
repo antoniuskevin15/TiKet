@@ -20,7 +20,7 @@ import "./Login.css";
 import { logoGoogle } from "ionicons/icons";
 import { useRef, useState } from "react";
 import axios from "axios";
-import { authLogin } from "../utils/service";
+import { authLogin, useStorage } from "../utils/service";
 import { useHistory } from "react-router-dom";
 
 const Home: React.FC = () => {
@@ -29,6 +29,7 @@ const Home: React.FC = () => {
   const emailRef = useRef<HTMLIonInputElement>(null);
   const passwordRef = useRef<HTMLIonInputElement>(null);
   const history = useHistory();
+  const { auth } = useStorage();
 
   const handleLogin = async () => {
     const email: string = emailRef?.current?.value as string;
@@ -36,7 +37,7 @@ const Home: React.FC = () => {
 
     try {
       const res = await authLogin(email, pass);
-      document.cookie = `token=Bearer ${res.token.value}`;
+      auth.set(res);
       history.push("/user/home");
     } catch (error: any) {
       console.log(error);
