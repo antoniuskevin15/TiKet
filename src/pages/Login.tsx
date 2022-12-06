@@ -18,7 +18,7 @@ import {
 import ExploreContainer from "../components/ExploreContainer";
 import "./Login.css";
 import { logoGoogle } from "ionicons/icons";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { authLogin, useStorage } from "../utils/service";
 import { useHistory } from "react-router-dom";
@@ -30,6 +30,12 @@ const Home: React.FC = () => {
   const passwordRef = useRef<HTMLIonInputElement>(null);
   const history = useHistory();
   const { auth } = useStorage();
+
+  useEffect(() => {
+    if (auth.data) {
+      history.push("/user/home");
+    }
+  }, [auth]);
 
   const handleLogin = async () => {
     const email: string = emailRef?.current?.value as string;
