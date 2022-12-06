@@ -1,0 +1,14 @@
+.loginBtn {
+    width: 100%;
+}
+  
+.inputForm {
+    width: 100%;
+    border-radius: 20px;
+    background-color: gainsboro;
+    color: black;
+}
+  
+.forgotPW {
+    font-size: 12px;
+}

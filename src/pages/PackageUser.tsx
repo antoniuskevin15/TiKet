@@ -99,14 +99,14 @@ const PackageUser: React.FC = () => {
             {mode === "new" && 
             (packages?.map((p) => (!p.isDone &&
               <IonCardContent>
-                <IonItem button>
-                  <IonThumbnail slot="start">
-                    <img alt="" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+                <IonItem button className='item-package' href='/user/package/detail/1'>
+                  <IonThumbnail className='package-thumbnail' slot="start">
+                    <img alt="" className="package-image" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
                   </IonThumbnail>
                   <IonCardHeader>
-                    <IonCardTitle>{p.del}</IonCardTitle>
-                    <IonCardSubtitle>{p.loc}</IonCardSubtitle>
-                    <IonCardSubtitle><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.id}</IonCardSubtitle>
+                    <IonCardTitle className='card-package-title'>{p.del}</IonCardTitle>
+                    <IonCardSubtitle className='card-package-subtitle'>{p.loc}</IonCardSubtitle>
+                    <IonCardSubtitle className='card-package-title'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.id}</IonCardSubtitle>
                   </IonCardHeader>
                 </IonItem>
               </IonCardContent>
@@ -116,14 +116,14 @@ const PackageUser: React.FC = () => {
           {mode === "hist" &&
             (packages?.map((p) => (p.isDone &&
               <IonCardContent>
-                  <IonItem>
-                    <IonThumbnail slot="start">
-                      <img alt="" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+                  <IonItem className='item-package'>
+                    <IonThumbnail className='package-thumbnail' slot="start">
+                      <img alt="" className="package-image" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
                     </IonThumbnail>
                     <IonCardHeader>
-                      <IonCardTitle>{p.del}</IonCardTitle>
-                      <IonCardSubtitle>{p.loc}</IonCardSubtitle>
-                      <IonCardSubtitle><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.id}</IonCardSubtitle>
+                      <IonCardTitle className='card-package-title'>{p.del}</IonCardTitle>
+                      <IonCardSubtitle className='card-package-subtitle'>{p.loc}</IonCardSubtitle>
+                      <IonCardSubtitle className='card-package-subtitle'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.id}</IonCardSubtitle>
                     </IonCardHeader>
                   </IonItem>
               </IonCardContent>

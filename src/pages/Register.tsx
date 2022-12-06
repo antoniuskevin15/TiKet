@@ -10,67 +10,67 @@ const Register: React.FC = () => {
           <IonRow>
             <IonCol>
               <IonLabel className="header"><b>Register Account</b></IonLabel>
-              <IonIcon icon={personOutline} style={{ paddingLeft: '10px' }}></IonIcon>
-              <IonLabel className="subheader"><br />Hello, welcome back to our application!</IonLabel>
+              <IonIcon icon={personOutline} style={{paddingLeft: '10px'}}></IonIcon>
+              <IonLabel className="subheader"><br/>Hello, welcome back to our application!</IonLabel>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonItem >
-                <IonLabel className='ion-padding-start' position="floating">Full Name</IonLabel>
-                <IonInput className='ion-margin-horizontal' type="text"></IonInput>
+            <IonItem className="input-register">
+              <IonLabel position="floating">Full Name</IonLabel>
+              <IonInput type="text"></IonInput>
+            </IonItem>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+            <IonItem className="input-register">
+              <IonLabel position="floating">Phone Number</IonLabel>
+              <IonInput type="number"></IonInput>
+            </IonItem>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <IonItem className="input-register">
+                <IonLabel position="floating">Email Address</IonLabel>
+                <IonInput type="email"></IonInput>
               </IonItem>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonItem >
-                <IonLabel className='ion-padding-start' position="floating">Phone Number</IonLabel>
-                <IonInput className='ion-margin-horizontal' type="number"></IonInput>
-              </IonItem>
+            <IonItem className="input-register">
+              <IonLabel position="floating">Password</IonLabel>
+              <IonInput type="password"></IonInput>
+            </IonItem>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonItem >
-                <IonLabel className='ion-padding-start' position="floating">Email Address</IonLabel>
-                <IonInput className='ion-margin-horizontal' type="email"></IonInput>
-              </IonItem>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonItem >
-                <IonLabel className='ion-padding-start' position="floating">Password</IonLabel>
-                <IonInput className='ion-margin-horizontal' type="password"></IonInput>
-              </IonItem>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonItem >
-                <IonLabel className='ion-padding-start' position="floating">Confirmation Password</IonLabel>
-                <IonInput className='ion-margin-horizontal' type="password"></IonInput>
-              </IonItem>
+            <IonItem className="input-register">
+              <IonLabel position="floating">Confirmation Password</IonLabel>
+              <IonInput type="password"></IonInput>
+            </IonItem>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
               <div className="addmargin subheader">
-                By creating your account, you agree to our <a className="myAnchor"><u><b>Terms & Conditions</b></u></a>
+              By creating your account, you agree to our <a className="myAnchor"><u><b>Terms & Conditions</b></u></a>
               </div>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonButton className="margin-vertical" color="primary" expand="block">Register</IonButton>
+              <IonButton className="margin-vertical register-button" color="primary" expand="block">Register</IonButton>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol className="ion-text-center">
-              <div className="account subsubheader">
-                Already have account? <a className="myAnchor"><b><u>Login Account</u></b></a>
-              </div>
+            <div className="account subsubheader">
+              Already have account? <a className="myAnchor"><b><u>Login Account</u></b></a>
+            </div>
             </IonCol>
           </IonRow>
         </IonGrid>

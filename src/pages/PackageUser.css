@@ -1,18 +1,21 @@
-ion-item {
+.item-package {
     --padding-start: 0;
     --padding-top: 0;
     --padding-bottom: 0;
+    border: none !important;
+    border-radius: 3vh;
+    box-shadow: 0vh 0vh 3vh 0.5vh #CCCCCC;
 }
 
-ion-card-title{
+.card-package-title{
     font-size: 1.5vh;
 }
 
-ion-card-subtitle{
+.card-package-subtitle{
     font-size: 1vh;
 }
 
-ion-thumbnail{
+.package-thumbnail{
     height: 12vh;
     width: 12vh;
     margin-top: 0 !important;
@@ -20,22 +23,21 @@ ion-thumbnail{
     margin-right: 0 !important;
 }
 
-ion-item{
-    border: none !important;
-    box-shadow: 0vh 0vh 3vh 0.5vh #CCCCCC;
+.package-image {
+    border-radius: 3vh;
 }
 
-ion-segment{
+.package-segment{
     --background: white;
     --color: black;
 }
 
-ion-segment-button{
+.package-segment-button{
     --background-checked: black;
     --indicator-color: transparent;
     --color-checked: white;
 } 
 
-ion-card{
+.package-card{
     --background-color: transparent;
 }
