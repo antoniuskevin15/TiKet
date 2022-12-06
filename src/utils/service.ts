@@ -42,3 +42,8 @@ export const authLogin = async (email: string, password: string) => {
   const res = await axios.post(`${BASE_URL}/user/login`, { email: email, password: password });
   return res.data;
 };
+
+export const authRegister = async (fullName: string, phoneNumber:string, email: string, password: string) => {
+  const res = await axios.post(`${BASE_URL}/user/register`, { name: fullName, telephone:phoneNumber, email: email, password: password });
+  return res.data;
+};
