@@ -2,11 +2,32 @@ import { IonApp, IonButton, IonCol, IonContent, IonGrid, IonHeader, IonIcon, Ion
 import ExploreContainer from '../components/ExploreContainer';
 import './Login.css';
 import { logoGoogle } from 'ionicons/icons';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import axios from 'axios';
 
 const Home: React.FC = () => {
   const [emailActive, setemailActive] = useState<boolean>(true);
   const [phoneActive, setphoneActive] = useState<boolean>(false);
+  const emailRef = useRef<HTMLIonInputElement>(null);
+  const passwordRef = useRef<HTMLIonInputElement>(null);
+
+  const login = () => {
+    const email = emailRef?.current?.value;
+    const pass = passwordRef?.current?.value;
+
+    axios.post("https://tiket.vallencius.my.id/api/user/login", {email:email, password:pass}).then(
+      function(response:any){
+        console.log(process.env.REACT_APP_BASE_URL);
+        document.cookie = `token=Bearer ${response.data.token.value}`;
+        
+        window.location.href=`${process.env.REACT_APP_BASE_URL}user/home`
+      }
+    ).catch(
+      function(error:any){
+        console.log(error);
+      }
+    )
+  }
 
   return (
     <IonApp>
@@ -45,10 +66,10 @@ const Home: React.FC = () => {
           {emailActive && (
             <IonGrid>
               <IonRow>
-                <IonInput class="inputForm" className='ion-margin-vertical ion-padding' placeholder='Email address'></IonInput>
+                <IonInput class="inputForm" className='ion-margin-vertical ion-padding' placeholder='Email address' ref={emailRef}></IonInput>
               </IonRow>
               <IonRow>
-                <IonInput class="inputForm" className='ion-margin-vertical ion-padding' placeholder='Password'></IonInput>
+                <IonInput class="inputForm" className='ion-margin-vertical ion-padding' placeholder='Password' ref={passwordRef}></IonInput>
               </IonRow>
               <IonRow className='ion-justify-content-center'>
                 <IonLabel class="forgotPW" className='ion-text-right ion-margin'>
@@ -56,7 +77,7 @@ const Home: React.FC = () => {
                 </IonLabel>
               </IonRow>
               <IonRow>
-                <IonButton color="tertiary" class="loginBtn" className='ion-text-center ion-justify-content-center'>
+                <IonButton color="tertiary" class="loginBtn" onClick={login}  className='ion-text-center ion-justify-content-center'>
                   Login
                 </IonButton>
               </IonRow>
