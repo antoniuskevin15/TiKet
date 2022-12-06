@@ -47,3 +47,11 @@ export const authRegister = async (fullName: string, phoneNumber:string, email: 
   const res = await axios.post(`${BASE_URL}/user/register`, { name: fullName, telephone:phoneNumber, email: email, password: password });
   return res.data;
 };
+
+export const circleCreate = async (token:string, circleName: string, address:string, desc: string) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  };
+  const res = await axios.post(`${BASE_URL}/circle/create`, { name: circleName, address:address, description: desc }, config);
+  return res.data;
+};
