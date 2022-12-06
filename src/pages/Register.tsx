@@ -39,7 +39,7 @@ const Register: React.FC = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <IonRow>
               <IonCol>
-                <IonItem >
+                <IonItem className="input-register">
                   <IonLabel className='ion-padding-start' position="floating">Full Name</IonLabel>
                   <IonInput className='ion-margin-horizontal' type="text" {...register("fullName", {
                     required: "Full Name is Required"
@@ -49,7 +49,7 @@ const Register: React.FC = () => {
             </IonRow>
             <IonRow>
               <IonCol>
-                <IonItem >
+                <IonItem className="input-register">
                   <IonLabel className='ion-padding-start' position="floating">Phone Number</IonLabel>
                   <IonInput className='ion-margin-horizontal' type="number" {...register("phoneNumber", {
                     required: "Phone Number is Required"
@@ -59,7 +59,7 @@ const Register: React.FC = () => {
             </IonRow>
             <IonRow>
               <IonCol>
-                <IonItem >
+                <IonItem className="input-register">
                   <IonLabel className='ion-padding-start' position="floating">Email Address</IonLabel>
                   <IonInput className='ion-margin-horizontal' type="email" {...register("email", {
                     required: "Email Address is Required"
@@ -69,7 +69,7 @@ const Register: React.FC = () => {
             </IonRow>
             <IonRow>
               <IonCol>
-                <IonItem >
+                <IonItem className="input-register">
                   <IonLabel className='ion-padding-start' position="floating">Password</IonLabel>
                   <IonInput className='ion-margin-horizontal' type="password" {...register("password", {
                     required: "Password is Required"
@@ -79,7 +79,7 @@ const Register: React.FC = () => {
             </IonRow>
             <IonRow>
               <IonCol>
-                <IonItem >
+                <IonItem className="input-register">
                   <IonLabel className='ion-padding-start' position="floating">Confirmation Password</IonLabel>
                   <IonInput className='ion-margin-horizontal' type="password" {...register("confirmPassword", {
                     required: "Confirm Password is Required"
