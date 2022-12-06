@@ -1,0 +1,59 @@
+.inputItem {
+    border-radius: 2vh;
+    border: 0.2vh solid grey;
+    --background: #f6f6f6;
+}
+
+
+.input-clear-icon.sc-ion-input-md {
+    margin-right: 20px;
+}
+.input-clear-icon.sc-ion-input-ios {
+    margin-right: 20px;
+}
+
+.tableGrid {
+    margin : 0px 25vw 0px 25vw;
+}
+
+.subheader {
+    color: grey;
+    font-size: 1.8vh;
+}
+
+.addmargin {
+    margin-left: 1.5vh;
+    color: grey;
+}
+
+.margin-vertical{
+    margin-top: 4.5vh;
+    margin-bottom: 7.5vh;
+}
+
+.btnCreate {
+    --border-radius: 1.5vh;
+    --padding-top: 3.5vh;
+    --padding-bottom: 3.5vh;
+    text-transform: none;
+    font-weight: bold;
+}
+
+.myAnchor {
+    color: #636363;
+}
+
+.account {
+    color: grey;
+    font-size: 1.6vh;
+}
+
+.header {
+    font-size: 3vh;
+}
+
+@media (max-width:800px) {
+    .tableGrid{
+        margin: 0px 0px 0px 0px;
+    }
+}

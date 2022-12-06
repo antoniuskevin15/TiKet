@@ -1,0 +1,23 @@
+/* .imgApart {
+    display: flex;
+    justify-content: center;
+} */
+
+
+.segmentHome {
+    border-style: solid;
+    border-radius: 12px;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 30px;
+}
+
+.segmentHome ion-segment-button {
+    --background-checked: black !important;
+    --color-checked: white;
+}
+
+.detail {
+    text-align: justify;
+    justify-content: inherit;
+}

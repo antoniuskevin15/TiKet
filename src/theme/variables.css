@@ -75,6 +75,9 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 
+  /** purple **/
+  --ion-color-purple: #190152;
+
   --ion-font-family: 'Poppins', sans-serif;
 }
 

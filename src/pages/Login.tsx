@@ -18,7 +18,7 @@ import {
 import ExploreContainer from "../components/ExploreContainer";
 import "./Login.css";
 import { logoGoogle } from "ionicons/icons";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { authLogin, useStorage } from "../utils/service";
 import { useHistory } from "react-router-dom";
@@ -30,6 +30,12 @@ const Home: React.FC = () => {
   const passwordRef = useRef<HTMLIonInputElement>(null);
   const history = useHistory();
   const { auth } = useStorage();
+
+  useEffect(() => {
+    if (auth.data) {
+      history.push("/user/home");
+    }
+  }, [auth]);
 
   const handleLogin = async () => {
     const email: string = emailRef?.current?.value as string;
@@ -108,7 +114,7 @@ const Home: React.FC = () => {
               </IonRow>
               <IonRow>
                 <IonButton
-                  color="tertiary"
+                  color="primary"
                   class="loginBtn"
                   onClick={handleLogin}
                   className="ion-text-center ion-justify-content-center"
@@ -144,7 +150,7 @@ const Home: React.FC = () => {
                 ></IonInput>
               </IonRow>
               <IonRow>
-                <IonButton color="tertiary" class="loginBtn" className="ion-text-center ion-justify-content-center">
+                <IonButton color="primary" class="loginBtn" className="ion-text-center ion-justify-content-center">
                   <IonLabel>Send OTP</IonLabel>
                 </IonButton>
               </IonRow>
