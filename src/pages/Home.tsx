@@ -23,7 +23,6 @@ const Home: React.FC = () => {
     const id: number = auth.data!.user.circle_id;
     try {
       const res = await getCircle(auth.data!.token.value, id);
-      res.data.photoURL = "https://www.summareconbekasi.com/public/images/gallery/article/14000/mtown-fc3.jpg";
       setDATA_APART([res.data]);
       console.log([res.data]);
     } catch (error: any) {
@@ -41,7 +40,7 @@ const Home: React.FC = () => {
       <IonContent fullscreen>
         {DATA_APART.map((apart:any) => (
           <IonRow key={apart.id} className="ion-justify-content-center">
-            <IonImg src={apart.photoURL} class="imgApart" />
+            <IonImg src={"http://localhost:8080/storage/"+apart.photoURL} class="imgApart" />
           </IonRow>
         ))}
         <IonRow className='ion-padding-horizontal ion-padding-top'>
