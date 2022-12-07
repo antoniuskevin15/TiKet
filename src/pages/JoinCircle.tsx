@@ -1,4 +1,4 @@
-import { IonBackButton, IonContent, IonHeader, IonPage, IonToolbar } from "@ionic/react";
+import { IonBackButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import { useState } from "react";
 
 
