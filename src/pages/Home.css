@@ -21,3 +21,19 @@
     text-align: justify;
     justify-content: inherit;
 }
+
+.roundedphoto ion-img {
+    border: none;
+    border-radius: 20em;
+    height: 80px;
+
+}
+
+.roundedCard {
+    border-radius: 12px;
+}
+
+.membercard-content {
+    display: flex;
+    align-items: center;
+}
