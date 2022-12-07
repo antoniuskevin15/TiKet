@@ -16,7 +16,6 @@ const Home: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonBackButton></IonBackButton>
           <IonTitle>Circle</IonTitle>
         </IonToolbar>
       </IonHeader>
