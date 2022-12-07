@@ -21,7 +21,7 @@ import { logoGoogle } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { authLogin, useStorage } from "../utils/service";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const Home: React.FC = () => {
   const [emailActive, setemailActive] = useState<boolean>(true);
@@ -134,8 +134,8 @@ const Home: React.FC = () => {
                 </IonCol>
               </IonRow> */}
               <IonRow className="ion-padding ion-text-center ion-justify-content-center ion-margin">
-                <IonLabel class="forgotPW">
-                  Not register yet? <b>Create Account</b>
+                <IonLabel class="forgotPW" >
+                  Not register yet? <Link to='/register'><b>Create Account</b></Link>
                 </IonLabel>
               </IonRow>
             </IonGrid>

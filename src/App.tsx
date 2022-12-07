@@ -29,6 +29,7 @@ import TabsUser from './pages/TabsUser';
 import SelectCircle from './pages/SelectCircle';
 import CreateCircle from './pages/CreateCircle';
 import TabsAdmin from './pages/TabsAdmin';
+import JoinCircle from './pages/JoinCircle';
 
 setupIonicReact();
 
@@ -42,6 +43,7 @@ const App: React.FC = () => (
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/select" component={SelectCircle} />
         <Route exact path="/circle/create" component={CreateCircle} />
+        <Route exact path="/circle/join" component={JoinCircle} />
         <Route path="/user">
           <TabsUser />
         </Route>

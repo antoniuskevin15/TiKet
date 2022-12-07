@@ -2,25 +2,26 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonIcon, IonGrid,
 import { personOutline } from 'ionicons/icons';
 import { useForm } from "react-hook-form";
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import { authRegister, useStorage } from '../utils/service';
 import './Register.css';
 
 const Register: React.FC = () => {
-  const {register, handleSubmit} = useForm();
+  const { register, handleSubmit } = useForm();
   const history = useHistory();
   const { auth } = useStorage();
 
-  const onSubmit = async(data:any) => {
+  const onSubmit = async (data: any) => {
     console.log(JSON.stringify(data));
-    if(data.password == data.confirmPassword){
-      try{
+    if (data.password == data.confirmPassword) {
+      try {
         const res = await authRegister(data.fullName, data.phoneNumber, data.email, data.password);
         auth.set(res);
         history.push("/select");
-      }catch(error: any){
+      } catch (error: any) {
         console.log(error);
       }
-    }else{
+    } else {
       alert("Your password and confirmed password doesn't match");
     }
   }
@@ -103,7 +104,7 @@ const Register: React.FC = () => {
           <IonRow>
             <IonCol className="ion-text-center">
               <div className="account subsubheader">
-                Already have account? <a className="myAnchor"><b><u>Login Account</u></b></a>
+                Already have account? <a className="myAnchor"><Link to="/login"><b><u>Login Account</u></b></Link></a>
               </div>
             </IonCol>
           </IonRow>
