@@ -14,7 +14,7 @@ interface Package{
 
 const PackageUser: React.FC = () => {
   const [mode, setMode] = useState<"new" | "hist">("new");
-  const [packages, setPackages] = useState<Array<Package> | null>(null);
+  const [packages, setPackages] = useState<Package[]>([]);
   
   const selectModeHandler = (selectedValue: "new" | "hist") => {
     setMode(selectedValue);

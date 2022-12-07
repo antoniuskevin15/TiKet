@@ -89,3 +89,11 @@ export const getPackageByUserId = async (id: number) => {
   const res = await axios.get(`${BASE_URL}/package/user/${id}`);
   return res.data;
 };
+
+export const getCircle = async (token:string, id: number) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  const res = await axios.get(`${BASE_URL}/circle/${id}`, config);
+  return res.data;
+};
