@@ -4,6 +4,10 @@
   --background: #f6f6f6;
 }
 
+.header {
+    font-size: 3vh;
+}
+
 .subheader {
   color: grey;
   font-size: 1.8vh;
@@ -34,8 +38,4 @@
 .account {
   color: grey;
   font-size: 1.6vh;
-}
-
-.header {
-  font-size: 3vh;
 }
