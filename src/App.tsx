@@ -28,6 +28,7 @@ import Profile from './pages/Profile';
 import TabsUser from './pages/TabsUser';
 import SelectCircle from './pages/SelectCircle';
 import CreateCircle from './pages/CreateCircle';
+import TabsAdmin from './pages/TabsAdmin';
 
 setupIonicReact();
 
@@ -35,7 +36,6 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-        {/* <Switch> */}
         <Route exact path="/home" component={Home} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
@@ -45,10 +45,12 @@ const App: React.FC = () => (
         <Route path="/user">
           <TabsUser />
         </Route>
-        <Route exact path="/">
-          <Redirect to="/user" />
+        <Route path="/admin">
+          <TabsAdmin />
         </Route>
-        {/* </Switch> */}
+        <Route exact path="/">
+          <Redirect to="/login" />
+        </Route>
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

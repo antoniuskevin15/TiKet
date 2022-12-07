@@ -1,0 +1,12 @@
+ion-tab-bar {
+    border-top-left-radius: 2vh !important;
+    border-top-right-radius: 2vh !important;
+    position: absolute;
+    bottom: 0vh;
+    width: 100%;
+    box-shadow: 0vh 0vh 5vh 1vh #CCCCCC;
+}
+
+ion-content {
+    --padding-bottom: 3.125rem;
+}
