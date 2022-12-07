@@ -82,18 +82,20 @@ const Home: React.FC = () => {
               {DATA_APART.map(apart => (
                 <>
                   {apart.members.map(member => (
-                    <IonGrid>
-                      <IonRow>
-                        <IonCol class='roundedPhoto'>
-                          <IonImg src={member.photo}></IonImg>
-                        </IonCol>
-                        <IonCol>
-                          <IonLabel>
-                            <h3>{member.nama}</h3>
-                          </IonLabel>
-                        </IonCol>
-                      </IonRow>
-                    </IonGrid>
+                    <IonCard class="roundedCard">
+                      <IonGrid>
+                        <IonRow className="ion-justify-content-center">
+                          <IonCol class='roundedphoto'>
+                            <IonImg src={member.photo}></IonImg>
+                          </IonCol>
+                          <IonCol className='ion-align-items-center'>
+                            <IonLabel class="membercard-content">
+                              <h5>{member.nama}</h5>
+                            </IonLabel>
+                          </IonCol>
+                        </IonRow>
+                      </IonGrid>
+                    </IonCard>
                   ))}
                 </>
               ))}
