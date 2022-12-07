@@ -46,4 +46,4 @@ const TabsAdmin: React.FC = () => {
   );
 };
 
-export default TabsUser;
+export default TabsAdmin;
