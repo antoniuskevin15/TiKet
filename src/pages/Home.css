@@ -21,3 +21,8 @@
     text-align: justify;
     justify-content: inherit;
 }
+
+ion-img {
+    border: none;
+    border-radius: 20em;
+}
