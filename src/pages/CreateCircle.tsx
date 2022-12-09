@@ -15,6 +15,7 @@ import {
   IonTextarea,
 } from "@ionic/react";
 import { personOutline } from "ionicons/icons";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { circleCreate, useStorage } from "../utils/service";
@@ -24,12 +25,25 @@ const CreateCircle: React.FC = () => {
   const { register, handleSubmit } = useForm();
   const { auth } = useStorage();
   const history = useHistory();
+  const [selectedFile, setSelectedFile] = useState<File>();
+  const [fileName, setFileName] = useState('');
+
+  // const uploadHandler = (event:any) => {
+  //   const file = event.target.files[0];
+  //   console.log(file);
+  // }
+
+  const fileChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedFile(event.target!.files![0]);
+    setFileName(event.target!.files![0].name);
+  };
 
   const onSubmit = async (data: any) => {
     console.log(JSON.stringify(data));
     try {
       console.log(auth.data!.token.value); //INI TOKEN
-      const res = await circleCreate(auth.data!.token.value, data.circleName, data.address, data.desc);
+      const formData = new FormData();
+      const res = await circleCreate(auth.data!.token.value, data.circleName, data.address, data.desc, selectedFile!);
       history.push("/user/home"); //HARUSNYA KE ADMIN
     } catch (error: any) {
       console.log(error);
@@ -99,6 +113,17 @@ const CreateCircle: React.FC = () => {
                       required: "Description is Required",
                     })}
                   ></IonTextarea>
+                </IonItem>
+              </IonCol>
+            </IonRow>
+            <IonRow>
+              <IonCol>
+                <IonItem className="inputItem">
+                  {/* <IonLabel className="ion-padding-start" position="floating">
+                    Photo
+                  </IonLabel> */}
+                  {/* <input type="file" onChange={uploadHandler}/> */}
+                  <input type="file" onChange={fileChangeHandler}/>
                 </IonItem>
               </IonCol>
             </IonRow>

@@ -69,13 +69,20 @@ export const authRegister = async (fullName: string, phoneNumber: string, email:
   return res.data;
 };
 
-export const circleCreate = async (token: string, circleName: string, address: string, desc: string) => {
+export const circleCreate = async (token: string, circleName: string, address: string, desc: string, photo: File) => {
+  console.log("Photo: "+photo);
   const config = {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: { Authorization: `Bearer ${token}`,
+    'Content-Type': 'multipart/form-data' },
   };
+  const formData = new FormData();
+  formData.append("name", circleName);
+  formData.append("address", address);
+  formData.append("description", desc);
+  formData.append("photo", photo);
   const res = await axios.post(
-    `${BASE_URL}/circle/create`,
-    { name: circleName, address: address, description: desc },
+    `${BASE_URL}/circle/create/`,
+    { name: circleName, address: address, description: desc, photo: photo },
     config
   );
   return res.data;

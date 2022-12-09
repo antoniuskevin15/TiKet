@@ -14,6 +14,7 @@ import {
   IonCol,
 } from "@ionic/react";
 import { personOutline } from "ionicons/icons";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { authRegister, useStorage } from "../utils/service";
@@ -23,6 +24,12 @@ const Register: React.FC = () => {
   const { register, handleSubmit } = useForm();
   const history = useHistory();
   const { auth } = useStorage();
+
+  useEffect(() => {
+    if (auth.data) {
+      history.push("/user/home");
+    }
+  }, [auth]);
 
   const onSubmit = async (data: any) => {
     console.log(JSON.stringify(data));
