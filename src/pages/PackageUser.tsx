@@ -67,7 +67,7 @@ const PackageUser: React.FC = () => {
               <IonCardContent>
                 <IonItem button className='item-package' href='/user/package/detail/1'>
                   <IonThumbnail className='package-thumbnail' slot="start">
-                    <img alt="" className="package-image" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+                    <img alt="" className="package-image" src={`http://127.0.0.1:8080/storage/${p.photoPath}`} />
                   </IonThumbnail>
                   <IonCardHeader>
                     <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
@@ -84,7 +84,7 @@ const PackageUser: React.FC = () => {
               <IonCardContent>
                   <IonItem className='item-package'>
                     <IonThumbnail className='package-thumbnail' slot="start">
-                      <img alt="" className="package-image" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+                      <img alt="" className="package-image" src={`http://127.0.0.1:8080/storage/${p.photoPath}`} />
                     </IonThumbnail>
                     <IonCardHeader>
                       <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
