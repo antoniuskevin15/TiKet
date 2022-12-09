@@ -2,83 +2,49 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonIcon, IonGrid,
 import { logoDropbox, personOutline } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 import InputControl from '../components/InputControl';
+import { getPackageByUserId, useStorage } from '../utils/service';
 import './PackageUser.css';
 
 interface Package{
-  del: string,
-  loc: string,
-  id: string,
-  pic: string,
-  isDone: boolean
+  created_at: string,
+  expedition: string,
+  id: number,
+  isTaken: number,
+  photoPath: string,
+  receiptNumber: string,
+  roomNumber: string,
+  sender: string,
+  updated_id: string,
+  user_id: number,
+
 }
 
 const PackageUser: React.FC = () => {
   const [mode, setMode] = useState<"new" | "hist">("new");
   const [packages, setPackages] = useState<Package[]>([]);
+  const { auth } = useStorage();
   
   const selectModeHandler = (selectedValue: "new" | "hist") => {
     setMode(selectedValue);
   };
 
-  useEffect(() => {
-    setPackages([{
-      del: "Shopee - SiLambat",
-      loc: "Apartemen Truck-Kun",
-      id: "123456789****",
-      pic: "test.png",
-      isDone: false
-    },
-    {
-      del: "Tokopedia - SiLambat",
-      loc: "Apartemen KW",
-      id: "124324234****",
-      pic: "test.png",
-      isDone: false
-    },
-    {
-      del: "Tokopedia - SiLambat",
-      loc: "Apartemen KW",
-      id: "124324234****",
-      pic: "test.png",
-      isDone: false
-    },
-    {
-      del: "Tokopedia - SiLambat",
-      loc: "Apartemen KW",
-      id: "124324234****",
-      pic: "test.png",
-      isDone: false
-    },
-    {
-      del: "Tokopedia - SiLambat",
-      loc: "Apartemen KW",
-      id: "124324234****",
-      pic: "test.png",
-      isDone: false
-    },
-    {
-      del: "Tokopedia - SiLambat",
-      loc: "Apartemen KW",
-      id: "124324234****",
-      pic: "test.png",
-      isDone: false
-    },
-    {
-      del: "Tokopedia - SiLambat",
-      loc: "Apartemen KW",
-      id: "124324234****",
-      pic: "test.png",
-      isDone: false
-    },
-    {
-      del: "SiCepat",
-      loc: "Apartemen Bhagaspati",
-      id: "666666666****",
-      pic: "test.png",
-      isDone: true
-    },
-  ])
-  }, [])
+  useEffect(()=>{
+    if(auth.data){
+      takePackage();
+    }
+  }, [auth.data]);
+
+  const takePackage = async() => {
+    const id = auth.data!.user.id;
+    console.log(id);
+    try {
+      const res = await getPackageByUserId(auth.data!.token.value, id);
+      setPackages(res.packages);
+      console.log(res.packages);
+    } catch (error: any) {
+      console.log(error);
+    }
+  }
 
   return (
     <IonPage>
@@ -97,16 +63,16 @@ const PackageUser: React.FC = () => {
 
           <IonList>
             {mode === "new" && 
-            (packages?.map((p) => (!p.isDone &&
+            (packages?.map((p) => (!p.isTaken &&
               <IonCardContent>
                 <IonItem button className='item-package' href='/user/package/detail/1'>
                   <IonThumbnail className='package-thumbnail' slot="start">
                     <img alt="" className="package-image" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
                   </IonThumbnail>
                   <IonCardHeader>
-                    <IonCardTitle className='card-package-title'>{p.del}</IonCardTitle>
-                    <IonCardSubtitle className='card-package-subtitle'>{p.loc}</IonCardSubtitle>
-                    <IonCardSubtitle className='card-package-title'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.id}</IonCardSubtitle>
+                    <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
+                    <IonCardSubtitle className='card-package-subtitle'>{p.roomNumber}</IonCardSubtitle>
+                    <IonCardSubtitle className='card-package-title'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.receiptNumber}</IonCardSubtitle>
                   </IonCardHeader>
                 </IonItem>
               </IonCardContent>
@@ -114,16 +80,16 @@ const PackageUser: React.FC = () => {
           }
 
           {mode === "hist" &&
-            (packages?.map((p) => (p.isDone &&
+            (packages?.map((p) => (p.isTaken &&
               <IonCardContent>
                   <IonItem className='item-package'>
                     <IonThumbnail className='package-thumbnail' slot="start">
                       <img alt="" className="package-image" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
                     </IonThumbnail>
                     <IonCardHeader>
-                      <IonCardTitle className='card-package-title'>{p.del}</IonCardTitle>
-                      <IonCardSubtitle className='card-package-subtitle'>{p.loc}</IonCardSubtitle>
-                      <IonCardSubtitle className='card-package-subtitle'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.id}</IonCardSubtitle>
+                      <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
+                      <IonCardSubtitle className='card-package-subtitle'>{p.roomNumber}</IonCardSubtitle>
+                      <IonCardSubtitle className='card-package-subtitle'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.receiptNumber}</IonCardSubtitle>
                     </IonCardHeader>
                   </IonItem>
               </IonCardContent>
