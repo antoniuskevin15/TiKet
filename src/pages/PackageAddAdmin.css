@@ -1,15 +1,22 @@
-.dateTime{
+/* .dateTime{
     --background: var(--ion-color-dark);
 }
 
 .ios .dateTime {
     --background: var(--ion-color-dark);
     color: white;
-}
-
+} */
 
 .containerTakePhoto{
     display: flex;
     justify-content: center;
 }
 
+.myToolbar{
+    --background: transparent;
+    --border-style: none;
+}
+
+.header-md::after{
+    background-image: none !important;
+}

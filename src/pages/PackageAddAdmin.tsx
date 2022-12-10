@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonIcon, IonGrid, IonRow, IonLabel, IonItem, IonInput, IonButton, IonCol, IonSegment, IonSegmentButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonThumbnail, IonFab, IonFabButton, IonFabList, IonDatetime, IonDatetimeButton, IonModal } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonIcon, IonGrid, IonRow, IonLabel, IonItem, IonInput, IonButton, IonCol, IonSegment, IonSegmentButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonThumbnail, IonFab, IonFabButton, IonFabList, IonDatetime, IonDatetimeButton, IonModal, IonBackButton, IonButtons } from '@ionic/react';
 import { addOutline, camera, colorPalette, giftOutline, globe, logoDropbox, personOutline } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
@@ -47,6 +47,13 @@ const AddPackageAdmin: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen class="ion-padding">
+      <IonHeader className="myMdHeader">
+        <IonToolbar className="myToolbar">
+          <IonButtons slot="start">
+            <IonBackButton defaultHref='/admin/package'/>
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
       <IonGrid>
           <IonRow>
             <IonCol>
@@ -59,7 +66,7 @@ const AddPackageAdmin: React.FC = () => {
               ></IonIcon>
               <IonLabel className="subheader">
                 <br />
-                Add New Package
+                {id === undefined ? "Add New Package" : "Update Package"}
               </IonLabel>
             </IonCol>
           </IonRow>
@@ -127,10 +134,10 @@ const AddPackageAdmin: React.FC = () => {
                     // })}
                   ></IonInput>
                 </IonItem> */}
-                <IonDatetimeButton datetime="datetime" mode="md"></IonDatetimeButton>
+                <IonDatetimeButton datetime="datetime" ></IonDatetimeButton>
       
                 <IonModal keepContentsMounted={true}>
-                  <IonDatetime id="datetime" color="light" mode="md" className="dateTime"></IonDatetime>
+                  <IonDatetime id="datetime" className="dateTime"></IonDatetime>
                 </IonModal>
               </IonCol>
             </IonRow>
@@ -159,7 +166,7 @@ const AddPackageAdmin: React.FC = () => {
                   type="submit"
                 >
                   <IonIcon icon={giftOutline} slot="start" />
-                  Add Package
+                  {id === undefined ? "Add Package" : "Update Package"}
                 </IonButton>
               </IonCol>
             </IonRow>
