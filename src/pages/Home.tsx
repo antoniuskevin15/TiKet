@@ -20,11 +20,10 @@ const Home: React.FC = () => {
   }, [auth.data]);
 
   const takeCircle = async() => {
-    const id: number = auth.data!.user.circle_id;
     try {
-      const res = await getCircle(auth.data!.token.value, id);
+      const res = await getCircle(auth.data!.token.value, auth.data!.user.circle_id);
       setDATA_APART([res.data]);
-      console.log([res.data]);
+      // console.log([res.data]);
     } catch (error: any) {
       console.log(error);
     }

@@ -5,6 +5,7 @@ import { CircleQRCode } from '../components/CircleQRCode';
 import './Profile.css';
 
 import { QRData } from '../data/QRData';
+import { useStorage } from '../utils/service';
 
 const Profile: React.FC = () => {
   const pageRef = useRef();
@@ -32,6 +33,18 @@ const Profile: React.FC = () => {
     });
   }
 
+  const { auth } = useStorage();
+
+  var divStyle = {
+    // backgroundImage: 'url(' + auth.data?.user.gambar + ')'
+    background: 'url(../assets/profile.jpeg)'
+  }
+  // useEffect(()=>{
+  //   if(auth.data){
+  //     takePackage();
+  //   }
+  // }, [auth.data]);
+
   return (
     <IonPage ref={pageRef}>
       <IonHeader>
@@ -46,24 +59,24 @@ const Profile: React.FC = () => {
 
             </IonRow>
             <IonRow className='ion-justify-content-center'>
-              <div className="ion-margin profile_image" />
+              <div className="ion-margin profile_image" style={divStyle}/>
               <IonButton className='btnEdit' fill='solid'>
                 <IonIcon className='editIcon' src={createOutline} name='create' ios='ios-create' md='md-create'></IonIcon>
               </IonButton>
             </IonRow>
             <IonRow className='ion-justify-content-center'>
               <IonLabel color='primary'>
-                <h1><b>Antonius Kevin B S</b></h1>
+                <h1><b>{auth.data?.user.name}</b></h1>
               </IonLabel>
             </IonRow>
             <IonRow className='ion-justify-content-center'>
               <IonLabel className='ion-margin-top'>
-                <h2>081226220516</h2>
+                <h2>{auth.data?.user.telephone}</h2>
               </IonLabel>
             </IonRow>
             <IonRow className='ion-justify-content-center'>
               <IonLabel className='ion-margin-top'>
-                <h2>antonius.saputra@student.umn.ac.id</h2>
+                <h2>{auth.data?.user.email}</h2>
               </IonLabel>
             </IonRow>
             <IonRow className='ion-justify-content-center ion-padding-top ion-margin-bottom'>
