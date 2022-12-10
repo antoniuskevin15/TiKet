@@ -1,10 +1,39 @@
-import { IonButton, IonButtons, IonCard, IonCardHeader, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import { createOutline, logOutOutline } from 'ionicons/icons';
+import { IonButton, IonButtons, IonCard, IonCardHeader, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonLabel, IonPage, IonRow, IonTitle, IonToolbar, useIonModal } from '@ionic/react';
+import { createOutline, logOutOutline, qrCodeOutline } from 'ionicons/icons';
+import { useRef, useState } from 'react';
+import { CircleQRCode } from '../components/CircleQRCode';
 import './Profile.css';
 
+import { QRData } from '../data/QRData';
+
 const Profile: React.FC = () => {
+  const pageRef = useRef();
+  const [role, setRole] = useState("Admin");
+  const [selectedCode, setSelectedCode] = useState<QRData>();
+
+  const [present, dismiss] = useIonModal(CircleQRCode, {
+    dismiss: () => dismiss(),
+    code: selectedCode
+  });
+
+  const showQR = () => {
+    const qrCode: QRData = {
+      id: "MASUKIN NAMA PEMILIK DI SINI",
+      data: "MASUKIN ID CIRCLE DI SINI"
+    }
+    setSelectedCode(qrCode);
+    console.log("QR SHOWN");
+    console.log(qrCode.id);
+    console.log(qrCode.data);
+
+    present({
+      presentingElement: pageRef.current,
+      swipeToClose: true,
+    });
+  }
+
   return (
-    <IonPage>
+    <IonPage ref={pageRef}>
       <IonHeader>
         <IonToolbar>
           <IonTitle><h2><b>Profile</b></h2></IonTitle>
@@ -43,6 +72,14 @@ const Profile: React.FC = () => {
                 <IonLabel className='logoutIcon ion-margin-horizontal'>Log Out</IonLabel>
               </IonButton>
             </IonRow>
+            {role === "Admin" && (
+              <IonRow className='ion-justify-content-center ion-margin-bottom'>
+                <IonButton expand='block' className='btnLogout ion-padding-horizontal' color="primary" size='default' fill='solid' onClick={() => showQR()}>
+                  <IonIcon className='logoutIcon ion-margin-start' src={qrCodeOutline} name='create' ios='ios-create' md='md-create' />
+                  <IonLabel className='logoutIcon ion-margin-horizontal'>Show QR</IonLabel>
+                </IonButton>
+              </IonRow>
+            )}
           </IonGrid>
 
         </IonCard>
