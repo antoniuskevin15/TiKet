@@ -62,25 +62,26 @@ const PackageUser: React.FC = () => {
           </IonRow>
 
           <IonList>
+            <IonLabel><b>Total Packages</b>: {packages.length}</IonLabel>
             {mode === "new" && 
-            (packages?.map((p) => (!p.isTaken &&
-              <IonCardContent>
-                <IonItem button className='item-package' href='/user/package/detail/1'>
-                  <IonThumbnail className='package-thumbnail' slot="start">
-                    <img alt="" className="package-image" src={`http://127.0.0.1:8080/storage/${p.photoPath}`} />
-                  </IonThumbnail>
-                  <IonCardHeader>
-                    <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
-                    <IonCardSubtitle className='card-package-subtitle'>{p.roomNumber}</IonCardSubtitle>
-                    <IonCardSubtitle className='card-package-title'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.receiptNumber}</IonCardSubtitle>
-                  </IonCardHeader>
-                </IonItem>
-              </IonCardContent>
-            )))
-          }
+              (packages?.map((p) => (!p.isTaken &&
+                <IonCardContent>
+                  <IonItem button className='item-package' href='/user/package/detail/1'>
+                    <IonThumbnail className='package-thumbnail' slot="start">
+                      <img alt="" className="package-image" src={`http://127.0.0.1:8080/storage/${p.photoPath}`} />
+                    </IonThumbnail>
+                    <IonCardHeader>
+                      <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
+                      <IonCardSubtitle className='card-package-subtitle'>{p.roomNumber}</IonCardSubtitle>
+                      <IonCardSubtitle className='card-package-title'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.receiptNumber}</IonCardSubtitle>
+                    </IonCardHeader>
+                  </IonItem>
+                </IonCardContent>
+              )))
+            }
 
-          {mode === "hist" &&
-            (packages?.map((p) => (p.isTaken &&
+            {mode === "hist" &&
+            (packages?.map((p) => (p.isTaken==1 &&
               <IonCardContent>
                   <IonItem className='item-package'>
                     <IonThumbnail className='package-thumbnail' slot="start">

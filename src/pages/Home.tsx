@@ -17,13 +17,12 @@ const Home: React.FC = () => {
     if(auth.data){
       takeCircle();
     }
-  }, [auth.data]);
+  }, [auth.data?.token]);
 
   const takeCircle = async() => {
     try {
       const res = await getCircle(auth.data!.token.value, auth.data!.user.circle_id);
       setDATA_APART([res.data]);
-      // console.log([res.data]);
     } catch (error: any) {
       console.log(error);
     }
@@ -97,6 +96,11 @@ const Home: React.FC = () => {
             <IonGrid className='ion-padding'>
               {DATA_APART.map((apart:any) => (
                 <>
+                  <IonRow>
+                    <IonLabel>
+                      <h3><b>Total Member</b>: {apart.users.length}</h3>
+                    </IonLabel>
+                  </IonRow>
                   {apart.users.map((member:any) => (
                     <IonCard class="roundedCard">
                       <IonGrid>
