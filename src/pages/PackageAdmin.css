@@ -41,3 +41,10 @@
 .package-card{
     --background-color: transparent;
 }
+
+.myAdminFab{
+    margin-bottom: 8vh;
+    --background: black !important;
+    --background-activated: black !important;
+    --background-hover: black;
+}

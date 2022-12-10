@@ -4,7 +4,7 @@ ion-tab-bar {
     position: absolute;
     bottom: 0vh;
     width: 100%;
-    box-shadow: 0vh 0vh 5vh 1vh #CCCCCC;
+    box-shadow: 0vh 0vh 2vh 1vh #CCCCCC;
 }
 
 ion-content {

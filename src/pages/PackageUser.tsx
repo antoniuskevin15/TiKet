@@ -20,11 +20,11 @@ interface Package{
 }
 
 const PackageUser: React.FC = () => {
-  const [mode, setMode] = useState<"new" | "hist">("new");
+  const [mode, setMode] = useState<"new" | "hist" | "unknown">("new");
   const [packages, setPackages] = useState<Package[]>([]);
   const { auth } = useStorage();
   
-  const selectModeHandler = (selectedValue: "new" | "hist") => {
+  const selectModeHandler = (selectedValue: "new" | "hist" | "unknown") => {
     setMode(selectedValue);
   };
 
@@ -80,6 +80,23 @@ const PackageUser: React.FC = () => {
           }
 
           {mode === "hist" &&
+            (packages?.map((p) => (p.isTaken &&
+              <IonCardContent>
+                  <IonItem className='item-package'>
+                    <IonThumbnail className='package-thumbnail' slot="start">
+                      <img alt="" className="package-image" src={`http://127.0.0.1:8080/storage/${p.photoPath}`} />
+                    </IonThumbnail>
+                    <IonCardHeader>
+                      <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
+                      <IonCardSubtitle className='card-package-subtitle'>{p.roomNumber}</IonCardSubtitle>
+                      <IonCardSubtitle className='card-package-subtitle'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.receiptNumber}</IonCardSubtitle>
+                    </IonCardHeader>
+                  </IonItem>
+              </IonCardContent>
+              )))
+            }
+
+          {mode === "unknown" &&
             (packages?.map((p) => (p.isTaken &&
               <IonCardContent>
                   <IonItem className='item-package'>

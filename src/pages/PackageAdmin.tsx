@@ -1,7 +1,7 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonIcon, IonGrid, IonRow, IonLabel, IonItem, IonInput, IonButton, IonCol, IonSegment, IonSegmentButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonThumbnail } from '@ionic/react';
-import { logoDropbox, personOutline } from 'ionicons/icons';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonIcon, IonGrid, IonRow, IonLabel, IonItem, IonInput, IonButton, IonCol, IonSegment, IonSegmentButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonThumbnail, IonFab, IonFabButton, IonFabList } from '@ionic/react';
+import { addOutline, colorPalette, globe, logoDropbox, personOutline } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
-import InputControl from '../components/InputControl';
+import InputAdmin from '../components/InputControlAdmin';
 import './PackageAdmin.css';
 
 interface Package{
@@ -13,10 +13,10 @@ interface Package{
 }
 
 const PackageAdmin: React.FC = () => {
-  const [mode, setMode] = useState<"new" | "hist" | "unknown">("new");
+  const [mode, setMode] = useState<"ongoing" | "finished" | "unknown">("ongoing");
   const [packages, setPackages] = useState<Array<Package> | null>(null);
   
-  const selectModeHandler = (selectedValue: "new" | "hist" | "unknown") => {
+  const selectModeHandler = (selectedValue: "ongoing" | "finished" | "unknown") => {
     setMode(selectedValue);
   };
 
@@ -26,21 +26,21 @@ const PackageAdmin: React.FC = () => {
       loc: "Apartemen Truck-Kun",
       id: "123456789****",
       pic: "test.png",
-      type: "new",
+      type: "ongoing",
     },
     {
       del: "Tokopedia - SiLambat",
       loc: "Apartemen KW",
       id: "124324234****",
       pic: "test.png",
-      type: "hist",
+      type: "finished",
     },
     {
       del: "Tokopedia - SiLambat",
       loc: "Apartemen KW",
       id: "124324234****",
       pic: "test.png",
-      type: "new",
+      type: "ongoing",
     },
     {
       del: "Tokopedia - SiLambat",
@@ -54,21 +54,21 @@ const PackageAdmin: React.FC = () => {
       loc: "Apartemen KW",
       id: "124324234****",
       pic: "test.png",
-      type: "hist",
+      type: "finished",
     },
     {
       del: "Tokopedia - SiLambat",
       loc: "Apartemen KW",
       id: "124324234****",
       pic: "test.png",
-      type: "new",
+      type: "ongoing",
     },
     {
       del: "Tokopedia - SiLambat",
       loc: "Apartemen KW",
       id: "124324234****",
       pic: "test.png",
-      type: "hist",
+      type: "finished",
     },
     {
       del: "SiCepat",
@@ -83,6 +83,11 @@ const PackageAdmin: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen class="ion-padding">
+        <IonFab slot="fixed" vertical="bottom" horizontal="end" className='myAdminFab'>
+          <IonFabButton color="dark">
+            <IonIcon icon={addOutline}></IonIcon>
+          </IonFabButton>
+        </IonFab>
         <IonGrid>
           <IonRow>
             <IonCol>
@@ -91,13 +96,13 @@ const PackageAdmin: React.FC = () => {
             </IonCol>
           </IonRow>
           <IonRow>
-            <InputControl selectedValue={mode}
+            <InputAdmin selectedValue={mode}
               onSelectValue={selectModeHandler} />
           </IonRow>
 
           <IonList>
-            {mode === "new" && 
-            (packages?.map((p) => (p.type === "new" &&
+            {mode === "ongoing" && 
+            (packages?.map((p) => (p.type === "ongoing" &&
               <IonCardContent>
                 <IonItem button className='item-package' href='/user/package/detail/1'>
                   <IonThumbnail className='package-thumbnail' slot="start">
@@ -113,8 +118,8 @@ const PackageAdmin: React.FC = () => {
             )))
           }
 
-          {mode === "hist" &&
-            (packages?.map((p) => (p.type === "hist" &&
+          {mode === "finished" &&
+            (packages?.map((p) => (p.type === "finished" &&
               <IonCardContent>
                   <IonItem className='item-package'>
                     <IonThumbnail className='package-thumbnail' slot="start">

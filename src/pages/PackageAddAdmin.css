@@ -1,0 +1,15 @@
+.dateTime{
+    --background: var(--ion-color-dark);
+}
+
+.ios .dateTime {
+    --background: var(--ion-color-dark);
+    color: white;
+}
+
+
+.containerTakePhoto{
+    display: flex;
+    justify-content: center;
+}
+

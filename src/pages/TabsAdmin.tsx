@@ -10,11 +10,11 @@ import React from "react";
 import { homeOutline, personCircleOutline, giftOutline } from "ionicons/icons";
 import { Redirect, Route } from "react-router";
 import Home from './Home';
-import PackageUser from './PackageUser';
+import PackageAdmin from './PackageAdmin';
 import Profile from './Profile';
 import { Switch } from 'react-router-dom';
 import "./TabsAdmin.css";
-import PackageDetailUser from "./PackageDetailUser";
+import AddPackageAdmin from "./PackageAddAdmin";
 
 const TabsAdmin: React.FC = () => {
   return (
@@ -22,9 +22,9 @@ const TabsAdmin: React.FC = () => {
       <IonRouterOutlet>
         {/* <Switch> */}
           <Route path="/admin/home" component={Home} />
-          <Route path="/admin/package" component={PackageUser} />
+          <Route exact path="/admin/package" component={PackageAdmin} />
+          <Route path="/admin/package/detail/:id?" component={AddPackageAdmin} />
           <Route path="/admin/profile" component={Profile} />
-          <Route path="/admin/package/detail/:id" component={PackageDetailUser} />
           <Redirect exact path="/admin" to="/admin/home" />
         {/* </Switch> */}
       </IonRouterOutlet>
