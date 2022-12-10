@@ -2,6 +2,7 @@
   border-radius: 2vh;
   border: 0.2vh solid grey;
   --background: #f6f6f6;
+  --pading: 0vh;
 }
 
 .header {

@@ -9,14 +9,14 @@ interface Package{
   loc: string,
   id: string,
   pic: string,
-  isDone: boolean
+  type: string,
 }
 
 const PackageAdmin: React.FC = () => {
-  const [mode, setMode] = useState<"new" | "hist">("new");
+  const [mode, setMode] = useState<"new" | "hist" | "unknown">("new");
   const [packages, setPackages] = useState<Array<Package> | null>(null);
   
-  const selectModeHandler = (selectedValue: "new" | "hist") => {
+  const selectModeHandler = (selectedValue: "new" | "hist" | "unknown") => {
     setMode(selectedValue);
   };
 
@@ -26,56 +26,56 @@ const PackageAdmin: React.FC = () => {
       loc: "Apartemen Truck-Kun",
       id: "123456789****",
       pic: "test.png",
-      isDone: false
+      type: "new",
     },
     {
       del: "Tokopedia - SiLambat",
       loc: "Apartemen KW",
       id: "124324234****",
       pic: "test.png",
-      isDone: false
+      type: "hist",
     },
     {
       del: "Tokopedia - SiLambat",
       loc: "Apartemen KW",
       id: "124324234****",
       pic: "test.png",
-      isDone: false
+      type: "new",
     },
     {
       del: "Tokopedia - SiLambat",
       loc: "Apartemen KW",
       id: "124324234****",
       pic: "test.png",
-      isDone: false
+      type: "unknown",
     },
     {
       del: "Tokopedia - SiLambat",
       loc: "Apartemen KW",
       id: "124324234****",
       pic: "test.png",
-      isDone: false
+      type: "hist",
     },
     {
       del: "Tokopedia - SiLambat",
       loc: "Apartemen KW",
       id: "124324234****",
       pic: "test.png",
-      isDone: false
+      type: "new",
     },
     {
       del: "Tokopedia - SiLambat",
       loc: "Apartemen KW",
       id: "124324234****",
       pic: "test.png",
-      isDone: false
+      type: "hist",
     },
     {
       del: "SiCepat",
       loc: "Apartemen Bhagaspati",
       id: "666666666****",
       pic: "test.png",
-      isDone: true
+      type: "unknown",
     },
   ])
   }, [])
@@ -97,7 +97,7 @@ const PackageAdmin: React.FC = () => {
 
           <IonList>
             {mode === "new" && 
-            (packages?.map((p) => (!p.isDone &&
+            (packages?.map((p) => (p.type === "new" &&
               <IonCardContent>
                 <IonItem button className='item-package' href='/user/package/detail/1'>
                   <IonThumbnail className='package-thumbnail' slot="start">
@@ -114,7 +114,24 @@ const PackageAdmin: React.FC = () => {
           }
 
           {mode === "hist" &&
-            (packages?.map((p) => (p.isDone &&
+            (packages?.map((p) => (p.type === "hist" &&
+              <IonCardContent>
+                  <IonItem className='item-package'>
+                    <IonThumbnail className='package-thumbnail' slot="start">
+                      <img alt="" className="package-image" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+                    </IonThumbnail>
+                    <IonCardHeader>
+                      <IonCardTitle className='card-package-title'>{p.del}</IonCardTitle>
+                      <IonCardSubtitle className='card-package-subtitle'>{p.loc}</IonCardSubtitle>
+                      <IonCardSubtitle className='card-package-subtitle'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.id}</IonCardSubtitle>
+                    </IonCardHeader>
+                  </IonItem>
+              </IonCardContent>
+              )))
+            }
+          
+          {mode === "unknown" &&
+            (packages?.map((p) => (p.type === "unknown" &&
               <IonCardContent>
                   <IonItem className='item-package'>
                     <IonThumbnail className='package-thumbnail' slot="start">
