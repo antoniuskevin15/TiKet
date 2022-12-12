@@ -64,11 +64,11 @@ const PackageUser: React.FC = () => {
           <IonList>
             <IonLabel><b>Total Packages</b>: {packages.length}</IonLabel>
             {mode === "new" && 
-              (packages?.map((p) => (!p.isTaken &&
+              (packages?.map((p) => (p.isTaken==0 &&
                 <IonCardContent>
-                  <IonItem button className='item-package' href='/user/package/detail/1'>
+                  <IonItem button className='item-package' href={`/user/package/detail/${p.id}/`}>
                     <IonThumbnail className='package-thumbnail' slot="start">
-                      <img alt="" className="package-image" src={`http://127.0.0.1:8080/storage/${p.photoPath}`} />
+                      <img alt="" className="package-image" src={`${process.env.REACT_APP_WEB_URL}/storage/${p.photoPath}`} />
                     </IonThumbnail>
                     <IonCardHeader>
                       <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
@@ -85,7 +85,7 @@ const PackageUser: React.FC = () => {
               <IonCardContent>
                   <IonItem className='item-package'>
                     <IonThumbnail className='package-thumbnail' slot="start">
-                      <img alt="" className="package-image" src={`http://127.0.0.1:8080/storage/${p.photoPath}`} />
+                      <img alt="" className="package-image" src={`${process.env.REACT_APP_WEB_URL}/storage/${p.photoPath}`} />
                     </IonThumbnail>
                     <IonCardHeader>
                       <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
@@ -98,11 +98,11 @@ const PackageUser: React.FC = () => {
             }
 
           {mode === "unknown" &&
-            (packages?.map((p) => (p.isTaken &&
+            (packages?.map((p) => (p.isTaken==1 &&
               <IonCardContent>
                   <IonItem className='item-package'>
                     <IonThumbnail className='package-thumbnail' slot="start">
-                      <img alt="" className="package-image" src={`http://127.0.0.1:8080/storage/${p.photoPath}`} />
+                      <img alt="" className="package-image" src={`${process.env.REACT_APP_WEB_URL}/storage/${p.photoPath}`} />
                     </IonThumbnail>
                     <IonCardHeader>
                       <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>

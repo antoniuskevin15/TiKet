@@ -93,13 +93,22 @@ export const getPackageByCircleId = async (id: number) => {
   return res.data;
 };
 
-export const getPackageByUserId = async (token:string, id: number) => {
+export const getPackageByUserId = async (token:string, id: number) => { 
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
   const res = await axios.get(`${BASE_URL}/package/user/${id}`, config);
   return res.data;
 };
+
+export const getPackageById = async(token: string, id: number) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  const res = await axios.get(`${BASE_URL}/package/${id}`, config);
+  return res.data;
+
+}
 
 export const getCircle = async (token:string, id: number) => {
   const config = {

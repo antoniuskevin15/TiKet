@@ -24,7 +24,7 @@ const TabsUser: React.FC = () => {
           <Route path="/user/home" component={Home} />
           <Route path="/user/package" component={PackageUser} />
           <Route path="/user/profile" component={Profile} />
-          <Route path="/user/package/detail/:id" component={PackageDetailUser} />
+          <Route path="/user/package/detail/:idPackage" component={PackageDetailUser} />
           <Redirect exact path="/user" to="/user/home" />
         {/* </Switch> */}
       </IonRouterOutlet>
