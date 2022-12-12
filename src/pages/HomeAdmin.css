@@ -1,0 +1,30 @@
+/* .cardTitle {
+    font-size: 12px;
+} */
+
+.header-card ion-card {
+    width: 100%;
+}
+
+.headerfont h3 {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.status h2 {
+    font-weight: bold;
+}
+
+.icon-size ion-icon {
+    font-size: 60px;
+    padding-right: 20px;
+}
+
+.content-card ion-card {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.homeadmin ion-card {
+    border-radius: 12px;
+}

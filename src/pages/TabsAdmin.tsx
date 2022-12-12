@@ -15,17 +15,18 @@ import Profile from './Profile';
 import { Switch } from 'react-router-dom';
 import "./TabsAdmin.css";
 import AddPackageAdmin from "./PackageAddAdmin";
+import HomeAdmin from "./HomeAdmin";
 
 const TabsAdmin: React.FC = () => {
   return (
     <IonTabs>
       <IonRouterOutlet>
         {/* <Switch> */}
-          <Route path="/admin/home" component={Home} />
-          <Route exact path="/admin/package" component={PackageAdmin} />
-          <Route path="/admin/package/detail/:id?" component={AddPackageAdmin} />
-          <Route path="/admin/profile" component={Profile} />
-          <Redirect exact path="/admin" to="/admin/home" />
+        <Route path="/admin/home" component={HomeAdmin} />
+        <Route exact path="/admin/package" component={PackageAdmin} />
+        <Route path="/admin/package/detail/:id?" component={AddPackageAdmin} />
+        <Route path="/admin/profile" component={Profile} />
+        <Redirect exact path="/admin" to="/admin/home" />
         {/* </Switch> */}
       </IonRouterOutlet>
       <IonTabBar slot="bottom" color="light">
