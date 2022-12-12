@@ -38,7 +38,7 @@ const Home: React.FC = () => {
       <IonContent fullscreen>
         {DATA_APART.map((apart:any) => (
           <IonRow key={apart.id} className="ion-justify-content-center">
-            <IonImg src={"http://localhost:8080/storage/"+apart.photoURL} class="imgApart" />
+            <IonImg src={`${process.env.REACT_APP_WEB_URL}/storage/${apart.photoURL}`} class="imgApart" />
           </IonRow>
         ))}
         <IonRow className='ion-padding-horizontal ion-padding-top'>
