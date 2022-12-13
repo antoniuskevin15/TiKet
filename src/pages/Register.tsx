@@ -18,10 +18,15 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { authRegister, useStorage } from "../utils/service";
+import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import "./Register.css";
 
 const Register: React.FC = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<any>();
   const history = useHistory();
   const { auth } = useStorage();
 
@@ -32,15 +37,9 @@ const Register: React.FC = () => {
   }, [auth]);
 
   const onSubmit = async (data: any) => {
-    console.log(JSON.stringify(data));
     if (data.password == data.confirmPassword) {
       try {
-        const res = await authRegister(
-          data.fullName,
-          data.phoneNumber,
-          data.email,
-          data.password
-        );
+        const res = await authRegister(data.fullName, data.phoneNumber, data.email, data.password);
         auth.set(res);
         window.location.href = "/select";
         // history.push("/select");
@@ -52,19 +51,52 @@ const Register: React.FC = () => {
     }
   };
 
+  const handleTakePhoto = async () => {
+    const photo = await Camera.getPhoto({
+      quality: 90,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera,
+      width: 500,
+    });
+
+    if (!photo || !photo.webPath) {
+      return;
+    }
+
+    if (!photo || !photo.webPath) {
+      return;
+    }
+
+    // setTakenPhoto({
+    //   preview: photo.webPath,
+    // });
+  };
+
   return (
     <IonPage>
       <IonContent fullscreen class="ion-padding">
         <IonGrid>
           <IonRow>
             <IonCol>
+              <label>
+                <img src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" />
+              </label>
+              <input
+                type="file"
+                {...register("photo", {
+                  required: "Photo is Required",
+                })}
+              />
+            </IonCol>
+          </IonRow>
+        </IonGrid>
+        <IonGrid>
+          <IonRow>
+            <IonCol>
               <IonLabel className="header">
                 <b>Register Account</b>
               </IonLabel>
-              <IonIcon
-                icon={personOutline}
-                style={{ paddingLeft: "10px" }}
-              ></IonIcon>
+              <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
               <IonLabel className="subheader">
                 <br />
                 Hello, welcome back to our application!
@@ -72,6 +104,11 @@ const Register: React.FC = () => {
             </IonCol>
           </IonRow>
           <form onSubmit={handleSubmit(onSubmit)}>
+            <IonRow>
+              <IonCol>
+                <div></div>
+              </IonCol>
+            </IonRow>
             <IonRow>
               <IonCol>
                 <IonItem className="input-register">
@@ -151,12 +188,7 @@ const Register: React.FC = () => {
             </IonRow>
             <IonRow>
               <IonCol>
-                <IonButton
-                  className="margin-vertical"
-                  color="primary"
-                  expand="block"
-                  type="submit"
-                >
+                <IonButton className="margin-vertical" color="primary" expand="block" type="submit">
                   Register
                 </IonButton>
               </IonCol>

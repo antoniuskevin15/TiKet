@@ -32,15 +32,18 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (auth.data) {
-      if (auth.data.user.admin == true) {
-        window.location.href = "/admin/home";
-        // history.push("/admin/home");
+      console.log(auth.data.user.admin == true);
+      if (auth.data.user.admin) {
+        // window.location.href = "/admin/home";
+        history.push("/admin/home");
+        console.log("admin");
       } else {
-        window.location.href = "/user/home";
-        // history.push("/user/home");
+        console.log("user");
+        // window.location.href = "/user/home";
+        history.push("/user/home");
       }
     }
-  }, [auth]);
+  }, [auth.data]);
 
   const handleLogin = async () => {
     const email: string = emailRef?.current?.value as string;
@@ -78,10 +81,7 @@ const Login: React.FC = () => {
               </IonLabel>
             </IonRow>
             <IonRow>
-              <IonSegment
-                class="segment"
-                value={emailActive ? "Email" : "Phone Number"}
-              >
+              <IonSegment class="segment" value={emailActive ? "Email" : "Phone Number"}>
                 <IonSegmentButton
                   class="segmentContent"
                   value="Email"
@@ -125,10 +125,7 @@ const Login: React.FC = () => {
                 ></IonInput>
               </IonRow>
               <IonRow className="ion-justify-content-center">
-                <IonLabel
-                  class="forgotPW"
-                  className="ion-text-right ion-margin"
-                >
+                <IonLabel class="forgotPW" className="ion-text-right ion-margin">
                   <a>Forgot Password?</a>
                 </IonLabel>
               </IonRow>
@@ -173,11 +170,7 @@ const Login: React.FC = () => {
                 ></IonInput>
               </IonRow>
               <IonRow>
-                <IonButton
-                  color="primary"
-                  class="loginBtn"
-                  className="ion-text-center ion-justify-content-center"
-                >
+                <IonButton color="primary" class="loginBtn" className="ion-text-center ion-justify-content-center">
                   <IonLabel>Send OTP</IonLabel>
                 </IonButton>
               </IonRow>

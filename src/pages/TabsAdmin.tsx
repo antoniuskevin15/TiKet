@@ -1,11 +1,4 @@
-import {
-  IonRouterOutlet,
-  IonTabs,
-  IonTabBar,
-  IonTabButton,
-  IonIcon,
-  IonLabel,
-} from "@ionic/react";
+import { IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel } from "@ionic/react";
 import React, { useEffect } from "react";
 import { homeOutline, personCircleOutline, giftOutline } from "ionicons/icons";
 import { Redirect, Route, useHistory } from "react-router";
@@ -22,11 +15,11 @@ const TabsAdmin: React.FC = () => {
   const { auth } = useStorage();
   const history = useHistory();
 
-  // useEffect(() => {
-  //   if (!auth.data || auth.data.user.admin == false) {
-  //     history.push("/");
-  //   }
-  // });
+  useEffect(() => {
+    if (!auth.data) {
+      history.push("/login");
+    }
+  }, [auth.data]);
 
   return (
     <IonTabs>

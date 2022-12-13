@@ -1,11 +1,4 @@
-import {
-  IonRouterOutlet,
-  IonTabs,
-  IonTabBar,
-  IonTabButton,
-  IonIcon,
-  IonLabel,
-} from "@ionic/react";
+import { IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel } from "@ionic/react";
 import React, { useEffect } from "react";
 import { homeOutline, personCircleOutline, giftOutline } from "ionicons/icons";
 import { Redirect, Route, useHistory } from "react-router";
@@ -22,10 +15,10 @@ const TabsUser: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if (!auth.data || auth.data.user.admin == true) {
-      history.push("/");
+    if (!auth.data) {
+      history.push("/login");
     }
-  }, [auth]);
+  }, [auth.data]);
 
   return (
     <IonTabs>
@@ -34,10 +27,7 @@ const TabsUser: React.FC = () => {
         <Route path="/user/home" component={Home} />
         <Route path="/user/package" component={PackageUser} />
         <Route path="/user/profile" component={Profile} />
-        <Route
-          path="/user/package/detail/:idPackage"
-          component={PackageDetailUser}
-        />
+        <Route path="/user/package/detail/:idPackage" component={PackageDetailUser} />
         <Redirect exact path="/user" to="/user/home" />
         {/* </Switch> */}
       </IonRouterOutlet>
