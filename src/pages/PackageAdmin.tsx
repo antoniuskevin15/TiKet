@@ -73,7 +73,7 @@ const PackageAdmin: React.FC = () => {
     try {
       const res = await getPackageByCircleId(
         auth.data!.token.value,
-        auth.data!.user.id
+        auth.data!.user.circle_id
       );
       setPackages(res.packages);
       console.log(res.packages);
