@@ -61,13 +61,14 @@ export const authLogin = async (email: string, password: string) => {
   return res.data;
 };
 
-// export const authLogout = async (email: string, password: string) => {
-//   const res = await axios.post(`${BASE_URL}/user/logout`, {
-//     email: email,
-//     password: password,
-//   });
-//   return res.data;
-// };
+export const authLogout = async (token: string) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  const res = await axios.post(`${BASE_URL}/user/logout`, config);
+  return res.data;
+};
 
 export const authRegister = async (
   fullName: string,
@@ -112,7 +113,7 @@ export const circleCreate = async (
   return res.data;
 };
 
-export const getPackageByCircleId = async (token:string,id: number) => {
+export const getPackageByCircleId = async (token: string, id: number) => {
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };

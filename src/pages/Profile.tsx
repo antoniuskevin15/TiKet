@@ -21,7 +21,7 @@ import { CircleQRCode } from "../components/CircleQRCode";
 import "./Profile.css";
 
 import { QRData } from "../data/QRData";
-import { useStorage } from "../utils/service";
+import { authLogout, useStorage } from "../utils/service";
 
 const Profile: React.FC = () => {
   const pageRef = useRef();
@@ -50,13 +50,12 @@ const Profile: React.FC = () => {
   };
 
   const handleLogout = async () => {
-    // const email: string = emailRef?.current?.value as string;
-    // const pass: string = passwordRef?.current?.value as string;
-    // try {
-    //   const res = await authLogout(email, pass);
-    // } catch (error: any) {
-    //   console.log(error);
-    // }
+    try {
+      console.log(auth.data!.token.value);
+      const res = await authLogout(auth.data!.token.value);
+    } catch (error: any) {
+      console.log(error);
+    }
   };
 
   const { auth } = useStorage();
