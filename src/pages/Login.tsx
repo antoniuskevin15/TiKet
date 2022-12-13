@@ -33,10 +33,10 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (auth.data) {
-      if(auth.data.user.admin == true){
-        history.push("/admin/home");
-      }else{
-        history.push("/user/home");
+      if (auth.data.user.admin == true) {
+        history.push("/admin");
+      } else {
+        history.push("/user");
       }
     }
   }, [auth]);
@@ -49,10 +49,10 @@ const Home: React.FC = () => {
       const res = await authLogin(email, pass);
       auth.set(res);
       console.log(res);
-      if(res.user.admin == true){
-        history.push("/admin/home");
-      }else{
-        history.push("/user/home");
+      if (res.user.admin == true) {
+        history.push("/admin");
+      } else {
+        history.push("/user");
       }
     } catch (error: any) {
       console.log(error);
@@ -75,7 +75,10 @@ const Home: React.FC = () => {
               </IonLabel>
             </IonRow>
             <IonRow>
-              <IonSegment class="segment" value={emailActive ? "Email" : "Phone Number"}>
+              <IonSegment
+                class="segment"
+                value={emailActive ? "Email" : "Phone Number"}
+              >
                 <IonSegmentButton
                   class="segmentContent"
                   value="Email"
@@ -117,7 +120,10 @@ const Home: React.FC = () => {
                 ></IonInput>
               </IonRow>
               <IonRow className="ion-justify-content-center">
-                <IonLabel class="forgotPW" className="ion-text-right ion-margin">
+                <IonLabel
+                  class="forgotPW"
+                  className="ion-text-right ion-margin"
+                >
                   <a>Forgot Password?</a>
                 </IonLabel>
               </IonRow>
@@ -143,8 +149,11 @@ const Home: React.FC = () => {
                 </IonCol>
               </IonRow> */}
               <IonRow className="ion-padding ion-text-center ion-justify-content-center ion-margin">
-                <IonLabel class="forgotPW" >
-                  Not register yet? <Link to='/register'><b>Create Account</b></Link>
+                <IonLabel class="forgotPW">
+                  Not register yet?{" "}
+                  <Link to="/register">
+                    <b>Create Account</b>
+                  </Link>
                 </IonLabel>
               </IonRow>
             </IonGrid>
@@ -159,7 +168,11 @@ const Home: React.FC = () => {
                 ></IonInput>
               </IonRow>
               <IonRow>
-                <IonButton color="primary" class="loginBtn" className="ion-text-center ion-justify-content-center">
+                <IonButton
+                  color="primary"
+                  class="loginBtn"
+                  className="ion-text-center ion-justify-content-center"
+                >
                   <IonLabel>Send OTP</IonLabel>
                 </IonButton>
               </IonRow>
