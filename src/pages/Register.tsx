@@ -42,7 +42,8 @@ const Register: React.FC = () => {
           data.password
         );
         auth.set(res);
-        history.push("/select");
+        window.location.href = "/select";
+        // history.push("/select");
       } catch (error: any) {
         console.log(error);
       }

@@ -32,29 +32,33 @@ const Profile: React.FC = () => {
     code: selectedCode,
   });
 
-  const showQR = async() => {
+  const showQR = async () => {
     const res = await getCircle(auth.data!.token.value, auth.data!.user.circle_id);
     const circle = [res.data];
-    {circle.map(c=>{
-      const qrCode: QRData = {
-        id: auth.data!.user.name,
-        data: c.name,
-      };
-      setSelectedCode(qrCode);
-      console.log("QR SHOWN");
-      console.log(qrCode.id);
-      console.log(qrCode.data);
-  
-      present({
-        presentingElement: pageRef.current,
-        swipeToClose: true,
-      });
-    })}
+    {
+      circle.map(c => {
+        const qrCode: QRData = {
+          id: auth.data!.user.name,
+          data: c.name,
+        };
+        setSelectedCode(qrCode);
+        console.log("QR SHOWN");
+        console.log(qrCode.id);
+        console.log(qrCode.data);
+
+        present({
+          presentingElement: pageRef.current,
+          swipeToClose: true,
+        });
+      })
+    }
   };
 
   const handleLogout = async () => {
+    indexedDB.deleteDatabase("tiketdb")
     try {
       console.log(auth.data!.token.value);
+      window.location.href = "/login";
       const res = await authLogout(auth.data!.token.value);
     } catch (error: any) {
       console.log(error);
