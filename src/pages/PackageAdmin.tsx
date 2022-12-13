@@ -2,83 +2,46 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonIcon, IonGrid,
 import { addOutline, colorPalette, globe, logoDropbox, personOutline } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 import InputAdmin from '../components/InputControlAdmin';
+import { getPackageByCircleId, useStorage } from '../utils/service';
 import './PackageAdmin.css';
 
 interface Package{
-  del: string,
-  loc: string,
-  id: string,
-  pic: string,
-  type: string,
+  created_at: string,
+  expedition: string,
+  id: number,
+  isTaken: number,
+  photoPath: string,
+  receiptNumber: string,
+  roomNumber: string,
+  sender: string,
+  updated_id: string,
+  user_id: number,
 }
 
 const PackageAdmin: React.FC = () => {
   const [mode, setMode] = useState<"ongoing" | "finished" | "unknown">("ongoing");
-  const [packages, setPackages] = useState<Array<Package> | null>(null);
+  const [packages, setPackages] = useState<Package[]>([]);
+  const { auth } = useStorage();
   
   const selectModeHandler = (selectedValue: "ongoing" | "finished" | "unknown") => {
     setMode(selectedValue);
   };
 
-  useEffect(() => {
-    setPackages([{
-      del: "Shopee - SiLambat",
-      loc: "Apartemen Truck-Kun",
-      id: "123456789****",
-      pic: "test.png",
-      type: "ongoing",
-    },
-    {
-      del: "Tokopedia - SiLambat",
-      loc: "Apartemen KW",
-      id: "124324234****",
-      pic: "test.png",
-      type: "finished",
-    },
-    {
-      del: "Tokopedia - SiLambat",
-      loc: "Apartemen KW",
-      id: "124324234****",
-      pic: "test.png",
-      type: "ongoing",
-    },
-    {
-      del: "Tokopedia - SiLambat",
-      loc: "Apartemen KW",
-      id: "124324234****",
-      pic: "test.png",
-      type: "unknown",
-    },
-    {
-      del: "Tokopedia - SiLambat",
-      loc: "Apartemen KW",
-      id: "124324234****",
-      pic: "test.png",
-      type: "finished",
-    },
-    {
-      del: "Tokopedia - SiLambat",
-      loc: "Apartemen KW",
-      id: "124324234****",
-      pic: "test.png",
-      type: "ongoing",
-    },
-    {
-      del: "Tokopedia - SiLambat",
-      loc: "Apartemen KW",
-      id: "124324234****",
-      pic: "test.png",
-      type: "finished",
-    },
-    {
-      del: "SiCepat",
-      loc: "Apartemen Bhagaspati",
-      id: "666666666****",
-      pic: "test.png",
-      type: "unknown",
-    },
-  ])
-  }, [])
+  useEffect(()=>{
+    if(auth.data){
+      takePackage();
+    }
+  }, [auth.data]);
+
+  const takePackage = async() => {
+    try {
+      const res = await getPackageByCircleId(auth.data!.token.value, auth.data!.user.id);
+      setPackages(res.packages);
+      console.log(res.packages);
+    } catch (error: any) {
+      console.log(error);
+    }
+  }
 
   return (
     <IonPage>
@@ -102,16 +65,16 @@ const PackageAdmin: React.FC = () => {
 
           <IonList>
             {mode === "ongoing" && 
-            (packages?.map((p) => (p.type === "ongoing" &&
+            (packages?.map((p) => (p.isTaken==0 &&
               <IonCardContent>
-                <IonItem button className='item-package' href='/user/package/detail/1'>
+                <IonItem button className='item-package'>
                   <IonThumbnail className='package-thumbnail' slot="start">
                     <img alt="" className="package-image" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
                   </IonThumbnail>
                   <IonCardHeader>
-                    <IonCardTitle className='card-package-title'>{p.del}</IonCardTitle>
-                    <IonCardSubtitle className='card-package-subtitle'>{p.loc}</IonCardSubtitle>
-                    <IonCardSubtitle className='card-package-title'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.id}</IonCardSubtitle>
+                      <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
+                      <IonCardSubtitle className='card-package-subtitle'>{p.roomNumber}</IonCardSubtitle>
+                      <IonCardSubtitle className='card-package-subtitle'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.receiptNumber}</IonCardSubtitle>
                   </IonCardHeader>
                 </IonItem>
               </IonCardContent>
@@ -119,16 +82,16 @@ const PackageAdmin: React.FC = () => {
           }
 
           {mode === "finished" &&
-            (packages?.map((p) => (p.type === "finished" &&
+            (packages?.map((p) => (p.isTaken==1 &&
               <IonCardContent>
                   <IonItem className='item-package'>
                     <IonThumbnail className='package-thumbnail' slot="start">
                       <img alt="" className="package-image" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
                     </IonThumbnail>
                     <IonCardHeader>
-                      <IonCardTitle className='card-package-title'>{p.del}</IonCardTitle>
-                      <IonCardSubtitle className='card-package-subtitle'>{p.loc}</IonCardSubtitle>
-                      <IonCardSubtitle className='card-package-subtitle'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.id}</IonCardSubtitle>
+                      <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
+                      <IonCardSubtitle className='card-package-subtitle'>{p.roomNumber}</IonCardSubtitle>
+                      <IonCardSubtitle className='card-package-subtitle'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.receiptNumber}</IonCardSubtitle>
                     </IonCardHeader>
                   </IonItem>
               </IonCardContent>
@@ -136,16 +99,16 @@ const PackageAdmin: React.FC = () => {
             }
           
           {mode === "unknown" &&
-            (packages?.map((p) => (p.type === "unknown" &&
+            (packages?.map((p) => (p.isTaken==0 &&
               <IonCardContent>
                   <IonItem className='item-package'>
                     <IonThumbnail className='package-thumbnail' slot="start">
                       <img alt="" className="package-image" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
                     </IonThumbnail>
                     <IonCardHeader>
-                      <IonCardTitle className='card-package-title'>{p.del}</IonCardTitle>
-                      <IonCardSubtitle className='card-package-subtitle'>{p.loc}</IonCardSubtitle>
-                      <IonCardSubtitle className='card-package-subtitle'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.id}</IonCardSubtitle>
+                      <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
+                      <IonCardSubtitle className='card-package-subtitle'>{p.roomNumber}</IonCardSubtitle>
+                      <IonCardSubtitle className='card-package-subtitle'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.receiptNumber}</IonCardSubtitle>
                     </IonCardHeader>
                   </IonItem>
               </IonCardContent>
