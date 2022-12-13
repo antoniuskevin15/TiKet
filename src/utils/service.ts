@@ -54,11 +54,28 @@ export const useStorage = () => {
 };
 
 export const authLogin = async (email: string, password: string) => {
-  const res = await axios.post(`${BASE_URL}/user/login`, { email: email, password: password });
+  const res = await axios.post(`${BASE_URL}/user/login`, {
+    email: email,
+    password: password,
+  });
   return res.data;
 };
 
-export const authRegister = async (fullName: string, phoneNumber: string, email: string, password: string) => {
+export const authLogout = async (token: string) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  const res = await axios.post(`${BASE_URL}/user/logout`, config);
+  return res.data;
+};
+
+export const authRegister = async (
+  fullName: string,
+  phoneNumber: string,
+  email: string,
+  password: string
+) => {
   console.log(`${BASE_URL}`);
   const res = await axios.post(`${BASE_URL}/user/register`, {
     name: fullName,
@@ -69,11 +86,19 @@ export const authRegister = async (fullName: string, phoneNumber: string, email:
   return res.data;
 };
 
-export const circleCreate = async (token: string, circleName: string, address: string, desc: string, photo: File) => {
-  console.log("Photo: "+photo);
+export const circleCreate = async (
+  token: string,
+  circleName: string,
+  address: string,
+  desc: string,
+  photo: File
+) => {
+  console.log("Photo: " + photo);
   const config = {
-    headers: { Authorization: `Bearer ${token}`,
-    'Content-Type': 'multipart/form-data' },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
   };
   const formData = new FormData();
   formData.append("name", circleName);
@@ -88,12 +113,25 @@ export const circleCreate = async (token: string, circleName: string, address: s
   return res.data;
 };
 
-export const getPackageByCircleId = async (id: number) => {
-  const res = await axios.get(`${BASE_URL}/package/circle/${id}`);
+export const joinCircle = async(token: string, name: string) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const res = await axios.post(`${BASE_URL}/circle/join/`, { name: name }, config);
   return res.data;
 };
 
-export const getPackageByUserId = async (token:string, id: number) => {
+export const getPackageByCircleId = async (token: string, id: number) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  const res = await axios.get(`${BASE_URL}/package/circle/${id}`, config);
+  return res.data;
+};
+
+export const getPackageByUserId = async (token: string, id: number) => {
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
@@ -101,7 +139,15 @@ export const getPackageByUserId = async (token:string, id: number) => {
   return res.data;
 };
 
-export const getCircle = async (token:string, id: number) => {
+export const getPackageById = async (token: string, id: number) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  const res = await axios.get(`${BASE_URL}/package/${id}`, config);
+  return res.data;
+};
+
+export const getCircle = async (token: string, id: number) => {
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };

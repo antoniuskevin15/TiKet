@@ -1,23 +1,26 @@
-import {
-  IonRouterOutlet,
-  IonTabs,
-  IonTabBar,
-  IonTabButton,
-  IonIcon,
-  IonLabel,
-} from "@ionic/react";
-import React from "react";
+import { IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel } from "@ionic/react";
+import React, { useEffect } from "react";
 import { homeOutline, personCircleOutline, giftOutline } from "ionicons/icons";
-import { Redirect, Route } from "react-router";
-import Home from './Home';
-import PackageAdmin from './PackageAdmin';
-import Profile from './Profile';
-import { Switch } from 'react-router-dom';
+import { Redirect, Route, useHistory } from "react-router";
+import Home from "./Home";
+import PackageAdmin from "./PackageAdmin";
+import Profile from "./Profile";
+import { Switch } from "react-router-dom";
 import "./TabsAdmin.css";
 import AddPackageAdmin from "./PackageAddAdmin";
 import HomeAdmin from "./HomeAdmin";
+import { useStorage } from "../utils/service";
 
 const TabsAdmin: React.FC = () => {
+  const { auth } = useStorage();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!auth.data) {
+      history.push("/login");
+    }
+  }, [auth.data]);
+
   return (
     <IonTabs>
       <IonRouterOutlet>

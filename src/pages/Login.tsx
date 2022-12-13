@@ -15,7 +15,6 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import ExploreContainer from "../components/ExploreContainer";
 import "./Login.css";
 import { logoGoogle } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
@@ -23,7 +22,7 @@ import axios from "axios";
 import { authLogin, useStorage } from "../utils/service";
 import { Link, useHistory } from "react-router-dom";
 
-const Home: React.FC = () => {
+const Login: React.FC = () => {
   const [emailActive, setemailActive] = useState<boolean>(true);
   const [phoneActive, setphoneActive] = useState<boolean>(false);
   const emailRef = useRef<HTMLIonInputElement>(null);
@@ -33,9 +32,18 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (auth.data) {
-      history.push("/user/home");
+      console.log(auth.data.user.admin == true);
+      if (auth.data.user.admin) {
+        // window.location.href = "/admin/home";
+        history.push("/admin/home");
+        console.log("admin");
+      } else {
+        console.log("user");
+        // window.location.href = "/user/home";
+        history.push("/user/home");
+      }
     }
-  }, [auth]);
+  }, [auth.data]);
 
   const handleLogin = async () => {
     const email: string = emailRef?.current?.value as string;
@@ -44,7 +52,14 @@ const Home: React.FC = () => {
     try {
       const res = await authLogin(email, pass);
       auth.set(res);
-      history.push("/user/home");
+      console.log(res);
+      if (res.user.admin == true) {
+        window.location.href = "/admin/home";
+        // history.push("/admin/home");
+      } else {
+        window.location.href = "/user/home";
+        // history.push("/user/home");
+      }
     } catch (error: any) {
       console.log(error);
     }
@@ -96,6 +111,7 @@ const Home: React.FC = () => {
                   class="inputForm"
                   className="ion-margin-vertical ion-padding"
                   placeholder="Email address"
+                  type="email"
                   ref={emailRef}
                 ></IonInput>
               </IonRow>
@@ -104,6 +120,7 @@ const Home: React.FC = () => {
                   class="inputForm"
                   className="ion-margin-vertical ion-padding"
                   placeholder="Password"
+                  type="password"
                   ref={passwordRef}
                 ></IonInput>
               </IonRow>
@@ -134,8 +151,11 @@ const Home: React.FC = () => {
                 </IonCol>
               </IonRow> */}
               <IonRow className="ion-padding ion-text-center ion-justify-content-center ion-margin">
-                <IonLabel class="forgotPW" >
-                  Not register yet? <Link to='/register'><b>Create Account</b></Link>
+                <IonLabel class="forgotPW">
+                  Not register yet?{" "}
+                  <Link to="/register">
+                    <b>Create Account</b>
+                  </Link>
                 </IonLabel>
               </IonRow>
             </IonGrid>
@@ -167,4 +187,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Login;
