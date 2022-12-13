@@ -33,9 +33,11 @@ const Login: React.FC = () => {
   useEffect(() => {
     if (auth.data) {
       if (auth.data.user.admin == true) {
-        history.push("/admin/home");
+        window.location.href = "/admin/home";
+        // history.push("/admin/home");
       } else {
-        history.push("/user/home");
+        window.location.href = "/user/home";
+        // history.push("/user/home");
       }
     }
   }, [auth]);
