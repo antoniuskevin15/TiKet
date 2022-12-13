@@ -34,9 +34,9 @@ const Home: React.FC = () => {
   useEffect(() => {
     if (auth.data) {
       if (auth.data.user.admin == true) {
-        history.push("/admin");
+        history.push("/admin/home");
       } else {
-        history.push("/user");
+        history.push("/user/home");
       }
     }
   }, [auth]);
@@ -50,9 +50,9 @@ const Home: React.FC = () => {
       auth.set(res);
       console.log(res);
       if (res.user.admin == true) {
-        history.push("/admin");
+        history.push("/admin/home");
       } else {
-        history.push("/user");
+        history.push("/user/home");
       }
     } catch (error: any) {
       console.log(error);
