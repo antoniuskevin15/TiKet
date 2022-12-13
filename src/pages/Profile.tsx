@@ -21,11 +21,10 @@ import { CircleQRCode } from "../components/CircleQRCode";
 import "./Profile.css";
 
 import { QRData } from "../data/QRData";
-import { authLogout, useStorage } from "../utils/service";
+import { authLogout, getCircle, useStorage } from "../utils/service";
 
 const Profile: React.FC = () => {
   const pageRef = useRef();
-  const [role, setRole] = useState("Admin");
   const [selectedCode, setSelectedCode] = useState<QRData>();
 
   const [present, dismiss] = useIonModal(CircleQRCode, {
@@ -33,20 +32,24 @@ const Profile: React.FC = () => {
     code: selectedCode,
   });
 
-  const showQR = () => {
-    const qrCode: QRData = {
-      id: "MASUKIN NAMA PEMILIK DI SINI",
-      data: "MASUKIN ID CIRCLE DI SINI",
-    };
-    setSelectedCode(qrCode);
-    console.log("QR SHOWN");
-    console.log(qrCode.id);
-    console.log(qrCode.data);
-
-    present({
-      presentingElement: pageRef.current,
-      swipeToClose: true,
-    });
+  const showQR = async() => {
+    const res = await getCircle(auth.data!.token.value, auth.data!.user.circle_id);
+    const circle = [res.data];
+    {circle.map(c=>{
+      const qrCode: QRData = {
+        id: auth.data!.user.name,
+        data: c.name,
+      };
+      setSelectedCode(qrCode);
+      console.log("QR SHOWN");
+      console.log(qrCode.id);
+      console.log(qrCode.data);
+  
+      present({
+        presentingElement: pageRef.current,
+        swipeToClose: true,
+      });
+    })}
   };
 
   const handleLogout = async () => {
@@ -135,7 +138,7 @@ const Profile: React.FC = () => {
                 </IonLabel>
               </IonButton>
             </IonRow>
-            {role === "Admin" && (
+            {auth.data?.user.admin == true && (
               <IonRow className="ion-justify-content-center ion-margin-bottom">
                 <IonButton
                   expand="block"
