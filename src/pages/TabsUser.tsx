@@ -25,7 +25,7 @@ const TabsUser: React.FC = () => {
     if (!auth.data || auth.data.user.admin == true) {
       history.push("/");
     }
-  });
+  }, [auth]);
 
   return (
     <IonTabs>

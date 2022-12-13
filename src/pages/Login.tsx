@@ -15,7 +15,6 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import ExploreContainer from "../components/ExploreContainer";
 import "./Login.css";
 import { logoGoogle } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
@@ -23,7 +22,7 @@ import axios from "axios";
 import { authLogin, useStorage } from "../utils/service";
 import { Link, useHistory } from "react-router-dom";
 
-const Home: React.FC = () => {
+const Login: React.FC = () => {
   const [emailActive, setemailActive] = useState<boolean>(true);
   const [phoneActive, setphoneActive] = useState<boolean>(false);
   const emailRef = useRef<HTMLIonInputElement>(null);
@@ -50,9 +49,11 @@ const Home: React.FC = () => {
       auth.set(res);
       console.log(res);
       if (res.user.admin == true) {
-        history.push("/admin/home");
+        window.location.href = "/admin/home";
+        // history.push("/admin/home");
       } else {
-        history.push("/user/home");
+        window.location.href = "/user/home";
+        // history.push("/user/home");
       }
     } catch (error: any) {
       console.log(error);
@@ -189,4 +190,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Login;
