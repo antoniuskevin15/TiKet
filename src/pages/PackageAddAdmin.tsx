@@ -6,6 +6,7 @@ import InputAdmin from '../components/InputControlAdmin';
 import './PackageAddAdmin.css';
 
 import {Camera, CameraResultType, CameraSource} from '@capacitor/camera';
+import { useForm } from 'react-hook-form';
 
 interface Package{
   del: string,
@@ -19,6 +20,7 @@ const AddPackageAdmin: React.FC = () => {
   const [mode, setMode] = useState<"ongoing" | "finished" | "unknown">("ongoing");
   const [packages, setPackages] = useState<Array<Package> | null>(null);
   const id = useParams<{ id: string | undefined }>().id;
+  const { register, handleSubmit } = useForm();
   
   const [takenPhoto, setTakenPhoto] = useState<{
     path: string | undefined; //store original url
@@ -77,9 +79,9 @@ const AddPackageAdmin: React.FC = () => {
                   <IonLabel position="floating">Sender</IonLabel>
                   <IonInput
                     type="text"
-                    // {...register("fullName", {
-                    //   required: "Full Name is Required",
-                    // })}
+                    {...register("sender", {
+                      required: "Sender is Required",
+                    })}
                   ></IonInput>
                 </IonItem>
               </IonCol>
@@ -90,9 +92,9 @@ const AddPackageAdmin: React.FC = () => {
                   <IonLabel position="floating">Expedition</IonLabel>
                   <IonInput
                     type="text"
-                    // {...register("fullName", {
-                    //   required: "Full Name is Required",
-                    // })}
+                    {...register("expedition", {
+                      required: "Expedition is Required",
+                    })}
                   ></IonInput>
                 </IonItem>
               </IonCol>
@@ -103,9 +105,9 @@ const AddPackageAdmin: React.FC = () => {
                   <IonLabel position="floating">Resi</IonLabel>
                   <IonInput
                     type="number"
-                    // {...register("fullName", {
-                    //   required: "Full Name is Required",
-                    // })}
+                    {...register("resi", {
+                      required: "Resi is Required",
+                    })}
                   ></IonInput>
                 </IonItem>
               </IonCol>
@@ -116,9 +118,9 @@ const AddPackageAdmin: React.FC = () => {
                   <IonLabel position="floating">No Kamar</IonLabel>
                   <IonInput
                     type="text"
-                    // {...register("fullName", {
-                    //   required: "Full Name is Required",
-                    // })}
+                    {...register("noRoom", {
+                      required: "Room Number is Required",
+                    })}
                   ></IonInput>
                 </IonItem>
               </IonCol>

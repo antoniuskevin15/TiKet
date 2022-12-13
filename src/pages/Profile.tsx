@@ -25,7 +25,6 @@ import { authLogout, useStorage } from "../utils/service";
 
 const Profile: React.FC = () => {
   const pageRef = useRef();
-  const [role, setRole] = useState("Admin");
   const [selectedCode, setSelectedCode] = useState<QRData>();
 
   const [present, dismiss] = useIonModal(CircleQRCode, {
@@ -135,7 +134,7 @@ const Profile: React.FC = () => {
                 </IonLabel>
               </IonButton>
             </IonRow>
-            {role === "Admin" && (
+            {auth.data?.user.admin == true && (
               <IonRow className="ion-justify-content-center ion-margin-bottom">
                 <IonButton
                   expand="block"
