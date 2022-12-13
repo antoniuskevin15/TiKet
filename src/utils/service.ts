@@ -113,6 +113,16 @@ export const circleCreate = async (
   return res.data;
 };
 
+export const joinCircle = async(token: string, name: string) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const res = await axios.post(`${BASE_URL}/circle/join/`, { name: name }, config);
+  return res.data;
+};
+
 export const getPackageByCircleId = async (token: string, id: number) => {
   const config = {
     headers: { Authorization: `Bearer ${token}` },
