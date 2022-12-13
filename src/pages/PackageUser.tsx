@@ -16,7 +16,6 @@ interface Package{
   sender: string,
   updated_id: string,
   user_id: number,
-
 }
 
 const PackageUser: React.FC = () => {
