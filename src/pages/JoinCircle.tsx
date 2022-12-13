@@ -18,18 +18,31 @@ import {
     useIonAlert
 } from "@ionic/react"
 import { personOutline, scanOutline, stopCircleOutline } from "ionicons/icons"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
+import { joinCircle, useStorage } from "../utils/service"
 import "./JoinCircle.css"
 
 const JoinCircle: React.FC = () => {
     const [err, setErr] = useState<string>()
     const [hideBg, setHideBg] = useState("")
     const [idCircle, setIdCircle] = useState("");
-    const { register, handleSubmit } = useForm();
+    const circleRef = useRef<HTMLIonInputElement>(null);
+    const { auth } = useStorage();
 
-    const onSubmit = async (data: any) => {
-        console.log("DATA QR CODE", JSON.stringify(data));
+    const onSubmit = async () => {
+        const circleName: string = circleRef?.current?.value as string;
+        console.log(circleName);
+        try{
+          const res = await joinCircle(auth.data!.token.value, circleName);
+          auth.set(res);
+          console.log(auth);
+          window.location.href = "/user/home";
+          // history.push("/select");
+        } catch (error: any) {
+          console.log(error);
+        }
+        
     }
 
     const startScan = async () => {
@@ -118,12 +131,11 @@ const JoinCircle: React.FC = () => {
                             <IonLabel className="subheader"><br />Enter circle code or scan QR code!</IonLabel>
                         </IonCol>
                     </IonRow>
-                    <form onSubmit={handleSubmit(onSubmit)}>
                         <IonRow className="ion-justify-content-center">
                             <IonItem>
                                 <IonItem>
-                                    <IonLabel position="floating">Circle ID</IonLabel>
-                                    <IonInput type="text" placeholder="ID Circle" value={idCircle ? idCircle : ""} ></IonInput>
+                                    <IonLabel position="floating">Circle Name</IonLabel>
+                                    <IonInput type="text" placeholder="ID Circle" value={idCircle ? idCircle : ""} ref={circleRef}></IonInput>
                                 </IonItem>
                             </IonItem>
                         </IonRow>
@@ -137,12 +149,14 @@ const JoinCircle: React.FC = () => {
                         </IonRow>
                         <IonRow className="ion-justify-content-center">
                             <IonButton
-                                type="submit"
-                                className="">
-                                Join Circle
+                            color="primary"
+                            class="loginBtn"
+                            onClick={onSubmit}
+                            className=""
+                            >
+                            Join Circle
                             </IonButton>
                         </IonRow>
-                    </form>
                 </IonGrid>
                 <div hidden={!hideBg} className="scan-box" />
             </IonContent>
