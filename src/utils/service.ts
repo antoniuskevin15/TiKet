@@ -112,8 +112,11 @@ export const circleCreate = async (
   return res.data;
 };
 
-export const getPackageByCircleId = async (id: number) => {
-  const res = await axios.get(`${BASE_URL}/package/circle/${id}`);
+export const getPackageByCircleId = async (token:string,id: number) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  const res = await axios.get(`${BASE_URL}/package/circle/${id}`, config);
   return res.data;
 };
 
