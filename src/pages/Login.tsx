@@ -108,6 +108,7 @@ const Home: React.FC = () => {
                   class="inputForm"
                   className="ion-margin-vertical ion-padding"
                   placeholder="Email address"
+                  type="email"
                   ref={emailRef}
                 ></IonInput>
               </IonRow>
@@ -116,6 +117,7 @@ const Home: React.FC = () => {
                   class="inputForm"
                   className="ion-margin-vertical ion-padding"
                   placeholder="Password"
+                  type="password"
                   ref={passwordRef}
                 ></IonInput>
               </IonRow>
