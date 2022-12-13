@@ -33,7 +33,11 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (auth.data) {
-      history.push("/user/home");
+      if(auth.data.user.admin == true){
+        history.push("/admin/home");
+      }else{
+        history.push("/user/home");
+      }
     }
   }, [auth]);
 
@@ -44,7 +48,12 @@ const Home: React.FC = () => {
     try {
       const res = await authLogin(email, pass);
       auth.set(res);
-      history.push("/user/home");
+      console.log(res);
+      if(res.user.admin == true){
+        history.push("/admin/home");
+      }else{
+        history.push("/user/home");
+      }
     } catch (error: any) {
       console.log(error);
     }
