@@ -12,9 +12,10 @@ import {
   IonInput,
   IonButton,
   IonCol,
+  IonImg,
 } from "@ionic/react";
 import { personOutline } from "ionicons/icons";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { authRegister, useStorage } from "../utils/service";
@@ -29,6 +30,8 @@ const Register: React.FC = () => {
   } = useForm<any>();
   const history = useHistory();
   const { auth } = useStorage();
+
+  const fileButton = useRef<HTMLIonButtonElement>(null);
 
   useEffect(() => {
     if (auth.data) {
@@ -72,21 +75,33 @@ const Register: React.FC = () => {
     // });
   };
 
+  const openFileUpload = () => {
+    document.getElementById("imageUpload")?.click();
+  }
+
+  const updateText = (event: any) => {
+    fileButton.current!.innerHTML = event.target.files[0].name;
+  }
+
   return (
     <IonPage>
       <IonContent fullscreen class="ion-padding">
         <IonGrid>
           <IonRow>
             <IonCol>
-              <label>
-                <img src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" />
-              </label>
+              <IonImg src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" />
               <input
                 type="file"
+                id="imageUpload"
+                hidden
                 {...register("photo", {
                   required: "Photo is Required",
                 })}
+                onChange={updateText}
               />
+              <IonButton ref={fileButton} onClick={openFileUpload} className="margin-vertical" color="primary" expand="block">
+                Upload Image
+              </IonButton>
             </IonCol>
           </IonRow>
         </IonGrid>
