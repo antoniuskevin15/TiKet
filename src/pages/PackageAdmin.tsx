@@ -95,135 +95,142 @@ const PackageAdmin: React.FC = () => {
             <IonIcon icon={addOutline}></IonIcon>
           </IonFabButton>
         </IonFab>
-        <IonGrid>
-          <IonRow className="ion-margin-bottom">
-            <IonCol>
-              <IonLabel className="header">
-                <b>TikeT</b>
-              </IonLabel>
-              <IonIcon
-                icon={personOutline}
-                style={{ paddingLeft: "10px" }}
-              ></IonIcon>
+        <IonGrid >
+          <IonRow >
+            <IonCol size-sm="12" size-md="8" offset-md="2">
+              <IonGrid>
+                <IonRow className="ion-margin-bottom">
+                  <IonCol>
+                    <IonLabel className="header">
+                      <b>TikeT</b>
+                    </IonLabel>
+                    <IonIcon
+                      icon={personOutline}
+                      style={{ paddingLeft: "10px" }}
+                    ></IonIcon>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <InputAdmin
+                    selectedValue={mode}
+                    onSelectValue={selectModeHandler}
+                  />
+                </IonRow>
+
+                <IonList>
+                  {mode === "ongoing" &&
+                    packages?.map(
+                      (p) =>
+                        p.isTaken == 0 && (
+                          <IonCardContent>
+                            <IonItem button className="item-package">
+                              <IonThumbnail
+                                className="package-thumbnail"
+                                slot="start"
+                              >
+                                <img
+                                  alt=""
+                                  className="package-image"
+                                  src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                                />
+                              </IonThumbnail>
+                              <IonCardHeader>
+                                <IonCardTitle className="card-package-title">
+                                  {p.expedition}
+                                </IonCardTitle>
+                                <IonCardSubtitle className="card-package-subtitle">
+                                  {p.roomNumber}
+                                </IonCardSubtitle>
+                                <IonCardSubtitle className="card-package-subtitle">
+                                  <IonIcon
+                                    icon={logoDropbox}
+                                    style={{ "padding-right": "1vh" }}
+                                  />
+                                  {p.receiptNumber}
+                                </IonCardSubtitle>
+                              </IonCardHeader>
+                            </IonItem>
+                          </IonCardContent>
+                        )
+                    )}
+
+                  {mode === "finished" &&
+                    packages?.map(
+                      (p) =>
+                        p.isTaken == 1 && (
+                          <IonCardContent>
+                            <IonItem className="item-package">
+                              <IonThumbnail
+                                className="package-thumbnail"
+                                slot="start"
+                              >
+                                <img
+                                  alt=""
+                                  className="package-image"
+                                  src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                                />
+                              </IonThumbnail>
+                              <IonCardHeader>
+                                <IonCardTitle className="card-package-title">
+                                  {p.expedition}
+                                </IonCardTitle>
+                                <IonCardSubtitle className="card-package-subtitle">
+                                  {p.roomNumber}
+                                </IonCardSubtitle>
+                                <IonCardSubtitle className="card-package-subtitle">
+                                  <IonIcon
+                                    icon={logoDropbox}
+                                    style={{ "padding-right": "1vh" }}
+                                  />
+                                  {p.receiptNumber}
+                                </IonCardSubtitle>
+                              </IonCardHeader>
+                            </IonItem>
+                          </IonCardContent>
+                        )
+                    )}
+
+                  {mode === "unknown" &&
+                    packages?.map(
+                      (p) =>
+                        p.isTaken == 0 && (
+                          <IonCardContent>
+                            <IonItem className="item-package">
+                              <IonThumbnail
+                                className="package-thumbnail"
+                                slot="start"
+                              >
+                                <img
+                                  alt=""
+                                  className="package-image"
+                                  src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                                />
+                              </IonThumbnail>
+                              <IonCardHeader>
+                                <IonCardTitle className="card-package-title">
+                                  {p.expedition}
+                                </IonCardTitle>
+                                <IonCardSubtitle className="card-package-subtitle">
+                                  {p.roomNumber}
+                                </IonCardSubtitle>
+                                <IonCardSubtitle className="card-package-subtitle">
+                                  <IonIcon
+                                    icon={logoDropbox}
+                                    style={{ "padding-right": "1vh" }}
+                                  />
+                                  {p.receiptNumber}
+                                </IonCardSubtitle>
+                              </IonCardHeader>
+                            </IonItem>
+                          </IonCardContent>
+                        )
+                    )}
+                </IonList>
+              </IonGrid>
             </IonCol>
           </IonRow>
-          <IonRow>
-            <InputAdmin
-              selectedValue={mode}
-              onSelectValue={selectModeHandler}
-            />
-          </IonRow>
-
-          <IonList>
-            {mode === "ongoing" &&
-              packages?.map(
-                (p) =>
-                  p.isTaken == 0 && (
-                    <IonCardContent>
-                      <IonItem button className="item-package">
-                        <IonThumbnail
-                          className="package-thumbnail"
-                          slot="start"
-                        >
-                          <img
-                            alt=""
-                            className="package-image"
-                            src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                          />
-                        </IonThumbnail>
-                        <IonCardHeader>
-                          <IonCardTitle className="card-package-title">
-                            {p.expedition}
-                          </IonCardTitle>
-                          <IonCardSubtitle className="card-package-subtitle">
-                            {p.roomNumber}
-                          </IonCardSubtitle>
-                          <IonCardSubtitle className="card-package-subtitle">
-                            <IonIcon
-                              icon={logoDropbox}
-                              style={{ "padding-right": "1vh" }}
-                            />
-                            {p.receiptNumber}
-                          </IonCardSubtitle>
-                        </IonCardHeader>
-                      </IonItem>
-                    </IonCardContent>
-                  )
-              )}
-
-            {mode === "finished" &&
-              packages?.map(
-                (p) =>
-                  p.isTaken == 1 && (
-                    <IonCardContent>
-                      <IonItem className="item-package">
-                        <IonThumbnail
-                          className="package-thumbnail"
-                          slot="start"
-                        >
-                          <img
-                            alt=""
-                            className="package-image"
-                            src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                          />
-                        </IonThumbnail>
-                        <IonCardHeader>
-                          <IonCardTitle className="card-package-title">
-                            {p.expedition}
-                          </IonCardTitle>
-                          <IonCardSubtitle className="card-package-subtitle">
-                            {p.roomNumber}
-                          </IonCardSubtitle>
-                          <IonCardSubtitle className="card-package-subtitle">
-                            <IonIcon
-                              icon={logoDropbox}
-                              style={{ "padding-right": "1vh" }}
-                            />
-                            {p.receiptNumber}
-                          </IonCardSubtitle>
-                        </IonCardHeader>
-                      </IonItem>
-                    </IonCardContent>
-                  )
-              )}
-
-            {mode === "unknown" &&
-              packages?.map(
-                (p) =>
-                  p.isTaken == 0 && (
-                    <IonCardContent>
-                      <IonItem className="item-package">
-                        <IonThumbnail
-                          className="package-thumbnail"
-                          slot="start"
-                        >
-                          <img
-                            alt=""
-                            className="package-image"
-                            src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                          />
-                        </IonThumbnail>
-                        <IonCardHeader>
-                          <IonCardTitle className="card-package-title">
-                            {p.expedition}
-                          </IonCardTitle>
-                          <IonCardSubtitle className="card-package-subtitle">
-                            {p.roomNumber}
-                          </IonCardSubtitle>
-                          <IonCardSubtitle className="card-package-subtitle">
-                            <IonIcon
-                              icon={logoDropbox}
-                              style={{ "padding-right": "1vh" }}
-                            />
-                            {p.receiptNumber}
-                          </IonCardSubtitle>
-                        </IonCardHeader>
-                      </IonItem>
-                    </IonCardContent>
-                  )
-              )}
-          </IonList>
         </IonGrid>
+        
       </IonContent>
     </IonPage>
   );

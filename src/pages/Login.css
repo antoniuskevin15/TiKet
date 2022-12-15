@@ -6,18 +6,18 @@
     font-size: 12px;
 }
 
-.segment {
-    border-style: solid;
-    border-radius: 12px;
+.login-segment{
     width: 90%;
-    height: 50px;
+    --background: white;
+    --color: black;
     margin: auto;
 }
 
-.segment ion-segment-button {
-    --background-checked: #6A00BF;
+.login-segment-button{
+    --background-checked: black;
+    --indicator-color: transparent;
     --color-checked: white;
-}
+} 
 
 .login-margin-top{
     margin-top: 4vh;

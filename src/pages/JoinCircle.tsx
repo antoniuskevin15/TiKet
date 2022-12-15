@@ -111,7 +111,7 @@ const JoinCircle: React.FC = () => {
 
     return (
         <IonPage>
-            <IonHeader hidden={!(!!hideBg)}>
+            {/* <IonHeader hidden={!(!!hideBg)}>
                 <IonToolbar>
                     <IonTitle>Join Circle</IonTitle>
                     <IonButtons slot="end">
@@ -121,9 +121,25 @@ const JoinCircle: React.FC = () => {
                         </IonButton>
                     </IonButtons>
                 </IonToolbar>
-            </IonHeader>
+            </IonHeader> */}
             <IonContent className={hideBg} >
-                <IonGrid hidden={!!hideBg}>
+                <IonGrid hidden={!!hideBg} className="ion-padding">
+                    <IonRow className="ion-margin-bottom">
+                        <IonCol>
+                            <IonLabel className="header"><b>TikeT</b></IonLabel>
+                            <IonIcon icon={personOutline} style={{paddingLeft: '10px'}}></IonIcon>
+                        </IonCol>
+                    </IonRow>
+                    <IonRow>
+                        <IonCol>
+                            <IonButtons slot="end">
+                                <IonButton color="danger" hidden={!hideBg} onClick={stopScan}>
+                                    <IonIcon icon={stopCircleOutline} slot="start" />
+                                    Stop Scan
+                                </IonButton>
+                            </IonButtons>
+                        </IonCol>
+                    </IonRow>
                     <IonRow className="ion-justify-content-center">
                         <IonCol className="ion-text-center">
                             <IonLabel className="header"><b>Join Circle</b></IonLabel>
@@ -131,32 +147,41 @@ const JoinCircle: React.FC = () => {
                             <IonLabel className="subheader"><br />Enter circle code or scan QR code!</IonLabel>
                         </IonCol>
                     </IonRow>
-                        <IonRow className="ion-justify-content-center">
-                            <IonItem>
-                                <IonItem>
-                                    <IonLabel position="floating">Circle Name</IonLabel>
-                                    <IonInput type="text" placeholder="ID Circle" value={idCircle ? idCircle : ""} ref={circleRef}></IonInput>
-                                </IonItem>
+                    <IonRow className="ion-justify-content-center ion-margin">
+                        <IonCol>
+                            <IonItem className="input-register">
+                                <IonLabel position="floating">Circle Name</IonLabel>
+                                <IonInput type="text" placeholder="ID Circle" value={idCircle ? idCircle : ""} ref={circleRef}></IonInput>
                             </IonItem>
-                        </IonRow>
-                        <IonRow className="ion-justify-content-center">
+                        </IonCol>
+                    </IonRow>
+                    <IonRow>
+                        <IonCol className="ion-text-center">
+                            <IonLabel className="or-label"><h1>or</h1></IonLabel>
+                        </IonCol>
+                    </IonRow>
+                    <IonRow className="ion-justify-content-center ion-text-center ion-margin-top">
+                        <IonCol>
                             <IonButton
-                                className="start-scan-button"
+                                className="circle-button"
                                 onClick={startScan}>
                                 <IonIcon icon={scanOutline} slot="start" />
                                 Start Scan
                             </IonButton>
-                        </IonRow>
-                        <IonRow className="ion-justify-content-center">
+                        </IonCol>
+                    </IonRow>
+                    <IonRow className="ion-justify-content-center ion-text-center ion-margin-top">
+                        <IonCol>
                             <IonButton
-                            color="primary"
-                            class="loginBtn"
-                            onClick={onSubmit}
-                            className=""
-                            >
-                            Join Circle
+                                color="primary"
+                                class="loginBtn"
+                                onClick={onSubmit}
+                                className="circle-join-button"
+                                >
+                                Join Circle
                             </IonButton>
-                        </IonRow>
+                        </IonCol> 
+                    </IonRow>
                 </IonGrid>
                 <div hidden={!hideBg} className="scan-box" />
             </IonContent>

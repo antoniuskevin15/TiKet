@@ -13,9 +13,10 @@ import {
   IonButton,
   IonCol,
   IonTextarea,
+  IonImg,
 } from "@ionic/react";
 import { personOutline } from "ionicons/icons";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { circleCreate, useStorage } from "../utils/service";
@@ -28,6 +29,8 @@ const CreateCircle: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const [fileName, setFileName] = useState('');
 
+  const fileButton = useRef<HTMLIonButtonElement>(null);
+
   // const uploadHandler = (event:any) => {
   //   const file = event.target.files[0];
   //   console.log(file);
@@ -36,6 +39,7 @@ const CreateCircle: React.FC = () => {
   const fileChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedFile(event.target!.files![0]);
     setFileName(event.target!.files![0].name);
+    fileButton.current!.innerHTML = event.target.files![0].name;
   };
 
   const onSubmit = async (data: any) => {
@@ -50,10 +54,20 @@ const CreateCircle: React.FC = () => {
     }
   };
 
+  const openFileUpload = () => {
+    document.getElementById("imageUpload")?.click();
+  }
+
   return (
     <IonPage>
       <IonContent fullscreen class="ion-padding">
         <IonGrid className="tableGrid">
+          <IonRow className="ion-margin-bottom">
+            <IonCol>
+              <IonLabel className="header"><b>TikeT</b></IonLabel>
+              <IonIcon icon={personOutline} style={{paddingLeft: '10px'}}></IonIcon>
+            </IonCol>
+          </IonRow>
           <IonRow className="ion-padding-vertical">
             <IonCol className="ion-text-center">
               <IonLabel className="header">
@@ -116,20 +130,33 @@ const CreateCircle: React.FC = () => {
                 </IonItem>
               </IonCol>
             </IonRow>
-            <IonRow>
+            {/* <IonRow>
               <IonCol>
                 <IonItem className="inputItem">
-                  {/* <IonLabel className="ion-padding-start" position="floating">
-                    Photo
-                  </IonLabel> */}
-                  {/* <input type="file" onChange={uploadHandler}/> */}
                   <input type="file" onChange={fileChangeHandler}/>
                 </IonItem>
+              </IonCol>
+            </IonRow> */}
+            <IonRow>
+              <IonCol>
+                <IonImg src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" style={{width: "30vh", margin: "auto"}} />
+                <input
+                  type="file"
+                  id="imageUpload"
+                  hidden
+                  {...register("photo", {
+                    required: "Photo is Required",
+                  })}
+                  onChange={fileChangeHandler}
+                />
+                <IonButton ref={fileButton} onClick={openFileUpload} className="ion-margin-top file-button" color="primary" expand="block">
+                  Upload Image
+                </IonButton>
               </IonCol>
             </IonRow>
             <IonRow>
               <IonCol>
-                <IonButton className="margin-vertical btnCreate" color="primary" expand="block" type="submit">
+                <IonButton color="primary" expand="block" type="submit">
                   Create
                 </IonButton>
               </IonCol>

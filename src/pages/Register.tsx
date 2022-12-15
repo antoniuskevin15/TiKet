@@ -23,6 +23,7 @@ import { useHistory } from "react-router";
 import { authRegister, useStorage } from "../utils/service";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import "./Register.css";
+import { Link } from "react-router-dom";
 
 const Register: React.FC = () => {
   const {
@@ -95,137 +96,148 @@ const Register: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen class="ion-padding">
-        <IonGrid>
-          <IonRow>
-            <IonCol>
-              <IonLabel className="header">
-                <b>Register Account</b>
-              </IonLabel>
-              <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
-              <IonLabel className="subheader">
-                <br />
-                Hello, welcome back to our application!
-              </IonLabel>
-            </IonCol>
-          </IonRow>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <IonRow>
-              <IonCol>
-                <div></div>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <IonItem className="input-register">
-                  <IonLabel position="floating">Full Name</IonLabel>
-                  <IonInput
-                    type="text"
-                    {...register("fullName", {
-                      required: "Full Name is Required",
-                    })}
-                  ></IonInput>
-                </IonItem>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <IonItem className="input-register">
-                  <IonLabel position="floating">Phone Number</IonLabel>
-                  <IonInput
-                    type="number"
-                    {...register("phoneNumber", {
-                      required: "Phone Number is Required",
-                    })}
-                  ></IonInput>
-                </IonItem>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <IonItem className="input-register">
-                  <IonLabel position="floating">Email Address</IonLabel>
-                  <IonInput
-                    type="email"
-                    {...register("email", {
-                      required: "Email Address is Required",
-                    })}
-                  ></IonInput>
-                </IonItem>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <IonItem className="input-register">
-                  <IonLabel position="floating">Password</IonLabel>
-                  <IonInput
-                    type="password"
-                    {...register("password", {
-                      required: "Password is Required",
-                    })}
-                  ></IonInput>
-                </IonItem>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <IonItem className="input-register">
-                  <IonLabel position="floating">Confirmation Password</IonLabel>
-                  <IonInput
-                    type="password"
-                    {...register("confirmPassword", {
-                      required: "Confirm Password is Required",
-                    })}
-                  ></IonInput>
-                </IonItem>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <IonImg src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" />
-                <input
-                  type="file"
-                  id="imageUpload"
-                  hidden
-                  {...register("photo", {
-                    required: "Photo is Required",
-                  })}
-                  onChange={updateText}
-                />
-                <IonButton ref={fileButton} onClick={openFileUpload} className="margin-vertical" color="primary" expand="block">
-                  Upload Image
-                </IonButton>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <div className="addmargin subheader">
-                  By creating your account, you agree to our{" "}
-                  <a className="myAnchor" target="blank" href="https://www.termsfeed.com/live/531eb5ee-4de2-4199-8d76-f1a1bfb22f01">
-                    <u>
-                      <b>Terms & Conditions</b>
-                    </u>
-                  </a>
-                </div>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <IonButton className="margin-vertical" color="primary" expand="block" type="submit">
-                  Register
-                </IonButton>
-              </IonCol>
-            </IonRow>
-          </form>
-          <IonRow>
-            <IonCol className="ion-text-center">
-              <div className="account subsubheader">
-                Already have account?{" "}
-                <a className="myAnchor">
-                  <b>
-                    <u>Login Account</u>
-                  </b>
-                </a>
-              </div>
+        <IonGrid >
+          <IonRow >
+            <IonCol size-sm="12" size-md="8" offset-md="2">
+            <IonGrid>
+              <IonRow>
+                <IonCol>
+                  <IonLabel className="header">
+                    <b>Register Account</b>
+                  </IonLabel>
+                  <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
+                  <IonLabel className="subheader">
+                    <br />
+                    Please register yourself here!
+                  </IonLabel>
+                </IonCol>
+              </IonRow>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <IonRow>
+                  <IonCol>
+                    <div></div>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol>
+                    <IonItem className="input-register">
+                      <IonLabel position="floating">Full Name</IonLabel>
+                      <IonInput
+                        type="text"
+                        {...register("fullName", {
+                          required: "Full Name is Required",
+                        })}
+                      ></IonInput>
+                    </IonItem>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol>
+                    <IonItem className="input-register">
+                      <IonLabel position="floating">Phone Number</IonLabel>
+                      <IonInput
+                        type="number"
+                        {...register("phoneNumber", {
+                          required: "Phone Number is Required",
+                        })}
+                      ></IonInput>
+                    </IonItem>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol>
+                    <IonItem className="input-register">
+                      <IonLabel position="floating">Email Address</IonLabel>
+                      <IonInput
+                        type="email"
+                        {...register("email", {
+                          required: "Email Address is Required",
+                        })}
+                      ></IonInput>
+                    </IonItem>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol>
+                    <IonItem className="input-register">
+                      <IonLabel position="floating">Password</IonLabel>
+                      <IonInput
+                        type="password"
+                        {...register("password", {
+                          required: "Password is Required",
+                        })}
+                      ></IonInput>
+                    </IonItem>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol>
+                    <IonItem className="input-register">
+                      <IonLabel position="floating">Confirmation Password</IonLabel>
+                      <IonInput
+                        type="password"
+                        {...register("confirmPassword", {
+                          required: "Confirm Password is Required",
+                        })}
+                      ></IonInput>
+                    </IonItem>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol>
+                    <IonImg src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" style={{width: "30vh", margin: "auto"}}/>
+                    <input
+                      type="file"
+                      id="imageUpload"
+                      hidden
+                      {...register("photo", {
+                        required: "Photo is Required",
+                      })}
+                      onChange={updateText}
+                    />
+                    <IonButton ref={fileButton} onClick={openFileUpload} className="ion-margin-top" color="primary" expand="block">
+                      Upload Image
+                    </IonButton>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol>
+                    <div className="addmargin subheader">
+                      By creating your account, you agree to our{" "}
+                      <a className="myAnchor" target="blank" href="https://www.termsfeed.com/live/531eb5ee-4de2-4199-8d76-f1a1bfb22f01">
+                        <u>
+                          <b>Terms & Conditions</b>
+                        </u>
+                      </a>
+                    </div>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol>
+                    <IonButton className="margin-vertical" color="primary" expand="block" type="submit">
+                      Register
+                    </IonButton>
+                  </IonCol>
+                </IonRow>
+              </form>
+              <IonRow>
+                <IonCol className="ion-text-center">
+                  <div className="account subsubheader">
+                    Already have account?{" "}
+                    <Link to="/login">
+                      <b>
+                        <u>Login Account</u>
+                      </b>
+                    </Link>
+                    {/* <a className="myAnchor" href="/login">
+                      <b>
+                        <u>Login Account</u>
+                      </b>
+                    </a> */}
+                  </div>
+                </IonCol>
+              </IonRow>
+            </IonGrid>
             </IonCol>
           </IonRow>
         </IonGrid>

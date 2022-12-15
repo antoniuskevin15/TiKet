@@ -48,72 +48,79 @@ const PackageUser: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen class="ion-padding">
-        <IonGrid>
-          <IonRow className="ion-margin-bottom">
-            <IonCol>
-              <IonLabel className="header"><b>TikeT</b></IonLabel>
-              <IonIcon icon={personOutline} style={{paddingLeft: '10px'}}></IonIcon>
+        <IonGrid >
+          <IonRow >
+            <IonCol size-sm="12" size-md="8" offset-md="2">
+              <IonGrid>
+                <IonRow className="ion-margin-bottom">
+                  <IonCol>
+                    <IonLabel className="header"><b>TikeT</b></IonLabel>
+                    <IonIcon icon={personOutline} style={{paddingLeft: '10px'}}></IonIcon>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <InputControl selectedValue={mode}
+                    onSelectValue={selectModeHandler} />
+                </IonRow>
+
+                <IonList>
+                  <IonLabel><b>Total Packages</b>: {packages.length}</IonLabel>
+                  {mode === "new" && 
+                    (packages?.map((p) => (p.isTaken==0 &&
+                      <IonCardContent>
+                        <IonItem button className='item-package' href={`/user/package/detail/${p.id}/`}>
+                          <IonThumbnail className='package-thumbnail' slot="start">
+                            <img alt="" className="package-image" src={`${process.env.REACT_APP_WEB_URL}/storage/${p.photoPath}`} />
+                          </IonThumbnail>
+                          <IonCardHeader>
+                            <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
+                            <IonCardSubtitle className='card-package-subtitle'>{p.roomNumber}</IonCardSubtitle>
+                            <IonCardSubtitle className='card-package-title'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.receiptNumber}</IonCardSubtitle>
+                          </IonCardHeader>
+                        </IonItem>
+                      </IonCardContent>
+                    )))
+                  }
+
+                  {mode === "hist" &&
+                  (packages?.map((p) => (p.isTaken==1 &&
+                    <IonCardContent>
+                        <IonItem className='item-package'>
+                          <IonThumbnail className='package-thumbnail' slot="start">
+                            <img alt="" className="package-image" src={`${process.env.REACT_APP_WEB_URL}/storage/${p.photoPath}`} />
+                          </IonThumbnail>
+                          <IonCardHeader>
+                            <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
+                            <IonCardSubtitle className='card-package-subtitle'>{p.roomNumber}</IonCardSubtitle>
+                            <IonCardSubtitle className='card-package-subtitle'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.receiptNumber}</IonCardSubtitle>
+                          </IonCardHeader>
+                        </IonItem>
+                    </IonCardContent>
+                    )))
+                  }
+
+                {mode === "unknown" &&
+                  (packages?.map((p) => (p.isTaken==1 &&
+                    <IonCardContent>
+                        <IonItem className='item-package'>
+                          <IonThumbnail className='package-thumbnail' slot="start">
+                            <img alt="" className="package-image" src={`${process.env.REACT_APP_WEB_URL}/storage/${p.photoPath}`} />
+                          </IonThumbnail>
+                          <IonCardHeader>
+                            <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
+                            <IonCardSubtitle className='card-package-subtitle'>{p.roomNumber}</IonCardSubtitle>
+                            <IonCardSubtitle className='card-package-subtitle'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.receiptNumber}</IonCardSubtitle>
+                          </IonCardHeader>
+                        </IonItem>
+                    </IonCardContent>
+                    )))
+                  }
+                </IonList>
+              </IonGrid>
             </IonCol>
           </IonRow>
-          <IonRow>
-            <InputControl selectedValue={mode}
-              onSelectValue={selectModeHandler} />
-          </IonRow>
-
-          <IonList>
-            <IonLabel><b>Total Packages</b>: {packages.length}</IonLabel>
-            {mode === "new" && 
-              (packages?.map((p) => (p.isTaken==0 &&
-                <IonCardContent>
-                  <IonItem button className='item-package' href={`/user/package/detail/${p.id}/`}>
-                    <IonThumbnail className='package-thumbnail' slot="start">
-                      <img alt="" className="package-image" src={`${process.env.REACT_APP_WEB_URL}/storage/${p.photoPath}`} />
-                    </IonThumbnail>
-                    <IonCardHeader>
-                      <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
-                      <IonCardSubtitle className='card-package-subtitle'>{p.roomNumber}</IonCardSubtitle>
-                      <IonCardSubtitle className='card-package-title'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.receiptNumber}</IonCardSubtitle>
-                    </IonCardHeader>
-                  </IonItem>
-                </IonCardContent>
-              )))
-            }
-
-            {mode === "hist" &&
-            (packages?.map((p) => (p.isTaken==1 &&
-              <IonCardContent>
-                  <IonItem className='item-package'>
-                    <IonThumbnail className='package-thumbnail' slot="start">
-                      <img alt="" className="package-image" src={`${process.env.REACT_APP_WEB_URL}/storage/${p.photoPath}`} />
-                    </IonThumbnail>
-                    <IonCardHeader>
-                      <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
-                      <IonCardSubtitle className='card-package-subtitle'>{p.roomNumber}</IonCardSubtitle>
-                      <IonCardSubtitle className='card-package-subtitle'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.receiptNumber}</IonCardSubtitle>
-                    </IonCardHeader>
-                  </IonItem>
-              </IonCardContent>
-              )))
-            }
-
-          {mode === "unknown" &&
-            (packages?.map((p) => (p.isTaken==1 &&
-              <IonCardContent>
-                  <IonItem className='item-package'>
-                    <IonThumbnail className='package-thumbnail' slot="start">
-                      <img alt="" className="package-image" src={`${process.env.REACT_APP_WEB_URL}/storage/${p.photoPath}`} />
-                    </IonThumbnail>
-                    <IonCardHeader>
-                      <IonCardTitle className='card-package-title'>{p.expedition}</IonCardTitle>
-                      <IonCardSubtitle className='card-package-subtitle'>{p.roomNumber}</IonCardSubtitle>
-                      <IonCardSubtitle className='card-package-subtitle'><IonIcon icon={logoDropbox} style={{"padding-right": "1vh"}}/>{p.receiptNumber}</IonCardSubtitle>
-                    </IonCardHeader>
-                  </IonItem>
-              </IonCardContent>
-              )))
-            }
-          </IonList>
         </IonGrid>
+        
       </IonContent>
     </IonPage>
   );

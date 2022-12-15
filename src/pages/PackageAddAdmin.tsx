@@ -49,130 +49,136 @@ const AddPackageAdmin: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen class="ion-padding">
-      <IonHeader className="myMdHeader">
-        <IonToolbar className="myToolbar">
-          <IonButtons slot="start">
-            <IonBackButton defaultHref='/admin/package'/>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
-      <IonGrid>
-          <IonRow>
-            <IonCol>
-              <IonLabel className="header">
-                <b>Tiket</b>
-              </IonLabel>
-              <IonIcon
-                icon={personOutline}
-                style={{ paddingLeft: "10px" }}
-              ></IonIcon>
-              <IonLabel className="subheader">
-                <br />
-                {id === undefined ? "Add New Package" : "Update Package"}
-              </IonLabel>
+        <IonHeader className="myMdHeader">
+          <IonToolbar className="myToolbar">
+            <IonButtons slot="start">
+              <IonBackButton defaultHref='/admin/package'/>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonGrid >
+          <IonRow >
+            <IonCol size-sm="12" size-md="8" offset-md="2">
+              <IonGrid>
+                <IonRow>
+                  <IonCol>
+                    <IonLabel className="header">
+                      <b>Tiket</b>
+                    </IonLabel>
+                    <IonIcon
+                      icon={personOutline}
+                      style={{ paddingLeft: "10px" }}
+                    ></IonIcon>
+                    <IonLabel className="subheader">
+                      <br />
+                      {id === undefined ? "Add New Package" : "Update Package"}
+                    </IonLabel>
+                  </IonCol>
+                </IonRow>
+                <form /*onSubmit={handleSubmit(onSubmit)}*/>
+                  <IonRow>
+                    <IonCol>
+                      <IonItem className="input-register">
+                        <IonLabel position="floating">Sender</IonLabel>
+                        <IonInput
+                          type="text"
+                          {...register("sender", {
+                            required: "Sender is Required",
+                          })}
+                        ></IonInput>
+                      </IonItem>
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <IonItem className="input-register">
+                        <IonLabel position="floating">Expedition</IonLabel>
+                        <IonInput
+                          type="text"
+                          {...register("expedition", {
+                            required: "Expedition is Required",
+                          })}
+                        ></IonInput>
+                      </IonItem>
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <IonItem className="input-register">
+                        <IonLabel position="floating">Resi</IonLabel>
+                        <IonInput
+                          type="number"
+                          {...register("resi", {
+                            required: "Resi is Required",
+                          })}
+                        ></IonInput>
+                      </IonItem>
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <IonItem className="input-register">
+                        <IonLabel position="floating">No Kamar</IonLabel>
+                        <IonInput
+                          type="text"
+                          {...register("noRoom", {
+                            required: "Room Number is Required",
+                          })}
+                        ></IonInput>
+                      </IonItem>
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      {/* <IonItem className="input-register">
+                        <IonLabel position="floating">Date</IonLabel>
+                        <IonInput
+                          type="text"
+                          // {...register("fullName", {
+                          //   required: "Full Name is Required",
+                          // })}
+                        ></IonInput>
+                      </IonItem> */}
+                      <IonDatetimeButton datetime="datetime" ></IonDatetimeButton>
+            
+                      <IonModal keepContentsMounted={true}>
+                        <IonDatetime id="datetime" className="dateTime"></IonDatetime>
+                      </IonModal>
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol className='container-image'>
+                      <div className="image-preview ion-text-center">
+                          {!takenPhoto && <h3>No photo chosen.</h3>}
+                          {takenPhoto && <img src={takenPhoto.preview} alt="Preview" />}
+                      </div>
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol className="containerTakePhoto">
+                      <IonButton fill="clear" onClick={takePhotoHandler}>
+                          <IonIcon slot="start" icon={camera}/>
+                          <IonLabel>Take Photo</IonLabel>
+                      </IonButton>
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <IonButton
+                        className="margin-vertical"
+                        color="primary"
+                        expand="block"
+                        type="submit"
+                      >
+                        <IonIcon icon={giftOutline} slot="start" />
+                        {id === undefined ? "Add Package" : "Update Package"}
+                      </IonButton>
+                    </IonCol>
+                  </IonRow>
+                </form>
+              </IonGrid>
             </IonCol>
           </IonRow>
-          <form /*onSubmit={handleSubmit(onSubmit)}*/>
-            <IonRow>
-              <IonCol>
-                <IonItem className="input-register">
-                  <IonLabel position="floating">Sender</IonLabel>
-                  <IonInput
-                    type="text"
-                    {...register("sender", {
-                      required: "Sender is Required",
-                    })}
-                  ></IonInput>
-                </IonItem>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <IonItem className="input-register">
-                  <IonLabel position="floating">Expedition</IonLabel>
-                  <IonInput
-                    type="text"
-                    {...register("expedition", {
-                      required: "Expedition is Required",
-                    })}
-                  ></IonInput>
-                </IonItem>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <IonItem className="input-register">
-                  <IonLabel position="floating">Resi</IonLabel>
-                  <IonInput
-                    type="number"
-                    {...register("resi", {
-                      required: "Resi is Required",
-                    })}
-                  ></IonInput>
-                </IonItem>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <IonItem className="input-register">
-                  <IonLabel position="floating">No Kamar</IonLabel>
-                  <IonInput
-                    type="text"
-                    {...register("noRoom", {
-                      required: "Room Number is Required",
-                    })}
-                  ></IonInput>
-                </IonItem>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                {/* <IonItem className="input-register">
-                  <IonLabel position="floating">Date</IonLabel>
-                  <IonInput
-                    type="text"
-                    // {...register("fullName", {
-                    //   required: "Full Name is Required",
-                    // })}
-                  ></IonInput>
-                </IonItem> */}
-                <IonDatetimeButton datetime="datetime" ></IonDatetimeButton>
-      
-                <IonModal keepContentsMounted={true}>
-                  <IonDatetime id="datetime" className="dateTime"></IonDatetime>
-                </IonModal>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol className='container-image'>
-                <div className="image-preview ion-text-center">
-                    {!takenPhoto && <h3>No photo chosen.</h3>}
-                    {takenPhoto && <img src={takenPhoto.preview} alt="Preview" />}
-                </div>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol className="containerTakePhoto">
-                <IonButton fill="clear" onClick={takePhotoHandler}>
-                    <IonIcon slot="start" icon={camera}/>
-                    <IonLabel>Take Photo</IonLabel>
-                </IonButton>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <IonButton
-                  className="margin-vertical"
-                  color="primary"
-                  expand="block"
-                  type="submit"
-                >
-                  <IonIcon icon={giftOutline} slot="start" />
-                  {id === undefined ? "Add Package" : "Update Package"}
-                </IonButton>
-              </IonCol>
-            </IonRow>
-          </form>
         </IonGrid>
       </IonContent>
     </IonPage>

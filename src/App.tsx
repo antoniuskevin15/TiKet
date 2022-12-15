@@ -39,7 +39,6 @@ const App: React.FC = () => (
         <Route exact path="/home" component={Home} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/profile" component={Profile} />
         <Route exact path="/select" component={SelectCircle} />
         <Route exact path="/circle/create" component={CreateCircle} />
         <Route exact path="/circle/join" component={JoinCircle} />
