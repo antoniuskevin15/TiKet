@@ -29,7 +29,7 @@ import {
   IonSearchbar,
 } from "@ionic/react";
 import { url } from "inspector";
-import { arrowBackOutline } from "ionicons/icons";
+import { arrowBackOutline, personOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import { getPackageById, useStorage } from "../utils/service";
@@ -49,7 +49,6 @@ interface Package {
 }
 
 const PackageDetailUser: React.FC = () => {
-  // const [id, setId] = useState<string>();
   const modalOpen = true;
   const [packages, setPackages] = useState<Package[]>([]);
   const modal = useRef<HTMLIonModalElement>(null);
@@ -92,8 +91,11 @@ const PackageDetailUser: React.FC = () => {
             </IonToolbar>
           </IonHeader>
           <IonGrid>
-            <IonRow>
-              <IonCol></IonCol>
+            <IonRow className="ion-margin-bottom">
+              <IonCol>
+                <IonLabel className="header"><b>TikeT</b></IonLabel>
+                <IonIcon icon={personOutline} style={{paddingLeft: '10px'}}></IonIcon>
+              </IonCol>
             </IonRow>
             <IonRow>
               <IonCard className="package-card-bottom ion-text-center">

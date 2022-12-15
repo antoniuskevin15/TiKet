@@ -1,4 +1,5 @@
-import { IonBackButton, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonImg, IonItem, IonLabel, IonList, IonPage, IonRow, IonSegment, IonSegmentButton, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonList, IonPage, IonRow, IonSegment, IonSegmentButton, IonTitle, IonToolbar } from '@ionic/react';
+import { personOutline } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 import ExploreContainer from '../components/ExploreContainer';
 import { getCircle, useStorage } from '../utils/service';
@@ -30,98 +31,106 @@ const Home: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Circle</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        {DATA_APART.map((apart:any) => (
-          <IonRow key={apart.id} className="ion-justify-content-center">
-            <IonImg src={`${process.env.REACT_APP_WEB_URL}/storage/${apart.photoURL}`} class="imgApart" />
+      <IonContent fullscreen class="ion-padding">
+        <IonGrid>
+          <IonRow>
+            <IonCol>
+              <IonLabel className="header"><b>TikeT</b></IonLabel>
+              <IonIcon icon={personOutline} style={{paddingLeft: '10px'}}></IonIcon>
+            </IonCol>
           </IonRow>
-        ))}
-        <IonRow className='ion-padding-horizontal ion-padding-top'>
-          <IonSegment class="segmentHome" value={descActive ? "Description" : "Members"}>
-            <IonSegmentButton
-              class="segmentContent"
-              value="Description"
-              onClick={() => {
-                setmembersActive(false);
-                setdescActive(true);
-              }}
-            >
-              <IonLabel>Description</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton
-              value="Members"
-              onClick={() => {
-                setdescActive(false);
-                setmembersActive(true);
-              }}
-            >
-              <IonLabel>Members</IonLabel>
-            </IonSegmentButton>
-          </IonSegment>
-        </IonRow>
-        <IonRow>
-          {descActive && (
-            <IonGrid className='ion-padding'>
-              {DATA_APART.map((apart:any) => (
-                <>
-                  <IonRow>
-                    <IonLabel>
-                      <h1>{apart.name}</h1>
-                    </IonLabel>
-                  </IonRow>
-                  <IonRow>
-                    <IonLabel>
-                      <h2>{apart.address}</h2>
-                    </IonLabel>
-                  </IonRow>
-                  <IonRow>
-                  </IonRow>
-                  <IonRow>
-                    <IonLabel class="detail">
-                      <h2>{apart.description}</h2>
-                    </IonLabel>
-                  </IonRow>
-                </>
-              ))}
-            </IonGrid>
-          )}
-        </IonRow>
-        <IonRow>
-          {!descActive && (
-            <IonGrid className='ion-padding'>
-              {DATA_APART.map((apart:any) => (
-                <>
-                  <IonRow>
-                    <IonLabel>
-                      <h3><b>Total Member</b>: {apart.users.length}</h3>
-                    </IonLabel>
-                  </IonRow>
-                  {apart.users.map((member:any) => (
-                    <IonCard class="roundedCard">
-                      <IonGrid>
-                        <IonRow className="ion-justify-content-center">
-                          <IonCol class='roundedphoto'>
-                            {/* <IonImg src={member.photo}></IonImg> */}
-                          </IonCol>
-                          <IonCol className='ion-align-items-center'>
-                            <IonLabel class="membercard-content">
-                              <h5>{member.name}</h5>
-                            </IonLabel>
-                          </IonCol>
-                        </IonRow>
-                      </IonGrid>
-                    </IonCard>
-                  ))}
-                </>
-              ))}
-            </IonGrid>
-          )}
-        </IonRow>
+          <IonRow className="ion-padding">
+              <IonLabel class="headerfont">
+                <h3>Welcome, User</h3>
+              </IonLabel>
+            </IonRow>
+          {DATA_APART.map((apart:any) => (
+            <IonRow key={apart.id} className="ion-justify-content-center">
+              <IonImg src={`${process.env.REACT_APP_WEB_URL}/storage/${apart.photoURL}`} class="imgApart" />
+            </IonRow>
+          ))}
+          <IonRow className='ion-padding-horizontal ion-padding-top'>
+            <IonSegment class="segmentHome" value={descActive ? "Description" : "Members"}>
+              <IonSegmentButton
+                class="segmentContent"
+                value="Description"
+                onClick={() => {
+                  setmembersActive(false);
+                  setdescActive(true);
+                }}
+              >
+                <IonLabel>Description</IonLabel>
+              </IonSegmentButton>
+              <IonSegmentButton
+                value="Members"
+                onClick={() => {
+                  setdescActive(false);
+                  setmembersActive(true);
+                }}
+              >
+                <IonLabel>Members</IonLabel>
+              </IonSegmentButton>
+            </IonSegment>
+          </IonRow>
+          <IonRow>
+            {descActive && (
+              <IonGrid className='ion-padding'>
+                {DATA_APART.map((apart:any) => (
+                  <>
+                    <IonRow>
+                      <IonLabel>
+                        <h1>{apart.name}</h1>
+                      </IonLabel>
+                    </IonRow>
+                    <IonRow>
+                      <IonLabel>
+                        <h2>{apart.address}</h2>
+                      </IonLabel>
+                    </IonRow>
+                    <IonRow>
+                    </IonRow>
+                    <IonRow>
+                      <IonLabel class="detail">
+                        <h2>{apart.description}</h2>
+                      </IonLabel>
+                    </IonRow>
+                  </>
+                ))}
+              </IonGrid>
+            )}
+          </IonRow>
+          <IonRow>
+            {!descActive && (
+              <IonGrid className='ion-padding'>
+                {DATA_APART.map((apart:any) => (
+                  <>
+                    <IonRow>
+                      <IonLabel>
+                        <h3><b>Total Member</b>: {apart.users.length}</h3>
+                      </IonLabel>
+                    </IonRow>
+                    {apart.users.map((member:any) => (
+                      <IonCard class="roundedCard">
+                        <IonGrid>
+                          <IonRow className="ion-justify-content-center">
+                            <IonCol class='roundedphoto'>
+                              {/* <IonImg src={member.photo}></IonImg> */}
+                            </IonCol>
+                            <IonCol className='ion-align-items-center'>
+                              <IonLabel class="membercard-content">
+                                <h5>{member.name}</h5>
+                              </IonLabel>
+                            </IonCol>
+                          </IonRow>
+                        </IonGrid>
+                      </IonCard>
+                    ))}
+                  </>
+                ))}
+              </IonGrid>
+            )}
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

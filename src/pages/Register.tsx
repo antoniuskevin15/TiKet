@@ -13,6 +13,8 @@ import {
   IonButton,
   IonCol,
   IonImg,
+  IonBackButton,
+  IonButtons,
 } from "@ionic/react";
 import { personOutline } from "ionicons/icons";
 import { useEffect, useRef } from "react";
@@ -85,26 +87,14 @@ const Register: React.FC = () => {
 
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/login" />
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
       <IonContent fullscreen class="ion-padding">
-        <IonGrid>
-          <IonRow>
-            <IonCol>
-              <IonImg src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" />
-              <input
-                type="file"
-                id="imageUpload"
-                hidden
-                {...register("photo", {
-                  required: "Photo is Required",
-                })}
-                onChange={updateText}
-              />
-              <IonButton ref={fileButton} onClick={openFileUpload} className="margin-vertical" color="primary" expand="block">
-                Upload Image
-              </IonButton>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
         <IonGrid>
           <IonRow>
             <IonCol>
@@ -191,9 +181,26 @@ const Register: React.FC = () => {
             </IonRow>
             <IonRow>
               <IonCol>
+                <IonImg src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" />
+                <input
+                  type="file"
+                  id="imageUpload"
+                  hidden
+                  {...register("photo", {
+                    required: "Photo is Required",
+                  })}
+                  onChange={updateText}
+                />
+                <IonButton ref={fileButton} onClick={openFileUpload} className="margin-vertical" color="primary" expand="block">
+                  Upload Image
+                </IonButton>
+              </IonCol>
+            </IonRow>
+            <IonRow>
+              <IonCol>
                 <div className="addmargin subheader">
                   By creating your account, you agree to our{" "}
-                  <a className="myAnchor">
+                  <a className="myAnchor" target="blank" href="https://www.termsfeed.com/live/531eb5ee-4de2-4199-8d76-f1a1bfb22f01">
                     <u>
                       <b>Terms & Conditions</b>
                     </u>

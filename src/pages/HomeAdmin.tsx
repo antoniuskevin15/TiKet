@@ -24,7 +24,7 @@ import {
 import { useEffect, useState } from "react";
 import ExploreContainer from "../components/ExploreContainer";
 import { getCircle, getPackageByCircleId, useStorage } from "../utils/service";
-import { cubeOutline, personCircleOutline } from "ionicons/icons";
+import { cubeOutline, personCircleOutline, personOutline } from "ionicons/icons";
 import "./HomeAdmin.css";
 
 interface Package {
@@ -74,14 +74,15 @@ const HomeAdmin: React.FC = () => {
   };
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Admin</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent class="homeadmin">
+      <IonContent class="homeadmin" className="ion-padding">
         {DATA_APART.map((apart: any) => (
           <IonGrid>
+            <IonRow>
+              <IonCol>
+                <IonLabel className="header"><b>TikeT</b></IonLabel>
+                <IonIcon icon={personOutline} style={{paddingLeft: '10px'}}></IonIcon>
+              </IonCol>
+            </IonRow>
             <IonRow className="ion-padding">
               <IonLabel class="headerfont">
                 <h3>Welcome, Admin</h3>

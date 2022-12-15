@@ -7,6 +7,7 @@ import {
   IonHeader,
   IonIcon,
   IonInput,
+  IonItem,
   IonLabel,
   IonPage,
   IonRow,
@@ -16,7 +17,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import "./Login.css";
-import { logoGoogle } from "ionicons/icons";
+import { logoGoogle, personOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { authLogin, useStorage } from "../utils/service";
@@ -70,7 +71,7 @@ const Login: React.FC = () => {
       <IonPage>
         <IonContent className="ion-padding">
           <IonGrid>
-            <IonRow>
+            {/* <IonRow>
               <IonLabel className="ion-margin-vertical">
                 <h2>Login Account</h2>
               </IonLabel>
@@ -79,6 +80,18 @@ const Login: React.FC = () => {
               <IonLabel className="ion-margin-vertical">
                 <p>Hello, welcome back to our application!</p>
               </IonLabel>
+            </IonRow> */}
+            <IonRow className="ion-margin">
+              <IonCol>
+                <IonLabel className="header">
+                  <b>Login Account</b>
+                </IonLabel>
+                <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
+                <IonLabel className="subheader">
+                  <br />
+                  Hello, welcome back to our application!
+                </IonLabel>
+              </IonCol>
             </IonRow>
             <IonRow>
               <IonSegment class="segment" value={emailActive ? "Email" : "Phone Number"}>
@@ -105,36 +118,40 @@ const Login: React.FC = () => {
             </IonRow>
           </IonGrid>
           {emailActive && (
-            <IonGrid>
+            <IonGrid className="ion-margin">
               <IonRow>
-                <IonInput
-                  class="inputForm"
-                  className="ion-margin-vertical ion-padding"
-                  placeholder="Email address"
-                  type="email"
-                  ref={emailRef}
-                ></IonInput>
+                <IonCol>
+                  <IonItem className="input-register">
+                    <IonLabel position="floating">Email Address</IonLabel>
+                    <IonInput
+                      type="email"
+                      ref={emailRef}
+                    ></IonInput>
+                  </IonItem>
+                </IonCol>
               </IonRow>
               <IonRow>
-                <IonInput
-                  class="inputForm"
-                  className="ion-margin-vertical ion-padding"
-                  placeholder="Password"
-                  type="password"
-                  ref={passwordRef}
-                ></IonInput>
+                <IonCol>
+                  <IonItem className="input-register">
+                    <IonLabel position="floating">Password</IonLabel>
+                    <IonInput
+                      type="password"
+                      ref={passwordRef}
+                    ></IonInput>
+                  </IonItem>
+                </IonCol>
               </IonRow>
-              <IonRow className="ion-justify-content-center">
+              {/* <IonRow className="ion-justify-content-center">
                 <IonLabel class="forgotPW" className="ion-text-right ion-margin">
                   <a>Forgot Password?</a>
                 </IonLabel>
-              </IonRow>
+              </IonRow> */}
               <IonRow>
                 <IonButton
                   color="primary"
                   class="loginBtn"
                   onClick={handleLogin}
-                  className="ion-text-center ion-justify-content-center"
+                  className="ion-text-center ion-justify-content-center login-margin-top"
                 >
                   Login
                 </IonButton>
@@ -152,7 +169,7 @@ const Login: React.FC = () => {
               </IonRow> */}
               <IonRow className="ion-padding ion-text-center ion-justify-content-center ion-margin">
                 <IonLabel class="forgotPW">
-                  Not register yet?{" "}
+                  Not registered yet?{" "}
                   <Link to="/register">
                     <b>Create Account</b>
                   </Link>
@@ -161,22 +178,26 @@ const Login: React.FC = () => {
             </IonGrid>
           )}
           {!emailActive && (
-            <IonGrid>
+            <IonGrid className="ion-margin">
               <IonRow>
-                <IonInput
-                  class="inputForm"
-                  className="ion-margin-vertical ion-padding"
-                  placeholder="Phone Number"
-                ></IonInput>
+                <IonCol>
+                  <IonItem className="input-register">
+                    <IonLabel position="floating">Phone Number</IonLabel>
+                    <IonInput
+                      type="number"
+                      ref={passwordRef}
+                    ></IonInput>
+                  </IonItem>
+                </IonCol>
               </IonRow>
               <IonRow>
-                <IonButton color="primary" class="loginBtn" className="ion-text-center ion-justify-content-center">
+                <IonButton color="primary" class="loginBtn" className="ion-text-center ion-justify-content-center login-margin-top">
                   <IonLabel>Send OTP</IonLabel>
                 </IonButton>
               </IonRow>
               <IonRow className="ion-padding ion-text-center ion-justify-content-center ion-margin">
                 <IonLabel class="forgotPW">
-                  Not register yet? <b>Create Account</b>
+                  Not registered yet? <b>Create Account</b>
                 </IonLabel>
               </IonRow>
             </IonGrid>

@@ -2,13 +2,6 @@
     width: 100%;
 }
 
-.inputForm {
-    width: 100%;
-    border-radius: 20px;
-    background-color: gainsboro;
-    color: black;
-}
-
 .forgotPW {
     font-size: 12px;
 }
@@ -16,12 +9,16 @@
 .segment {
     border-style: solid;
     border-radius: 12px;
-    width: 100%;
+    width: 90%;
     height: 50px;
-    margin-bottom: 30px;
+    margin: auto;
 }
 
 .segment ion-segment-button {
     --background-checked: #6A00BF;
     --color-checked: white;
+}
+
+.login-margin-top{
+    margin-top: 4vh;
 }
