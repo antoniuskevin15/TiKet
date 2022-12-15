@@ -44,6 +44,7 @@ const App: React.FC = () => (
         <Route exact path="/select" component={SelectCircle} />
         <Route exact path="/circle/create" component={CreateCircle} />
         <Route exact path="/circle/join" component={JoinCircle} />
+        {/* <Route exact path="/join" component={JoinCircle} /> */}
         <Route path="/user">
           <TabsUser />
         </Route>
