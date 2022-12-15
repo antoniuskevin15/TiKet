@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@capacitor-community/barcode-scanner": "^3.0.1",
+    "@capacitor-community/react-hooks": "^0.0.11",
     "@capacitor/android": "4.5.0",
     "@capacitor/app": "4.1.1",
     "@capacitor/camera": "^4.1.4",

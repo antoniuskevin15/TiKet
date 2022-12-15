@@ -1,26 +1,56 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonIcon, IonGrid, IonRow, IonLabel, IonItem, IonInput, IonButton, IonCol, IonSegment, IonSegmentButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonList, IonThumbnail, IonFab, IonFabButton, IonFabList, IonDatetime, IonDatetimeButton, IonModal, IonBackButton, IonButtons } from '@ionic/react';
 import { addOutline, camera, colorPalette, giftOutline, globe, logoDropbox, personOutline } from 'ionicons/icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
-import InputAdmin from '../components/InputControlAdmin';
+import { base64FromPath } from "@capacitor-community/react-hooks/filesystem";
 import './PackageAddAdmin.css';
 
 import {Camera, CameraResultType, CameraSource} from '@capacitor/camera';
 import { useForm } from 'react-hook-form';
+import { addPackage, useStorage } from '../utils/service';
 
 interface Package{
-  del: string,
-  loc: string,
-  id: string,
-  pic: string,
-  type: string,
+  created_at: string;
+  expedition: string;
+  id: number;
+  isTaken: number;
+  photoPath: string;
+  receiptNumber: string;
+  roomNumber: string;
+  sender: string;
+  updated_id: string;
+  user_id: number;
 }
 
 const AddPackageAdmin: React.FC = () => {
   const [mode, setMode] = useState<"ongoing" | "finished" | "unknown">("ongoing");
-  const [packages, setPackages] = useState<Array<Package> | null>(null);
+  const [packages, setPackages] = useState<Package[] | null>(null);
+  const dateRef = useRef<HTMLIonDatetimeElement>(null);
   const id = useParams<{ id: string | undefined }>().id;
   const { register, handleSubmit } = useForm();
+  const { auth } = useStorage();
+
+  const onSubmit = async (data: any) => {
+    
+    const base64Data = await base64FromPath(takenPhoto!.preview!);
+    console.log(JSON.stringify(data));
+    console.log("asd");
+    console.log(takenPhoto!.path);
+    try {
+      const res = await addPackage(
+        auth.data!.token.value,
+        data.sender,
+        data.expedition,
+        data.resi,
+        data.nomorKamar,
+        base64Data
+      );
+      window.location.href = "/select";
+      // history.push("/select");
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
   
   const [takenPhoto, setTakenPhoto] = useState<{
     path: string | undefined; //store original url
@@ -72,7 +102,7 @@ const AddPackageAdmin: React.FC = () => {
               </IonLabel>
             </IonCol>
           </IonRow>
-          <form /*onSubmit={handleSubmit(onSubmit)}*/>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <IonRow>
               <IonCol>
                 <IonItem className="input-register">
@@ -104,7 +134,7 @@ const AddPackageAdmin: React.FC = () => {
                 <IonItem className="input-register">
                   <IonLabel position="floating">Resi</IonLabel>
                   <IonInput
-                    type="number"
+                    type="text"
                     {...register("resi", {
                       required: "Resi is Required",
                     })}
@@ -138,8 +168,8 @@ const AddPackageAdmin: React.FC = () => {
                 </IonItem> */}
                 <IonDatetimeButton datetime="datetime" ></IonDatetimeButton>
       
-                <IonModal keepContentsMounted={true}>
-                  <IonDatetime id="datetime" className="dateTime"></IonDatetime>
+                <IonModal keepContentsMounted={true}> 
+                  <IonDatetime id="datetime" className="dateTime" ref={dateRef}></IonDatetime>
                 </IonModal>
               </IonCol>
             </IonRow>

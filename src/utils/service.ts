@@ -154,3 +154,24 @@ export const getCircle = async (token: string, id: number) => {
   const res = await axios.get(`${BASE_URL}/circle/${id}`, config);
   return res.data;
 };
+
+export const addPackage = async(token: string, sender: string, expedition: string, receiptNumber: string, roomNumber: string, photo: string)=>{
+  console.log("Photo: " + photo);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  };
+  const res = await axios.post(
+    `${BASE_URL}/package/create/`,
+    { sender: sender, expedition: expedition, receiptNumber: receiptNumber, roomNumber: roomNumber, photoPath: await convertBase64ToBlob(photo) },
+    config
+  );
+  return res.data;
+};
+
+export const convertBase64ToBlob = async (base64: string) => {
+  const res = await fetch(base64);
+  return res.blob();
+};
