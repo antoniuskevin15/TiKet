@@ -96,7 +96,7 @@ const PackageAdmin: React.FC = () => {
           </IonFabButton>
         </IonFab>
         <IonGrid>
-          <IonRow>
+          <IonRow className="ion-margin-bottom">
             <IonCol>
               <IonLabel className="header">
                 <b>TikeT</b>

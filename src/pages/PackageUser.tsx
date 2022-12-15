@@ -49,7 +49,7 @@ const PackageUser: React.FC = () => {
     <IonPage>
       <IonContent fullscreen class="ion-padding">
         <IonGrid>
-          <IonRow>
+          <IonRow className="ion-margin-bottom">
             <IonCol>
               <IonLabel className="header"><b>TikeT</b></IonLabel>
               <IonIcon icon={personOutline} style={{paddingLeft: '10px'}}></IonIcon>

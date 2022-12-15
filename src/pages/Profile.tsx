@@ -3,6 +3,7 @@ import {
   IonButtons,
   IonCard,
   IonCardHeader,
+  IonCol,
   IonContent,
   IonGrid,
   IonHeader,
@@ -15,7 +16,7 @@ import {
   IonToolbar,
   useIonModal,
 } from "@ionic/react";
-import { createOutline, logOutOutline, qrCodeOutline } from "ionicons/icons";
+import { createOutline, logOutOutline, personOutline, qrCodeOutline } from "ionicons/icons";
 import { useRef, useState } from "react";
 import { CircleQRCode } from "../components/CircleQRCode";
 import "./Profile.css";
@@ -79,94 +80,93 @@ const Profile: React.FC = () => {
 
   return (
     <IonPage ref={pageRef}>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>
-            <h2>
-              <b>Profile</b>
-            </h2>
-          </IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonCard className="ion-padding">
-          <IonGrid className="ion-text-center">
-            <IonRow className="ion-margin-horizontal ion-justify-content-end"></IonRow>
-            <IonRow className="ion-justify-content-center">
-              <div className="ion-margin profile_image" style={divStyle} />
-              <IonButton className="btnEdit" fill="solid">
-                <IonIcon
-                  className="editIcon"
-                  src={createOutline}
-                  name="create"
-                  ios="ios-create"
-                  md="md-create"
-                ></IonIcon>
-              </IonButton>
-            </IonRow>
-            <IonRow className="ion-justify-content-center">
-              <IonLabel color="primary">
-                <h1>
-                  <b>{auth.data?.user.name}</b>
-                </h1>
-              </IonLabel>
-            </IonRow>
-            <IonRow className="ion-justify-content-center">
-              <IonLabel className="ion-margin-top">
-                <h2>{auth.data?.user.telephone}</h2>
-              </IonLabel>
-            </IonRow>
-            <IonRow className="ion-justify-content-center">
-              <IonLabel className="ion-margin-top">
-                <h2>{auth.data?.user.email}</h2>
-              </IonLabel>
-            </IonRow>
-            <IonRow className="ion-justify-content-center ion-padding-top ion-margin-bottom">
-              <IonButton
-                expand="block"
-                className="btnLogout ion-padding-horizontal"
-                color="danger"
-                size="default"
-                fill="solid"
-                onClick={handleLogout}
-              >
-                <IonIcon
-                  className="logoutIcon ion-margin-start"
-                  src={logOutOutline}
-                  name="create"
-                  ios="ios-create"
-                  md="md-create"
-                />
-                <IonLabel className="logoutIcon ion-margin-horizontal">
-                  Log Out
+      <IonContent fullscreen class="ion-padding">
+        <IonGrid>
+          <IonRow>
+            <IonCol>
+              <IonLabel className="header"><b>TikeT</b></IonLabel>
+              <IonIcon icon={personOutline} style={{paddingLeft: '10px'}}></IonIcon>
+            </IonCol>
+          </IonRow>
+          <IonCard className="ion-padding">
+            <IonGrid className="ion-text-center">
+              <IonRow className="ion-margin-horizontal ion-justify-content-end"></IonRow>
+              <IonRow className="ion-justify-content-center">
+                <div className="ion-margin profile_image" style={divStyle} />
+                <IonButton className="btnEdit" fill="solid">
+                  <IonIcon
+                    className="editIcon"
+                    src={createOutline}
+                    name="create"
+                    ios="ios-create"
+                    md="md-create"
+                  ></IonIcon>
+                </IonButton>
+              </IonRow>
+              <IonRow className="ion-justify-content-center">
+                <IonLabel color="primary">
+                  <h1>
+                    <b>{auth.data?.user.name}</b>
+                  </h1>
                 </IonLabel>
-              </IonButton>
-            </IonRow>
-            {auth.data?.user.admin == true && (
-              <IonRow className="ion-justify-content-center ion-margin-bottom">
+              </IonRow>
+              <IonRow className="ion-justify-content-center">
+                <IonLabel className="ion-margin-top">
+                  <h2>{auth.data?.user.telephone}</h2>
+                </IonLabel>
+              </IonRow>
+              <IonRow className="ion-justify-content-center">
+                <IonLabel className="ion-margin-top">
+                  <h2>{auth.data?.user.email}</h2>
+                </IonLabel>
+              </IonRow>
+              <IonRow className="ion-justify-content-center ion-padding-top ion-margin-bottom">
                 <IonButton
                   expand="block"
                   className="btnLogout ion-padding-horizontal"
-                  color="primary"
+                  color="danger"
                   size="default"
                   fill="solid"
-                  onClick={() => showQR()}
+                  onClick={handleLogout}
                 >
                   <IonIcon
                     className="logoutIcon ion-margin-start"
-                    src={qrCodeOutline}
+                    src={logOutOutline}
                     name="create"
                     ios="ios-create"
                     md="md-create"
                   />
                   <IonLabel className="logoutIcon ion-margin-horizontal">
-                    Show QR
+                    Log Out
                   </IonLabel>
                 </IonButton>
               </IonRow>
-            )}
-          </IonGrid>
-        </IonCard>
+              {auth.data?.user.admin == true && (
+                <IonRow className="ion-justify-content-center ion-margin-bottom">
+                  <IonButton
+                    expand="block"
+                    className="btnLogout ion-padding-horizontal"
+                    color="primary"
+                    size="default"
+                    fill="solid"
+                    onClick={() => showQR()}
+                  >
+                    <IonIcon
+                      className="logoutIcon ion-margin-start"
+                      src={qrCodeOutline}
+                      name="create"
+                      ios="ios-create"
+                      md="md-create"
+                    />
+                    <IonLabel className="logoutIcon ion-margin-horizontal">
+                      Show QR
+                    </IonLabel>
+                  </IonButton>
+                </IonRow>
+              )}
+            </IonGrid>
+          </IonCard>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );
