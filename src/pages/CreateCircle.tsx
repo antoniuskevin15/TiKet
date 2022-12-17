@@ -53,9 +53,9 @@ const CreateCircle: React.FC = () => {
         return;
     }
 
-    setTakenPhoto(
-      URL.createObjectURL(photo)
-    );
+    setTakenPhoto(URL.createObjectURL(photo));
+
+    setSelectedFile(photo);
   }
 
   const takePhotoHandler = async () => {

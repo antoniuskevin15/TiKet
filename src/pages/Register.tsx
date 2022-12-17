@@ -36,6 +36,8 @@ const Register: React.FC = () => {
 
   const fileButton = useRef<HTMLIonButtonElement>(null);
 
+  const [selectedFile, setSelectedFile] = useState<File>();
+
   useEffect(() => {
     if (auth.data) {
       history.push("/user/home");
@@ -45,7 +47,7 @@ const Register: React.FC = () => {
   const onSubmit = async (data: any) => {
     if (data.password == data.confirmPassword) {
       try {
-        const res = await authRegister(data.fullName, data.phoneNumber, data.email, data.password);
+        const res = await authRegister(data.fullName, data.phoneNumber, data.email, data.password/*, selectedFile!*/);
         auth.set(res);
         window.location.href = "/select";
         // history.push("/select");
@@ -57,22 +59,22 @@ const Register: React.FC = () => {
     }
   };
 
-  const handleTakePhoto = async () => {
-    const photo = await Camera.getPhoto({
-      quality: 90,
-      resultType: CameraResultType.Uri,
-      source: CameraSource.Camera,
-      width: 500,
-    });
+  // const handleTakePhoto = async () => {
+  //   const photo = await Camera.getPhoto({
+  //     quality: 90,
+  //     resultType: CameraResultType.Uri,
+  //     source: CameraSource.Camera,
+  //     width: 500,
+  //   });
 
-    if (!photo || !photo.webPath) {
-      return;
-    }
+  //   if (!photo || !photo.webPath) {
+  //     return;
+  //   }
 
-    if (!photo || !photo.webPath) {
-      return;
-    }
-  };
+  //   if (!photo || !photo.webPath) {
+  //     return;
+  //   }
+  // };
 
   const [takenPhoto, setTakenPhoto] = useState<string>();
 
@@ -84,9 +86,9 @@ const Register: React.FC = () => {
         return;
     }
 
-    setTakenPhoto(
-      URL.createObjectURL(photo)
-    );
+    setTakenPhoto(URL.createObjectURL(photo));
+
+    setSelectedFile(photo);
   }
 
   const takePhotoHandler = async () => {
