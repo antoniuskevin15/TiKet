@@ -58,11 +58,10 @@ const Profile: React.FC = () => {
   };
 
   const handleLogout = async () => {
-    indexedDB.deleteDatabase("tiketdb");
     try {
-      console.log(auth.data!.token.value);
+      await authLogout(auth.data!.token.value);
+      auth.set(null);
       history.push("/login");
-      const res = await authLogout(auth.data!.token.value);
     } catch (error: any) {
       console.log(error);
     }

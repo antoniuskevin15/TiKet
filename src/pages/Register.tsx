@@ -33,6 +33,7 @@ const Register: React.FC = () => {
     register,
     handleSubmit,
     setValue,
+    setError,
     watch,
     formState: { errors },
   } = useForm<{
@@ -75,12 +76,22 @@ const Register: React.FC = () => {
 
       const res = await authRegister(formData);
       auth.set(res);
-      // history.push("/select");
+      history.push("/select");
     } catch (error: any) {
       presentAlert({
         header: "Error",
         message: error.response.data.message,
         buttons: ["OK"],
+        onDidDismiss: () => {
+          const errorState = Object.keys(error.response.data.error)[0];
+          setError(
+            errorState as any,
+            { type: "focus", message: error.response.data.error[errorState] },
+            {
+              shouldFocus: true,
+            }
+          );
+        },
       });
     }
   };
@@ -90,7 +101,6 @@ const Register: React.FC = () => {
       quality: 70,
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera,
-      allowEditing: true,
     });
 
     const filePhoto: any = await fetch(photo.webPath).then((res) => res.blob());

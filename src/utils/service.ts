@@ -34,7 +34,7 @@ export const authLogout = async (token: string = "") => {
     headers: { Authorization: `Bearer ${token}` },
   };
 
-  const res = await axios.post(`${BASE_URL}/user/logout`, config);
+  const res = await axios.post(`${BASE_URL}/user/logout`, { test: "adaw" }, config);
   return res.data;
 };
 
