@@ -105,7 +105,7 @@ const AddPackageAdmin: React.FC = () => {
                     </IonLabel>
                   </IonCol>
                 </IonRow>
-                <form /*onSubmit={handleSubmit(onSubmit)}*/>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <IonRow>
                     <IonCol>
                       <IonItem className="input-register">
