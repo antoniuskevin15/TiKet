@@ -15,11 +15,11 @@ import {
   IonSegmentButton,
   IonTitle,
   IonToolbar,
+  useIonAlert,
 } from "@ionic/react";
 import "./Login.css";
 import { logoGoogle, personOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import { authLogin, useStorage } from "../utils/service";
 import { Link, useHistory } from "react-router-dom";
 
@@ -30,17 +30,14 @@ const Login: React.FC = () => {
   const passwordRef = useRef<HTMLIonInputElement>(null);
   const history = useHistory();
   const { auth } = useStorage();
+  const [presentAlert] = useIonAlert();
 
   useEffect(() => {
-    if (auth.data) {
-      console.log(auth.data.user.admin == true);
+    if (auth.data !== null) {
+      console.log(auth.data);
       if (auth.data.user.admin) {
-        // window.location.href = "/admin/home";
         history.push("/admin/home");
-        console.log("admin");
       } else {
-        console.log("user");
-        // window.location.href = "/user/home";
         history.push("/user/home");
       }
     }
@@ -53,16 +50,12 @@ const Login: React.FC = () => {
     try {
       const res = await authLogin(email, pass);
       auth.set(res);
-      console.log(res);
-      if (res.user.admin == true) {
-        window.location.href = "/admin/home";
-        // history.push("/admin/home");
-      } else {
-        window.location.href = "/user/home";
-        // history.push("/user/home");
-      }
     } catch (error: any) {
-      console.log(error);
+      presentAlert({
+        header: "Error",
+        message: error.response.data.message,
+        buttons: ["OK"],
+      });
     }
   };
 
@@ -70,8 +63,8 @@ const Login: React.FC = () => {
     <IonApp>
       <IonPage>
         <IonContent>
-          <IonGrid >
-            <IonRow >
+          <IonGrid>
+            <IonRow>
               <IonCol size-sm="12" size-md="8" offset-md="2">
                 <IonGrid>
                   <IonRow className="ion-margin">
@@ -117,10 +110,7 @@ const Login: React.FC = () => {
                       <IonCol>
                         <IonItem className="input-register">
                           <IonLabel position="floating">Email Address</IonLabel>
-                          <IonInput
-                            type="email"
-                            ref={emailRef}
-                          ></IonInput>
+                          <IonInput type="email" ref={emailRef}></IonInput>
                         </IonItem>
                       </IonCol>
                     </IonRow>
@@ -128,10 +118,7 @@ const Login: React.FC = () => {
                       <IonCol>
                         <IonItem className="input-register">
                           <IonLabel position="floating">Password</IonLabel>
-                          <IonInput
-                            type="password"
-                            ref={passwordRef}
-                          ></IonInput>
+                          <IonInput type="password" ref={passwordRef}></IonInput>
                         </IonItem>
                       </IonCol>
                     </IonRow>
@@ -177,21 +164,22 @@ const Login: React.FC = () => {
                       <IonCol>
                         <IonItem className="input-register">
                           <IonLabel position="floating">Phone Number</IonLabel>
-                          <IonInput
-                            type="number"
-                            ref={passwordRef}
-                          ></IonInput>
+                          <IonInput type="number" ref={passwordRef}></IonInput>
                         </IonItem>
                       </IonCol>
                     </IonRow>
                     <IonRow>
-                      <IonButton color="primary" class="loginBtn" className="ion-text-center ion-justify-content-center login-margin-top">
+                      <IonButton
+                        color="primary"
+                        class="loginBtn"
+                        className="ion-text-center ion-justify-content-center login-margin-top"
+                      >
                         <IonLabel>Send OTP</IonLabel>
                       </IonButton>
                     </IonRow>
                     <IonRow className="ion-padding ion-text-center ion-justify-content-center ion-margin">
                       <IonLabel class="forgotPW">
-                        Not registered yet? {" "}
+                        Not registered yet?{" "}
                         <Link to="/register">
                           <b>Create Account</b>
                         </Link>
@@ -202,7 +190,6 @@ const Login: React.FC = () => {
               </IonCol>
             </IonRow>
           </IonGrid>
-          
         </IonContent>
       </IonPage>
     </IonApp>

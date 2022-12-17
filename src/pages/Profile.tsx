@@ -23,10 +23,12 @@ import "./Profile.css";
 
 import { QRData } from "../data/QRData";
 import { authLogout, getCircle, useStorage } from "../utils/service";
+import { useHistory } from "react-router";
 
 const Profile: React.FC = () => {
   const pageRef = useRef();
   const [selectedCode, setSelectedCode] = useState<QRData>();
+  const history = useHistory();
 
   const [present, dismiss] = useIonModal(CircleQRCode, {
     dismiss: () => dismiss(),
@@ -37,7 +39,7 @@ const Profile: React.FC = () => {
     const res = await getCircle(auth.data!.token.value, auth.data!.user.circle_id);
     const circle = [res.data];
     {
-      circle.map(c => {
+      circle.map((c) => {
         const qrCode: QRData = {
           id: auth.data!.user.name,
           data: c.name,
@@ -51,15 +53,15 @@ const Profile: React.FC = () => {
           presentingElement: pageRef.current,
           swipeToClose: true,
         });
-      })
+      });
     }
   };
 
   const handleLogout = async () => {
-    indexedDB.deleteDatabase("tiketdb")
+    indexedDB.deleteDatabase("tiketdb");
     try {
       console.log(auth.data!.token.value);
-      window.location.href = "/login";
+      history.push("/login");
       const res = await authLogout(auth.data!.token.value);
     } catch (error: any) {
       console.log(error);
@@ -81,14 +83,16 @@ const Profile: React.FC = () => {
   return (
     <IonPage ref={pageRef}>
       <IonContent fullscreen class="ion-padding">
-        <IonGrid >
-          <IonRow >
+        <IonGrid>
+          <IonRow>
             <IonCol size-sm="12" size-md="8" offset-md="2">
               <IonGrid>
                 <IonRow>
                   <IonCol>
-                    <IonLabel className="header"><b>TikeT</b></IonLabel>
-                    <IonIcon icon={personOutline} style={{paddingLeft: '10px'}}></IonIcon>
+                    <IonLabel className="header">
+                      <b>TikeT</b>
+                    </IonLabel>
+                    <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
                   </IonCol>
                 </IonRow>
                 <IonCard className="ion-padding">
@@ -139,9 +143,7 @@ const Profile: React.FC = () => {
                           ios="ios-create"
                           md="md-create"
                         />
-                        <IonLabel className="logoutIcon ion-margin-horizontal">
-                          Log Out
-                        </IonLabel>
+                        <IonLabel className="logoutIcon ion-margin-horizontal">Log Out</IonLabel>
                       </IonButton>
                     </IonRow>
                     {auth.data?.user.admin == true && (
@@ -161,9 +163,7 @@ const Profile: React.FC = () => {
                             ios="ios-create"
                             md="md-create"
                           />
-                          <IonLabel className="logoutIcon ion-margin-horizontal">
-                            Show QR
-                          </IonLabel>
+                          <IonLabel className="logoutIcon ion-margin-horizontal">Show QR</IonLabel>
                         </IonButton>
                       </IonRow>
                     )}

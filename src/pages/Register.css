@@ -41,8 +41,11 @@
   font-size: 1.6vh;
 }
 
-.image-preview-rounded{
+.photo-placeholder {
   object-fit: cover;
-  width: 30vh;
-  border-radius: 20%;
+  margin: auto;
+  width: 50vw;
+  height: 50vw;
+  border-radius: 50%;
+  overflow: hidden;
 }

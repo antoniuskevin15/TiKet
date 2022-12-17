@@ -27,7 +27,7 @@ const CreateCircle: React.FC = () => {
   const { auth } = useStorage();
   const history = useHistory();
   const [selectedFile, setSelectedFile] = useState<File>();
-  const [fileName, setFileName] = useState('');
+  const [fileName, setFileName] = useState("");
 
   const fileButton = useRef<HTMLIonButtonElement>(null);
 
@@ -49,14 +49,14 @@ const CreateCircle: React.FC = () => {
     const photo = event.target.files[0];
     console.log(photo);
 
-    if(!photo){
-        return;
+    if (!photo) {
+      return;
     }
 
     setTakenPhoto(URL.createObjectURL(photo));
 
     setSelectedFile(photo);
-  }
+  };
 
   const takePhotoHandler = async () => {
     document.getElementById("imageUpload")?.click();
@@ -68,8 +68,10 @@ const CreateCircle: React.FC = () => {
         <IonGrid className="tableGrid">
           <IonRow className="ion-margin-bottom">
             <IonCol>
-              <IonLabel className="header"><b>TikeT</b></IonLabel>
-              <IonIcon icon={personOutline} style={{paddingLeft: '10px'}}></IonIcon>
+              <IonLabel className="header">
+                <b>TikeT</b>
+              </IonLabel>
+              <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
             </IonCol>
           </IonRow>
           <IonRow className="ion-padding-vertical">
@@ -135,30 +137,30 @@ const CreateCircle: React.FC = () => {
               </IonCol>
             </IonRow>
             <IonRow>
-                  <IonCol className='container-image'>
-                    <div className="image-preview ion-text-center">
-                        {!takenPhoto && <h3>No photo chosen.</h3>}
-                        {takenPhoto && <img className="image-preview-rounded" src={takenPhoto} alt="Preview" />}
-                    </div>
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol className="containerTakePhoto">
-                    <input
-                      type="file"
-                      id="imageUpload"
-                      hidden
-                      {...register("photo", {
-                        required: "Photo is Required",
-                      })}
-                      onChange={updateImage}
-                    />
-                    <IonButton fill="clear" onClick={takePhotoHandler} ref={fileButton}>
-                        <IonIcon slot="start" icon={camera}/>
-                        <IonLabel>Upload Photo</IonLabel>
-                    </IonButton>
-                  </IonCol>
-                </IonRow>
+              <IonCol className="container-image">
+                <div className="image-preview ion-text-center">
+                  {!takenPhoto && <h3>No photo chosen.</h3>}
+                  {takenPhoto && <img className="image-preview-rounded" src={takenPhoto} alt="Preview" />}
+                </div>
+              </IonCol>
+            </IonRow>
+            <IonRow>
+              <IonCol className="containerTakePhoto">
+                <input
+                  type="file"
+                  id="imageUpload"
+                  hidden
+                  {...register("photo", {
+                    required: "Photo is Required",
+                  })}
+                  onChange={updateImage}
+                />
+                <IonButton fill="clear" onClick={takePhotoHandler} ref={fileButton}>
+                  <IonIcon slot="start" icon={camera} />
+                  <IonLabel>Upload Photo</IonLabel>
+                </IonButton>
+              </IonCol>
+            </IonRow>
             <IonRow>
               <IonCol>
                 <IonButton color="primary" expand="block" type="submit">

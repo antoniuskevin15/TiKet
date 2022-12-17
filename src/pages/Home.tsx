@@ -1,58 +1,87 @@
-import { IonBackButton, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonList, IonPage, IonRow, IonSegment, IonSegmentButton, IonTitle, IonToolbar } from '@ionic/react';
-import { personOutline } from 'ionicons/icons';
-import { useEffect, useState } from 'react';
-import ExploreContainer from '../components/ExploreContainer';
-import { getCircle, useStorage } from '../utils/service';
-import './Home.css';
+import {
+  IonBackButton,
+  IonCard,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonImg,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonRow,
+  IonSegment,
+  IonSegmentButton,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+import { personOutline } from "ionicons/icons";
+import { useEffect, useState } from "react";
+import ExploreContainer from "../components/ExploreContainer";
+import { getCircle, useStorage } from "../utils/service";
+import "./Home.css";
 
 const Home: React.FC = () => {
   const [descActive, setdescActive] = useState<boolean>(true);
   const [membersActive, setmembersActive] = useState<boolean>(false);
-  const [DATA_APART, setDATA_APART] = useState<any>([{
-    id: "1", name: "", address: "", description: "", photoURL: "https://www.summareconbekasi.com/public/images/gallery/article/14000/mtown-fc3.jpg",
-    users: [{ id: "U1", nama: "Vallen", photo: "https://i.pinimg.com/236x/27/98/15/279815f1c5fa2a4f3f378b4be8612632.jpg" }]
-  }]);
+  const [DATA_APART, setDATA_APART] = useState<any>([
+    {
+      id: "1",
+      name: "",
+      address: "",
+      description: "",
+      photoURL: "https://www.summareconbekasi.com/public/images/gallery/article/14000/mtown-fc3.jpg",
+      users: [
+        { id: "U1", nama: "Vallen", photo: "https://i.pinimg.com/236x/27/98/15/279815f1c5fa2a4f3f378b4be8612632.jpg" },
+      ],
+    },
+  ]);
   const { auth } = useStorage();
 
-  useEffect(()=>{
-    if(auth.data){
+  useEffect(() => {
+    if (auth.data) {
       takeCircle();
     }
   }, [auth.data?.token]);
 
-  const takeCircle = async() => {
+  const takeCircle = async () => {
     try {
+      console.log(auth.data!.token.value, auth.data!.user.circle_id);
       const res = await getCircle(auth.data!.token.value, auth.data!.user.circle_id);
       setDATA_APART([res.data]);
     } catch (error: any) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <IonPage>
       <IonContent fullscreen class="ion-padding">
-        <IonGrid >
-            <IonRow >
-              <IonCol size-sm="12" size-md="8" offset-md="2">
+        <IonGrid>
+          <IonRow>
+            <IonCol size-sm="12" size-md="8" offset-md="2">
               <IonGrid>
                 <IonRow>
                   <IonCol>
-                    <IonLabel className="header"><b>TikeT</b></IonLabel>
-                    <IonIcon icon={personOutline} style={{paddingLeft: '10px'}}></IonIcon>
+                    <IonLabel className="header">
+                      <b>TikeT</b>
+                    </IonLabel>
+                    <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
                   </IonCol>
                 </IonRow>
                 <IonRow className="ion-padding">
-                    <IonLabel class="headerfont">
-                      <h3>Welcome, User</h3>
-                    </IonLabel>
-                  </IonRow>
-                {DATA_APART.map((apart:any) => (
+                  <IonLabel class="headerfont">
+                    <h3>Welcome, User</h3>
+                  </IonLabel>
+                </IonRow>
+                {DATA_APART.map((apart: any) => (
                   <IonRow key={apart.id} className="ion-justify-content-center">
                     <IonImg src={`${process.env.REACT_APP_WEB_URL}/storage/${apart.photoURL}`} class="imgApart" />
                   </IonRow>
                 ))}
-                <IonRow className='ion-padding-horizontal ion-padding-top'>
+                <IonRow className="ion-padding-horizontal ion-padding-top">
                   <IonSegment className="home-segment" value={descActive ? "Description" : "Members"}>
                     <IonSegmentButton
                       className="home-segment-button"
@@ -78,8 +107,8 @@ const Home: React.FC = () => {
                 </IonRow>
                 <IonRow>
                   {descActive && (
-                    <IonGrid className='ion-padding'>
-                      {DATA_APART.map((apart:any) => (
+                    <IonGrid className="ion-padding">
+                      {DATA_APART.map((apart: any) => (
                         <>
                           <IonRow>
                             <IonLabel>
@@ -91,8 +120,7 @@ const Home: React.FC = () => {
                               <h2>{apart.address}</h2>
                             </IonLabel>
                           </IonRow>
-                          <IonRow>
-                          </IonRow>
+                          <IonRow></IonRow>
                           <IonRow>
                             <IonLabel class="detail">
                               <h2>{apart.description}</h2>
@@ -105,22 +133,22 @@ const Home: React.FC = () => {
                 </IonRow>
                 <IonRow>
                   {!descActive && (
-                    <IonGrid className='ion-padding'>
-                      {DATA_APART.map((apart:any) => (
+                    <IonGrid className="ion-padding">
+                      {DATA_APART.map((apart: any) => (
                         <>
                           <IonRow>
                             <IonLabel>
-                              <h3><b>Total Member</b>: {apart.users.length}</h3>
+                              <h3>
+                                <b>Total Member</b>: {apart.users.length}
+                              </h3>
                             </IonLabel>
                           </IonRow>
-                          {apart.users.map((member:any) => (
+                          {apart.users.map((member: any) => (
                             <IonCard class="roundedCard">
                               <IonGrid>
                                 <IonRow className="ion-justify-content-center">
-                                  <IonCol class='roundedphoto'>
-                                    {/* <IonImg src={member.photo}></IonImg> */}
-                                  </IonCol>
-                                  <IonCol className='ion-align-items-center'>
+                                  <IonCol class="roundedphoto">{/* <IonImg src={member.photo}></IonImg> */}</IonCol>
+                                  <IonCol className="ion-align-items-center">
                                     <IonLabel class="membercard-content">
                                       <h5>{member.name}</h5>
                                     </IonLabel>
@@ -135,9 +163,9 @@ const Home: React.FC = () => {
                   )}
                 </IonRow>
               </IonGrid>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
   );

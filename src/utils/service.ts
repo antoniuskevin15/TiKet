@@ -1,56 +1,24 @@
 import axios from "axios";
 import { Storage } from "@ionic/storage";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { storageContext } from "./StorageContext";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-type authDataTypes = {
-  user: {
-    id: number;
-    name: string;
-    telephone: string;
-    email: string;
-    admin: boolean;
-    circle_id: number;
-  };
-  token: {
-    type: string;
-    value: string;
+export const useStorage = () => {
+  const { store, auth } = useContext(storageContext);
+  return {
+    store,
+    auth,
   };
 };
 
-export const useStorage = () => {
-  const [store, setStore] = useState<Storage>();
-  const [authData, setAuthData] = useState<authDataTypes | null>(null);
+axios.defaults.withCredentials = true;
 
-  const initStorage = async () => {
-    const newStore = new Storage({
-      name: "tiketdb",
-    });
-
-    const store = await newStore.create();
-    setStore(store);
-
-    const authData = await store.get("authData");
-    setAuthData(authData);
-  };
-
-  useEffect(() => {
-    initStorage();
-  }, []);
-
-  const setAuth = async (data: any) => {
-    setAuthData(data);
-    await store?.set("authData", data);
-  };
-
-  return {
-    store,
-    auth: {
-      data: authData,
-      set: setAuth,
-    },
-  };
+export const checkSession = async (token: string = "") => {
+  const res = await axios.get(`${BASE_URL}/check-session`, { headers: { Authorization: `Bearer ${token}` } });
+  return res.data;
 };
 
 export const authLogin = async (email: string, password: string) => {
@@ -61,7 +29,7 @@ export const authLogin = async (email: string, password: string) => {
   return res.data;
 };
 
-export const authLogout = async (token: string) => {
+export const authLogout = async (token: string = "") => {
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
@@ -70,24 +38,13 @@ export const authLogout = async (token: string) => {
   return res.data;
 };
 
-export const authRegister = async (
-  fullName: string,
-  phoneNumber: string,
-  email: string,
-  password: string
-) => {
-  console.log(`${BASE_URL}`);
-  const res = await axios.post(`${BASE_URL}/user/register`, {
-    name: fullName,
-    telephone: phoneNumber,
-    email: email,
-    password: password,
-  });
+export const authRegister = async (data: FormData) => {
+  const res = await axios.post(`${BASE_URL}/user/register`, data);
   return res.data;
 };
 
 export const circleCreate = async (
-  token: string,
+  token: string = "",
   circleName: string,
   address: string,
   desc: string,
@@ -113,7 +70,7 @@ export const circleCreate = async (
   return res.data;
 };
 
-export const joinCircle = async(token: string, name: string) => {
+export const joinCircle = async (token: string = "", name: string) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -123,7 +80,7 @@ export const joinCircle = async(token: string, name: string) => {
   return res.data;
 };
 
-export const getPackageByCircleId = async (token: string, id: number) => {
+export const getPackageByCircleId = async (token: string = "", id: number) => {
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
@@ -131,7 +88,7 @@ export const getPackageByCircleId = async (token: string, id: number) => {
   return res.data;
 };
 
-export const getPackageByUserId = async (token: string, id: number) => {
+export const getPackageByUserId = async (token: string = "", id: number) => {
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
@@ -139,7 +96,7 @@ export const getPackageByUserId = async (token: string, id: number) => {
   return res.data;
 };
 
-export const getPackageById = async (token: string, id: number) => {
+export const getPackageById = async (token: string = "", id: number) => {
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
@@ -147,7 +104,7 @@ export const getPackageById = async (token: string, id: number) => {
   return res.data;
 };
 
-export const getCircle = async (token: string, id: number) => {
+export const getCircle = async (token: string = "", id: number) => {
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
@@ -155,7 +112,14 @@ export const getCircle = async (token: string, id: number) => {
   return res.data;
 };
 
-export const addPackage = async(token: string, sender: string, expedition: string, receiptNumber: string, roomNumber: string, photo: string)=>{
+export const addPackage = async (
+  token: string = "",
+  sender: string,
+  expedition: string,
+  receiptNumber: string,
+  roomNumber: string,
+  photo: string
+) => {
   console.log("Photo: " + photo);
   const config = {
     headers: {
@@ -165,7 +129,13 @@ export const addPackage = async(token: string, sender: string, expedition: strin
   };
   const res = await axios.post(
     `${BASE_URL}/package/create/`,
-    { sender: sender, expedition: expedition, receiptNumber: receiptNumber, roomNumber: roomNumber, photoPath: await convertBase64ToBlob(photo) },
+    {
+      sender: sender,
+      expedition: expedition,
+      receiptNumber: receiptNumber,
+      roomNumber: roomNumber,
+      photoPath: await convertBase64ToBlob(photo),
+    },
     config
   );
   return res.data;

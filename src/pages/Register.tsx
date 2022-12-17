@@ -15,6 +15,8 @@ import {
   IonImg,
   IonBackButton,
   IonButtons,
+  useIonAlert,
+  IonText,
 } from "@ionic/react";
 import { camera, personOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
@@ -24,75 +26,78 @@ import { authRegister, useStorage } from "../utils/service";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import "./Register.css";
 import { Link } from "react-router-dom";
+import AvatarPlaceholder from "../assets/avatar-placeholder.png";
 
 const Register: React.FC = () => {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
-  } = useForm<any>();
+  } = useForm<{
+    name: string;
+    telephone: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    photo: File;
+    errors: any;
+  }>();
   const history = useHistory();
   const { auth } = useStorage();
+  const [presentAlert] = useIonAlert();
+  const [tempPhoto, setTempPhoto] = useState<File | null>(null);
 
-  const fileButton = useRef<HTMLIonButtonElement>(null);
+  const password = useRef({});
+  password.current = watch("password", "");
 
-  const [selectedFile, setSelectedFile] = useState<File>();
+  const photoPlaceholder = useRef<HTMLIonImgElement>(null);
 
   useEffect(() => {
-    if (auth.data) {
+    if (auth.data && tempPhoto == null) {
       history.push("/user/home");
     }
-  }, [auth]);
+  }, [auth.data]);
+
+  useEffect(() => {
+    register("photo", { required: "Photo is required" });
+  }, []);
 
   const onSubmit = async (data: any) => {
-    if (data.password == data.confirmPassword) {
-      try {
-        const res = await authRegister(data.fullName, data.phoneNumber, data.email, data.password/*, selectedFile!*/);
-        auth.set(res);
-        window.location.href = "/select";
-        // history.push("/select");
-      } catch (error: any) {
-        console.log(error);
-      }
-    } else {
-      alert("Your password and confirmed password doesn't match");
+    try {
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("telephone", data.telephone);
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+      formData.append("photo", data.photo);
+
+      const res = await authRegister(formData);
+      auth.set(res);
+      // history.push("/select");
+    } catch (error: any) {
+      presentAlert({
+        header: "Error",
+        message: error.response.data.message,
+        buttons: ["OK"],
+      });
     }
   };
 
-  // const handleTakePhoto = async () => {
-  //   const photo = await Camera.getPhoto({
-  //     quality: 90,
-  //     resultType: CameraResultType.Uri,
-  //     source: CameraSource.Camera,
-  //     width: 500,
-  //   });
+  const handleTakePhoto = async () => {
+    const photo: any = await Camera.getPhoto({
+      quality: 70,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera,
+      allowEditing: true,
+    });
 
-  //   if (!photo || !photo.webPath) {
-  //     return;
-  //   }
+    const filePhoto: any = await fetch(photo.webPath).then((res) => res.blob());
+    setTempPhoto(filePhoto);
 
-  //   if (!photo || !photo.webPath) {
-  //     return;
-  //   }
-  // };
-
-  const [takenPhoto, setTakenPhoto] = useState<string>();
-
-  const updateImage = (event: any) => {
-    const photo = event.target.files[0];
-    console.log(photo);
-
-    if(!photo){
-        return;
-    }
-
-    setTakenPhoto(URL.createObjectURL(photo));
-
-    setSelectedFile(photo);
-  }
-
-  const takePhotoHandler = async () => {
-    document.getElementById("imageUpload")?.click();
+    setValue("photo", filePhoto);
+    photoPlaceholder.current?.setAttribute("src", URL.createObjectURL(filePhoto));
   };
 
   return (
@@ -105,156 +110,197 @@ const Register: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen class="ion-padding">
-        <IonGrid >
-          <IonRow >
+        <IonGrid>
+          <IonRow>
             <IonCol size-sm="12" size-md="8" offset-md="2">
-            <IonGrid>
-              <IonRow>
-                <IonCol>
-                  <IonLabel className="header">
-                    <b>Register Account</b>
-                  </IonLabel>
-                  <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
-                  <IonLabel className="subheader">
-                    <br />
-                    Please register yourself here!
-                  </IonLabel>
-                </IonCol>
-              </IonRow>
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <IonGrid>
                 <IonRow>
                   <IonCol>
-                    <div></div>
+                    <IonLabel className="header">
+                      <b>Register Account</b>
+                    </IonLabel>
+                    <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
+                    <IonLabel className="subheader">
+                      <br />
+                      Please register yourself here!
+                    </IonLabel>
                   </IonCol>
                 </IonRow>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <IonRow>
+                    <IonCol>
+                      <IonItem className="input-register">
+                        <IonLabel position="floating">Full Name</IonLabel>
+                        <IonInput
+                          type="text"
+                          {...register("name", {
+                            required: "Full name is required",
+                          })}
+                        />
+                      </IonItem>
+                      {errors.name && (
+                        <IonText className="input-error ion-padding" color="danger">
+                          {errors.name.message}
+                        </IonText>
+                      )}
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <IonItem className="input-register">
+                        <IonLabel position="floating">Phone Number</IonLabel>
+                        <IonInput
+                          {...register("telephone", {
+                            required: "Phone number is Required",
+                            pattern: {
+                              value: /^62[0-9]+$/,
+                              message: "Phone number must start with 62",
+                            },
+                            minLength: {
+                              value: 10,
+                              message: "Phone number must be at least 10 digits",
+                            },
+                            maxLength: {
+                              value: 13,
+                              message: "Phone number must be a maximum of 13 digits",
+                            },
+                          })}
+                        />
+                      </IonItem>
+                      {errors.telephone && (
+                        <IonText className="input-error ion-padding" color="danger">
+                          {errors.telephone.message}
+                        </IonText>
+                      )}
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <IonItem className="input-register">
+                        <IonLabel position="floating">Email Address</IonLabel>
+                        <IonInput
+                          type="email"
+                          {...register("email", {
+                            required: "Email address is required",
+                            pattern: {
+                              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                              message: "Invalid email address",
+                            },
+                          })}
+                        />
+                      </IonItem>
+                      {errors.email && (
+                        <IonText className="input-error ion-padding" color="danger">
+                          {errors.email.message}
+                        </IonText>
+                      )}
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <IonItem className="input-register">
+                        <IonLabel position="floating">Password</IonLabel>
+                        <IonInput
+                          type="password"
+                          {...register("password", {
+                            required: "Password is required",
+                          })}
+                        />
+                      </IonItem>
+                      {errors.password && (
+                        <IonText className="input-error ion-padding" color="danger">
+                          {errors.password.message}
+                        </IonText>
+                      )}
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <IonItem className="input-register">
+                        <IonLabel position="floating">Confirmation Password</IonLabel>
+                        <IonInput
+                          type="password"
+                          {...register("confirmPassword", {
+                            validate: (value) => value === password.current || "The passwords do not match",
+                          })}
+                        />
+                      </IonItem>
+                      {errors.confirmPassword && (
+                        <IonText className="input-error ion-padding" color="danger">
+                          {errors.confirmPassword.message}
+                        </IonText>
+                      )}
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <IonImg
+                        className="photo-placeholder"
+                        ref={photoPlaceholder}
+                        src={tempPhoto ? URL.createObjectURL(tempPhoto) : AvatarPlaceholder}
+                        onClick={handleTakePhoto}
+                      />
+                      {errors.photo && (
+                        <IonText className="input-error ion-padding" color="danger">
+                          {errors.photo.message}
+                        </IonText>
+                      )}
+                      <IonButton onClick={handleTakePhoto} className="ion-margin-top" color="primary" expand="block">
+                        Take Pictrue
+                      </IonButton>
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <div className="addmargin subheader">
+                        By creating your account, you agree to our{" "}
+                        <a
+                          className="myAnchor"
+                          target="blank"
+                          href="https://www.termsfeed.com/live/531eb5ee-4de2-4199-8d76-f1a1bfb22f01"
+                        >
+                          <u>
+                            <b>Terms & Conditions</b>
+                          </u>
+                        </a>
+                      </div>
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <IonButton className="margin-vertical" color="primary" expand="block" type="submit">
+                        Register
+                      </IonButton>
+                    </IonCol>
+                  </IonRow>
+                </form>
                 <IonRow>
-                  <IonCol>
-                    <IonItem className="input-register">
-                      <IonLabel position="floating">Full Name</IonLabel>
-                      <IonInput
-                        type="text"
-                        {...register("fullName", {
-                          required: "Full Name is Required",
-                        })}
-                      ></IonInput>
-                    </IonItem>
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol>
-                    <IonItem className="input-register">
-                      <IonLabel position="floating">Phone Number</IonLabel>
-                      <IonInput
-                        type="number"
-                        {...register("phoneNumber", {
-                          required: "Phone Number is Required",
-                        })}
-                      ></IonInput>
-                    </IonItem>
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol>
-                    <IonItem className="input-register">
-                      <IonLabel position="floating">Email Address</IonLabel>
-                      <IonInput
-                        type="email"
-                        {...register("email", {
-                          required: "Email Address is Required",
-                        })}
-                      ></IonInput>
-                    </IonItem>
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol>
-                    <IonItem className="input-register">
-                      <IonLabel position="floating">Password</IonLabel>
-                      <IonInput
-                        type="password"
-                        {...register("password", {
-                          required: "Password is Required",
-                        })}
-                      ></IonInput>
-                    </IonItem>
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol>
-                    <IonItem className="input-register">
-                      <IonLabel position="floating">Confirmation Password</IonLabel>
-                      <IonInput
-                        type="password"
-                        {...register("confirmPassword", {
-                          required: "Confirm Password is Required",
-                        })}
-                      ></IonInput>
-                    </IonItem>
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol className='container-image'>
-                    <div className="image-preview ion-text-center">
-                        {!takenPhoto && <h3>No photo chosen.</h3>}
-                        {takenPhoto && <img className="image-preview-rounded" src={takenPhoto} alt="Preview" />}
-                    </div>
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol className="containerTakePhoto">
-                    <input
-                      type="file"
-                      id="imageUpload"
-                      hidden
-                      {...register("photo", {
-                        required: "Photo is Required",
-                      })}
-                      onChange={updateImage}
-                    />
-                    <IonButton fill="clear" onClick={takePhotoHandler} ref={fileButton}>
-                        <IonIcon slot="start" icon={camera}/>
-                        <IonLabel>Upload Photo</IonLabel>
-                    </IonButton>
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol>
-                    <div className="addmargin subheader">
-                      By creating your account, you agree to our{" "}
-                      <a className="myAnchor" target="blank" href="https://www.termsfeed.com/live/531eb5ee-4de2-4199-8d76-f1a1bfb22f01">
-                        <u>
-                          <b>Terms & Conditions</b>
-                        </u>
-                      </a>
-                    </div>
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol>
-                    <IonButton className="margin-vertical" color="primary" expand="block" type="submit">
-                      Register
-                    </IonButton>
-                  </IonCol>
-                </IonRow>
-              </form>
-              <IonRow>
-                <IonCol className="ion-text-center">
-                  <div className="account subsubheader">
-                    Already have account?{" "}
-                    <Link to="/login">
-                      <b>
-                        <u>Login Account</u>
-                      </b>
-                    </Link>
-                    {/* <a className="myAnchor" href="/login">
+                  <IonCol className="ion-text-center">
+                    <div className="account subsubheader">
+                      Already have account?{" "}
+                      <Link to="/login">
+                        <b>
+                          <u>Login Account</u>
+                        </b>
+                      </Link>
+                      {/* <a className="myAnchor" href="/login">
+                  <IonCol className="ion-text-center">
+                    <div className="account subsubheader">
+                      Already have account?{" "}
+                      <Link to="/login">
+                        <b>
+                          <u>Login Account</u>
+                        </b>
+                      </Link>
+                      {/* <a className="myAnchor" href="/login">
                       <b>
                         <u>Login Account</u>
                       </b>
                     </a> */}
-                  </div>
-                </IonCol>
-              </IonRow>
-            </IonGrid>
+                    </div>
+                  </IonCol>
+                </IonRow>
+              </IonGrid>
             </IonCol>
           </IonRow>
         </IonGrid>
