@@ -29,16 +29,22 @@ import {
   IonModal,
   IonBackButton,
   IonButtons,
+  IonText,
+  IonSelect,
+  IonSelectOption,
+  useIonAlert,
+  IonImg,
+  IonSpinner,
 } from "@ionic/react";
 import { addOutline, camera, colorPalette, giftOutline, globe, logoDropbox, personOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { base64FromPath } from "@capacitor-community/react-hooks/filesystem";
 import "./PackageAddAdmin.css";
 
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import { useForm } from "react-hook-form";
-import { addPackage, useStorage } from "../utils/service";
+import { addPackage, useStorage, getCircle } from "../utils/service";
 
 interface Package {
   created_at: string;
@@ -58,52 +64,94 @@ const AddPackageAdmin: React.FC = () => {
   const [packages, setPackages] = useState<Package[] | null>(null);
   const dateRef = useRef<HTMLIonDatetimeElement>(null);
   const id = useParams<{ id: string | undefined }>().id;
-  const { register, handleSubmit } = useForm();
+  const history = useHistory();
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [circle, setCircle] = useState<any>({});
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    setError,
+    formState: { errors },
+  } = useForm<{
+    sender: string;
+    expedition: string;
+    receiptNumber: string;
+    roomNumber: string;
+    photo: File;
+    user_id: number;
+    errors: any;
+  }>();
   const { auth } = useStorage();
 
-  const onSubmit = async (data: any) => {
-    const base64Data = await base64FromPath(takenPhoto!.preview!);
-    console.log(JSON.stringify(data));
-    console.log("asd");
-    console.log(takenPhoto!.path);
+  const [presentAlert] = useIonAlert();
+  const [tempPhoto, setTempPhoto] = useState<File | null>(null);
+
+  const fetchData = async () => {
     try {
-      const res = await addPackage(
-        auth.data!.token.value,
-        data.sender,
-        data.expedition,
-        data.resi,
-        data.nomorKamar,
-        base64Data
-      );
-      window.location.href = "/select";
-      // history.push("/select");
+      const res = await getCircle(auth.data!.token.value, auth.data!.user.circle_id);
+      setCircle(res.data);
+      console.log(res.data.users);
     } catch (error: any) {
       console.log(error);
     }
+    console.log("test");
   };
 
-  const [takenPhoto, setTakenPhoto] = useState<{
-    path: string | undefined; //store original url
-    preview: string; //store preview url for web
-  }>();
+  useEffect(() => {
+    if (auth.data) {
+      fetchData();
+      register("photo", { required: "Photo is required" });
+    }
+  }, [auth.data]);
 
-  const takePhotoHandler = async () => {
-    const photo = await Camera.getPhoto({
+  const onSubmit = async (data: any) => {
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("sender", data.sender);
+      formData.append("expedition", data.expedition);
+      formData.append("receiptNumber", data.receiptNumber);
+      formData.append("roomNumber", data.roomNumber);
+      formData.append("photo", data.photo);
+      formData.append("user_id", data.user_id);
+
+      await addPackage(auth?.data?.token?.value, formData);
+      history.push("/admin/package");
+    } catch (error: any) {
+      presentAlert({
+        header: "Error",
+        message: error.response.data.message,
+        buttons: ["OK"],
+        onDidDismiss: () => {
+          const errorState = Object.keys(error.response.data.error)[0];
+          setError(
+            errorState as any,
+            { type: "focus", message: error.response.data.error[errorState] },
+            {
+              shouldFocus: true,
+            }
+          );
+        },
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTakePhoto = async () => {
+    const photo: any = await Camera.getPhoto({
+      quality: 70,
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera,
-      quality: 80,
-      width: 500,
     });
-    console.log(photo);
 
-    if (!photo || !photo.webPath) {
-      return;
-    }
+    const filePhoto: any = await fetch(photo.webPath).then((res) => res.blob());
+    setTempPhoto(filePhoto);
 
-    setTakenPhoto({
-      path: photo.path,
-      preview: photo.webPath,
-    });
+    setValue("photo", filePhoto);
   };
 
   return (
@@ -144,6 +192,11 @@ const AddPackageAdmin: React.FC = () => {
                           })}
                         ></IonInput>
                       </IonItem>
+                      {errors.sender && (
+                        <IonText className="input-error ion-padding" color="danger">
+                          {errors.sender.message}
+                        </IonText>
+                      )}
                     </IonCol>
                   </IonRow>
                   <IonRow>
@@ -157,63 +210,95 @@ const AddPackageAdmin: React.FC = () => {
                           })}
                         ></IonInput>
                       </IonItem>
+                      {errors.expedition && (
+                        <IonText className="input-error ion-padding" color="danger">
+                          {errors.expedition.message}
+                        </IonText>
+                      )}
                     </IonCol>
                   </IonRow>
                   <IonRow>
                     <IonCol>
                       <IonItem className="input-register">
-                        <IonLabel position="floating">Resi</IonLabel>
+                        <IonLabel position="floating">Receipt Number</IonLabel>
                         <IonInput
                           type="number"
-                          {...register("resi", {
-                            required: "Resi is Required",
+                          {...register("receiptNumber", {
+                            required: "Receipt number is required",
                           })}
                         ></IonInput>
                       </IonItem>
+                      {errors.receiptNumber && (
+                        <IonText className="input-error ion-padding" color="danger">
+                          {errors.receiptNumber.message}
+                        </IonText>
+                      )}
                     </IonCol>
                   </IonRow>
                   <IonRow>
                     <IonCol>
                       <IonItem className="input-register">
-                        <IonLabel position="floating">No Kamar</IonLabel>
-                        <IonInput
-                          type="text"
-                          {...register("noRoom", {
-                            required: "Room Number is Required",
+                        <IonLabel position="floating">Recepient</IonLabel>
+                        <IonSelect
+                          {...register("user_id", {
+                            required: "Recepient is required",
                           })}
-                        ></IonInput>
+                        >
+                          {circle?.users?.map((user: any, idx: number) => (
+                            <IonSelectOption key={idx} value={user.id}>
+                              {user.name}
+                            </IonSelectOption>
+                          ))}
+                        </IonSelect>
                       </IonItem>
+                      {errors.user_id && (
+                        <IonText className="input-error ion-padding" color="danger">
+                          {errors.user_id.message}
+                        </IonText>
+                      )}
                     </IonCol>
                   </IonRow>
                   <IonRow>
                     <IonCol>
-                      {/* <IonItem className="input-register">
-                        <IonLabel position="floating">Date</IonLabel>
+                      <IonItem className="input-register">
+                        <IonLabel position="floating">Room Number</IonLabel>
                         <IonInput
                           type="text"
-                          // {...register("fullName", {
-                          //   required: "Full Name is Required",
-                          // })}
+                          {...register("roomNumber", {
+                            required: "Room number is required",
+                          })}
                         ></IonInput>
-                      </IonItem> */}
-                      <IonDatetimeButton datetime="datetime"></IonDatetimeButton>
-
+                      </IonItem>
+                      {errors.roomNumber && (
+                        <IonText className="input-error ion-padding" color="danger">
+                          {errors.roomNumber.message}
+                        </IonText>
+                      )}
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <IonDatetimeButton datetime="datetime" />
                       <IonModal keepContentsMounted={true}>
-                        <IonDatetime id="datetime" className="dateTime"></IonDatetime>
+                        <IonDatetime id="datetime" className="dateTime" />
                       </IonModal>
                     </IonCol>
                   </IonRow>
                   <IonRow>
                     <IonCol className="container-image">
                       <div className="image-preview ion-text-center">
-                        {!takenPhoto && <h3>No photo chosen.</h3>}
-                        {takenPhoto && <img src={takenPhoto.preview} alt="Preview" />}
+                        {tempPhoto ? <IonImg src={URL.createObjectURL(tempPhoto)} /> : <h3>No photo chosen.</h3>}
+                        {errors.photo && (
+                          <IonText className="input-error ion-padding" color="danger">
+                            {errors.photo.message}
+                          </IonText>
+                        )}
                       </div>
                     </IonCol>
                   </IonRow>
                   <IonRow>
                     <IonCol className="containerTakePhoto">
-                      <IonButton fill="clear" onClick={takePhotoHandler}>
+                      <IonButton fill="clear" onClick={handleTakePhoto}>
                         <IonIcon slot="start" icon={camera} />
                         <IonLabel>Take Photo</IonLabel>
                       </IonButton>
@@ -222,8 +307,14 @@ const AddPackageAdmin: React.FC = () => {
                   <IonRow>
                     <IonCol>
                       <IonButton className="margin-vertical" color="primary" expand="block" type="submit">
-                        <IonIcon icon={giftOutline} slot="start" />
-                        {id === undefined ? "Add Package" : "Update Package"}
+                        {loading ? (
+                          <IonSpinner />
+                        ) : (
+                          <>
+                            <IonIcon icon={giftOutline} slot="start" />
+                            {id === undefined ? "Add Package" : "Update Package"}
+                          </>
+                        )}
                       </IonButton>
                     </IonCol>
                   </IonRow>

@@ -13,6 +13,7 @@ import {
   IonRow,
   IonSegment,
   IonSegmentButton,
+  IonSpinner,
   IonTitle,
   IonToolbar,
   useIonAlert,
@@ -26,6 +27,7 @@ import { Link, useHistory } from "react-router-dom";
 const Login: React.FC = () => {
   const [emailActive, setemailActive] = useState<boolean>(true);
   const [phoneActive, setphoneActive] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const emailRef = useRef<HTMLIonInputElement>(null);
   const passwordRef = useRef<HTMLIonInputElement>(null);
   const history = useHistory();
@@ -48,6 +50,7 @@ const Login: React.FC = () => {
     const pass: string = passwordRef?.current?.value as string;
 
     try {
+      setLoading(true);
       const res = await authLogin(email, pass);
       auth.set(res);
     } catch (error: any) {
@@ -56,6 +59,8 @@ const Login: React.FC = () => {
         message: error.response.data.message,
         buttons: ["OK"],
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -134,7 +139,7 @@ const Login: React.FC = () => {
                         onClick={handleLogin}
                         className="ion-text-center ion-justify-content-center login-margin-top"
                       >
-                        Login
+                        {loading ? <IonSpinner /> : "Login"}
                       </IonButton>
                     </IonRow>
                     {/* <IonRow className='ion-text-center ion-justify-content-center ion-margin'>

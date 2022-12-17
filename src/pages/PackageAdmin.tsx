@@ -25,13 +25,7 @@ import {
   IonFabButton,
   IonFabList,
 } from "@ionic/react";
-import {
-  addOutline,
-  colorPalette,
-  globe,
-  logoDropbox,
-  personOutline,
-} from "ionicons/icons";
+import { addOutline, colorPalette, globe, logoDropbox, personOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import InputAdmin from "../components/InputControlAdmin";
 import { getPackageByCircleId, useStorage } from "../utils/service";
@@ -51,15 +45,11 @@ interface Package {
 }
 
 const PackageAdmin: React.FC = () => {
-  const [mode, setMode] = useState<"ongoing" | "finished" | "unknown">(
-    "ongoing"
-  );
+  const [mode, setMode] = useState<"ongoing" | "finished" | "unknown">("ongoing");
   const [packages, setPackages] = useState<Package[]>([]);
   const { auth } = useStorage();
 
-  const selectModeHandler = (
-    selectedValue: "ongoing" | "finished" | "unknown"
-  ) => {
+  const selectModeHandler = (selectedValue: "ongoing" | "finished" | "unknown") => {
     setMode(selectedValue);
   };
 
@@ -71,10 +61,7 @@ const PackageAdmin: React.FC = () => {
 
   const takePackage = async () => {
     try {
-      const res = await getPackageByCircleId(
-        auth.data!.token.value,
-        auth.data!.user.circle_id
-      );
+      const res = await getPackageByCircleId(auth.data!.token.value, auth.data!.user.circle_id);
       setPackages(res.packages);
       console.log(res.packages);
     } catch (error: any) {
@@ -85,18 +72,13 @@ const PackageAdmin: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen class="ion-padding">
-        <IonFab
-          slot="fixed"
-          vertical="bottom"
-          horizontal="end"
-          className="myAdminFab"
-        >
+        <IonFab slot="fixed" vertical="bottom" horizontal="end" className="myAdminFab">
           <IonFabButton color="dark" routerLink="./package/detail">
             <IonIcon icon={addOutline}></IonIcon>
           </IonFabButton>
         </IonFab>
-        <IonGrid >
-          <IonRow >
+        <IonGrid>
+          <IonRow>
             <IonCol size-sm="12" size-md="8" offset-md="2">
               <IonGrid>
                 <IonRow className="ion-margin-bottom">
@@ -104,48 +86,32 @@ const PackageAdmin: React.FC = () => {
                     <IonLabel className="header">
                       <b>TikeT</b>
                     </IonLabel>
-                    <IonIcon
-                      icon={personOutline}
-                      style={{ paddingLeft: "10px" }}
-                    ></IonIcon>
+                    <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
                   </IonCol>
                 </IonRow>
                 <IonRow>
-                  <InputAdmin
-                    selectedValue={mode}
-                    onSelectValue={selectModeHandler}
-                  />
+                  <InputAdmin selectedValue={mode} onSelectValue={selectModeHandler} />
                 </IonRow>
 
                 <IonList>
                   {mode === "ongoing" &&
                     packages?.map(
-                      (p) =>
+                      (p: any, idx: number) =>
                         p.isTaken == 0 && (
-                          <IonCardContent>
+                          <IonCardContent key={`package-item-${idx}`}>
                             <IonItem button className="item-package">
-                              <IonThumbnail
-                                className="package-thumbnail"
-                                slot="start"
-                              >
+                              <IonThumbnail className="package-thumbnail" slot="start">
                                 <img
-                                  alt=""
+                                  alt={p.sender}
                                   className="package-image"
-                                  src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                                  src={`https://tiket.adrianfinantyo.com/storage/${p.photoPath}`}
                                 />
                               </IonThumbnail>
                               <IonCardHeader>
-                                <IonCardTitle className="card-package-title">
-                                  {p.expedition}
-                                </IonCardTitle>
+                                <IonCardTitle className="card-package-title">{p.expedition}</IonCardTitle>
+                                <IonCardSubtitle className="card-package-subtitle">{p.roomNumber}</IonCardSubtitle>
                                 <IonCardSubtitle className="card-package-subtitle">
-                                  {p.roomNumber}
-                                </IonCardSubtitle>
-                                <IonCardSubtitle className="card-package-subtitle">
-                                  <IonIcon
-                                    icon={logoDropbox}
-                                    style={{ "padding-right": "1vh" }}
-                                  />
+                                  <IonIcon icon={logoDropbox} style={{ "padding-right": "1vh" }} />
                                   {p.receiptNumber}
                                 </IonCardSubtitle>
                               </IonCardHeader>
@@ -160,10 +126,7 @@ const PackageAdmin: React.FC = () => {
                         p.isTaken == 1 && (
                           <IonCardContent>
                             <IonItem className="item-package">
-                              <IonThumbnail
-                                className="package-thumbnail"
-                                slot="start"
-                              >
+                              <IonThumbnail className="package-thumbnail" slot="start">
                                 <img
                                   alt=""
                                   className="package-image"
@@ -171,17 +134,10 @@ const PackageAdmin: React.FC = () => {
                                 />
                               </IonThumbnail>
                               <IonCardHeader>
-                                <IonCardTitle className="card-package-title">
-                                  {p.expedition}
-                                </IonCardTitle>
+                                <IonCardTitle className="card-package-title">{p.expedition}</IonCardTitle>
+                                <IonCardSubtitle className="card-package-subtitle">{p.roomNumber}</IonCardSubtitle>
                                 <IonCardSubtitle className="card-package-subtitle">
-                                  {p.roomNumber}
-                                </IonCardSubtitle>
-                                <IonCardSubtitle className="card-package-subtitle">
-                                  <IonIcon
-                                    icon={logoDropbox}
-                                    style={{ "padding-right": "1vh" }}
-                                  />
+                                  <IonIcon icon={logoDropbox} style={{ "padding-right": "1vh" }} />
                                   {p.receiptNumber}
                                 </IonCardSubtitle>
                               </IonCardHeader>
@@ -196,10 +152,7 @@ const PackageAdmin: React.FC = () => {
                         p.isTaken == 0 && (
                           <IonCardContent>
                             <IonItem className="item-package">
-                              <IonThumbnail
-                                className="package-thumbnail"
-                                slot="start"
-                              >
+                              <IonThumbnail className="package-thumbnail" slot="start">
                                 <img
                                   alt=""
                                   className="package-image"
@@ -207,17 +160,10 @@ const PackageAdmin: React.FC = () => {
                                 />
                               </IonThumbnail>
                               <IonCardHeader>
-                                <IonCardTitle className="card-package-title">
-                                  {p.expedition}
-                                </IonCardTitle>
+                                <IonCardTitle className="card-package-title">{p.expedition}</IonCardTitle>
+                                <IonCardSubtitle className="card-package-subtitle">{p.roomNumber}</IonCardSubtitle>
                                 <IonCardSubtitle className="card-package-subtitle">
-                                  {p.roomNumber}
-                                </IonCardSubtitle>
-                                <IonCardSubtitle className="card-package-subtitle">
-                                  <IonIcon
-                                    icon={logoDropbox}
-                                    style={{ "padding-right": "1vh" }}
-                                  />
+                                  <IonIcon icon={logoDropbox} style={{ "padding-right": "1vh" }} />
                                   {p.receiptNumber}
                                 </IonCardSubtitle>
                               </IonCardHeader>
@@ -230,7 +176,6 @@ const PackageAdmin: React.FC = () => {
             </IonCol>
           </IonRow>
         </IonGrid>
-        
       </IonContent>
     </IonPage>
   );
