@@ -16,8 +16,8 @@ import {
   IonBackButton,
   IonButtons,
 } from "@ionic/react";
-import { personOutline } from "ionicons/icons";
-import { useEffect, useRef } from "react";
+import { camera, personOutline } from "ionicons/icons";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { authRegister, useStorage } from "../utils/service";
@@ -72,19 +72,26 @@ const Register: React.FC = () => {
     if (!photo || !photo.webPath) {
       return;
     }
-
-    // setTakenPhoto({
-    //   preview: photo.webPath,
-    // });
   };
 
-  const openFileUpload = () => {
-    document.getElementById("imageUpload")?.click();
+  const [takenPhoto, setTakenPhoto] = useState<string>();
+
+  const updateImage = (event: any) => {
+    const photo = event.target.files[0];
+    console.log(photo);
+
+    if(!photo){
+        return;
+    }
+
+    setTakenPhoto(
+      URL.createObjectURL(photo)
+    );
   }
 
-  const updateText = (event: any) => {
-    fileButton.current!.innerHTML = event.target.files[0].name;
-  }
+  const takePhotoHandler = async () => {
+    document.getElementById("imageUpload")?.click();
+  };
 
   return (
     <IonPage>
@@ -184,8 +191,15 @@ const Register: React.FC = () => {
                   </IonCol>
                 </IonRow>
                 <IonRow>
-                  <IonCol>
-                    <IonImg src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" style={{width: "30vh", margin: "auto"}}/>
+                  <IonCol className='container-image'>
+                    <div className="image-preview ion-text-center">
+                        {!takenPhoto && <h3>No photo chosen.</h3>}
+                        {takenPhoto && <img className="image-preview-rounded" src={takenPhoto} alt="Preview" />}
+                    </div>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol className="containerTakePhoto">
                     <input
                       type="file"
                       id="imageUpload"
@@ -193,10 +207,11 @@ const Register: React.FC = () => {
                       {...register("photo", {
                         required: "Photo is Required",
                       })}
-                      onChange={updateText}
+                      onChange={updateImage}
                     />
-                    <IonButton ref={fileButton} onClick={openFileUpload} className="ion-margin-top" color="primary" expand="block">
-                      Upload Image
+                    <IonButton fill="clear" onClick={takePhotoHandler} ref={fileButton}>
+                        <IonIcon slot="start" icon={camera}/>
+                        <IonLabel>Upload Photo</IonLabel>
                     </IonButton>
                   </IonCol>
                 </IonRow>

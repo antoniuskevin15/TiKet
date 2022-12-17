@@ -74,7 +74,7 @@ const AddPackageAdmin: React.FC = () => {
         path: photo.path,
         preview: photo.webPath
     });
-};
+  };
 
   return (
     <IonPage>

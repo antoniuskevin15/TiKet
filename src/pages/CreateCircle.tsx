@@ -15,7 +15,7 @@ import {
   IonTextarea,
   IonImg,
 } from "@ionic/react";
-import { personOutline } from "ionicons/icons";
+import { camera, personOutline } from "ionicons/icons";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
@@ -31,17 +31,6 @@ const CreateCircle: React.FC = () => {
 
   const fileButton = useRef<HTMLIonButtonElement>(null);
 
-  // const uploadHandler = (event:any) => {
-  //   const file = event.target.files[0];
-  //   console.log(file);
-  // }
-
-  const fileChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedFile(event.target!.files![0]);
-    setFileName(event.target!.files![0].name);
-    fileButton.current!.innerHTML = event.target.files![0].name;
-  };
-
   const onSubmit = async (data: any) => {
     console.log(JSON.stringify(data));
     try {
@@ -54,9 +43,24 @@ const CreateCircle: React.FC = () => {
     }
   };
 
-  const openFileUpload = () => {
-    document.getElementById("imageUpload")?.click();
+  const [takenPhoto, setTakenPhoto] = useState<string>();
+
+  const updateImage = (event: any) => {
+    const photo = event.target.files[0];
+    console.log(photo);
+
+    if(!photo){
+        return;
+    }
+
+    setTakenPhoto(
+      URL.createObjectURL(photo)
+    );
   }
+
+  const takePhotoHandler = async () => {
+    document.getElementById("imageUpload")?.click();
+  };
 
   return (
     <IonPage>
@@ -130,30 +134,31 @@ const CreateCircle: React.FC = () => {
                 </IonItem>
               </IonCol>
             </IonRow>
-            {/* <IonRow>
-              <IonCol>
-                <IonItem className="inputItem">
-                  <input type="file" onChange={fileChangeHandler}/>
-                </IonItem>
-              </IonCol>
-            </IonRow> */}
             <IonRow>
-              <IonCol>
-                <IonImg src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" style={{width: "30vh", margin: "auto"}} />
-                <input
-                  type="file"
-                  id="imageUpload"
-                  hidden
-                  {...register("photo", {
-                    required: "Photo is Required",
-                  })}
-                  onChange={fileChangeHandler}
-                />
-                <IonButton ref={fileButton} onClick={openFileUpload} className="ion-margin-top file-button" color="primary" expand="block">
-                  Upload Image
-                </IonButton>
-              </IonCol>
-            </IonRow>
+                  <IonCol className='container-image'>
+                    <div className="image-preview ion-text-center">
+                        {!takenPhoto && <h3>No photo chosen.</h3>}
+                        {takenPhoto && <img className="image-preview-rounded" src={takenPhoto} alt="Preview" />}
+                    </div>
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol className="containerTakePhoto">
+                    <input
+                      type="file"
+                      id="imageUpload"
+                      hidden
+                      {...register("photo", {
+                        required: "Photo is Required",
+                      })}
+                      onChange={updateImage}
+                    />
+                    <IonButton fill="clear" onClick={takePhotoHandler} ref={fileButton}>
+                        <IonIcon slot="start" icon={camera}/>
+                        <IonLabel>Upload Photo</IonLabel>
+                    </IonButton>
+                  </IonCol>
+                </IonRow>
             <IonRow>
               <IonCol>
                 <IonButton color="primary" expand="block" type="submit">
