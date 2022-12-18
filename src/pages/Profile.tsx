@@ -17,7 +17,7 @@ import {
   useIonModal,
 } from "@ionic/react";
 import { createOutline, logOutOutline, personOutline, qrCodeOutline } from "ionicons/icons";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CircleQRCode } from "../components/CircleQRCode";
 import "./Profile.css";
 
@@ -69,10 +69,10 @@ const Profile: React.FC = () => {
 
   const { auth } = useStorage();
 
-  var divStyle = {
-    // backgroundImage: 'url(' + auth.data?.user.gambar + ')'
-    background: "url(../assets/profile.jpeg)",
-  };
+  var  divStyle = {
+      // backgroundImage: 'url(' + auth.data?.user.gambar + ')'
+      background: `url(${process.env.REACT_APP_WEB_URL}/storage/${auth.data?.user.photoPath})`,
+    };
 
   return (
     <IonPage ref={pageRef}>

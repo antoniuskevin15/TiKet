@@ -147,7 +147,7 @@ const Home: React.FC = () => {
                             <IonCard class="roundedCard">
                               <IonGrid>
                                 <IonRow className="ion-justify-content-center">
-                                  <IonCol class="roundedphoto">{/* <IonImg src={member.photo}></IonImg> */}</IonCol>
+                                  <IonCol class="roundedphoto"><IonImg src={`${process.env.REACT_APP_WEB_URL}/storage/${member.photoPath}`}></IonImg></IonCol>
                                   <IonCol className="ion-align-items-center">
                                     <IonLabel class="membercard-content">
                                       <h5>{member.name}</h5>
