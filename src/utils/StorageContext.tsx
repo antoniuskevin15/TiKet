@@ -23,6 +23,7 @@ type authDataTypes = {
     telephone: string;
     email: string;
     admin: boolean;
+    photoPath: string;
     circle_id: number;
   };
   token: {
