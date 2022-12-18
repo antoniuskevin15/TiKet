@@ -254,7 +254,7 @@ const Register: React.FC = () => {
                           {errors.photo.message}
                         </IonText>
                       )}
-                      <IonButton onClick={handleTakePhoto} className="ion-margin-top" color="primary" expand="block">
+                      <IonButton onClick={handleTakePhoto} class="loginBtn" className="ion-margin-top" color="primary" expand="block">
                         Take Picture
                       </IonButton>
                     </IonCol>
@@ -277,7 +277,7 @@ const Register: React.FC = () => {
                   </IonRow>
                   <IonRow>
                     <IonCol>
-                      <IonButton className="margin-vertical" color="primary" expand="block" type="submit">
+                      <IonButton class="loginBtn" className="margin-vertical" color="primary" expand="block" type="submit">
                         {loading ? <IonSpinner /> : "Register"}
                       </IonButton>
                     </IonCol>

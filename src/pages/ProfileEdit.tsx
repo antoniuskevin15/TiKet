@@ -244,6 +244,7 @@ const ProfileEdit: React.FC = () => {
                         </IonText>
                       )}
                       <IonButton
+                        class="loginBtn"
                         onClick={handleTakePhoto}
                         className="ion-margin-top"
                         color="primary"
@@ -256,6 +257,7 @@ const ProfileEdit: React.FC = () => {
                   <IonRow>
                     <IonCol>
                       <IonButton
+                        class="loginBtn"
                         className="margin-vertical"
                         color="primary"
                         expand="block"

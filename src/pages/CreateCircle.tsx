@@ -176,7 +176,7 @@ const CreateCircle: React.FC = () => {
             </IonRow>
             <IonRow>
               <IonCol>
-                <IonButton color="primary" expand="block" type="submit">
+                <IonButton class="loginBtn" color="primary" expand="block" type="submit">
                   Create
                 </IonButton>
               </IonCol>
