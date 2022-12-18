@@ -24,11 +24,11 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import { authRegister, useStorage } from "../utils/service";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
-import "./Register.css";
+import "./ProfileEdit.css";
 import { Link } from "react-router-dom";
 import AvatarPlaceholder from "../assets/avatar-placeholder.png";
 
-const Register: React.FC = () => {
+const ProfileEdit: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -275,4 +275,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default ProfileEdit;

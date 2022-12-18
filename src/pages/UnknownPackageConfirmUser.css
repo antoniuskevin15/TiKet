@@ -1,0 +1,27 @@
+.gridSelect{
+  transform: translate(0, 100%);
+}
+.btnSelect{
+  margin-top: 30px;
+  width: 100%;
+}
+
+.header {
+  font-size: 4vh;
+}
+.subheader {
+  font-size: 2vh;
+  margin-bottom: 20px;
+}
+@media (max-width:768px) {
+  .gridSelect{
+      margin: 0px 20px 0px 20px;
+      transform: translate(0, 80%);
+  }
+}
+@media (max-width:428px) {
+  .gridSelect{
+      margin: 0px 20px 0px 20px;
+      transform: translate(0, 60%);
+  }
+}
