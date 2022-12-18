@@ -14,6 +14,8 @@ import {
   IonCol,
   IonTextarea,
   IonImg,
+  IonBackButton,
+  IonButtons,
 } from "@ionic/react";
 import { camera, personOutline } from "ionicons/icons";
 import { useRef, useState } from "react";
@@ -64,16 +66,27 @@ const CreateCircle: React.FC = () => {
 
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/user/package" />
+            <IonLabel className="header">
+              <b>TikeT</b>
+            </IonLabel>
+            <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
       <IonContent fullscreen class="ion-padding">
         <IonGrid className="tableGrid">
-          <IonRow className="ion-margin-bottom">
+          {/* <IonRow className="ion-margin-bottom">
             <IonCol>
               <IonLabel className="header">
                 <b>TikeT</b>
               </IonLabel>
               <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
             </IonCol>
-          </IonRow>
+          </IonRow> */}
           <IonRow className="ion-padding-vertical">
             <IonCol className="ion-text-center">
               <IonLabel className="header">

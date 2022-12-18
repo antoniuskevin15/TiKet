@@ -1,5 +1,6 @@
 import { BarcodeScanner } from "@capacitor-community/barcode-scanner";
 import {
+  IonBackButton,
   IonButton,
   IonButtons,
   IonCol,
@@ -111,27 +112,27 @@ const JoinCircle: React.FC = () => {
 
   return (
     <IonPage>
-      {/* <IonHeader hidden={!(!!hideBg)}>
-                <IonToolbar>
-                    <IonTitle>Join Circle</IonTitle>
-                    <IonButtons slot="end">
-                        <IonButton color="danger" hidden={!hideBg} onClick={stopScan}>
-                            <IonIcon icon={stopCircleOutline} slot="start" />
-                            Stop Scan
-                        </IonButton>
-                    </IonButtons>
-                </IonToolbar>
-            </IonHeader> */}
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/user/package" />
+            <IonLabel className="header">
+              <b>TikeT</b>
+            </IonLabel>
+            <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
       <IonContent className={hideBg}>
         <IonGrid hidden={!!hideBg} className="ion-padding">
-          <IonRow className="ion-margin-bottom">
+          {/* <IonRow className="ion-margin-bottom">
             <IonCol>
               <IonLabel className="header">
                 <b>TikeT</b>
               </IonLabel>
               <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
             </IonCol>
-          </IonRow>
+          </IonRow> */}
           <IonRow>
             <IonCol>
               <IonButtons slot="end">
