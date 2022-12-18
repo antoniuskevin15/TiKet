@@ -99,7 +99,7 @@ const Profile: React.FC = () => {
                     <IonRow className="ion-margin-horizontal ion-justify-content-end"></IonRow>
                     <IonRow className="ion-justify-content-center">
                       <div className="ion-margin profile_image" style={divStyle} />
-                      {/* <IonButton className="btnEdit" fill="solid">
+                      <IonButton className="btnEdit" fill="solid" onClick={() => history.push("editProfile")}>
                         <IonIcon
                           className="editIcon"
                           src={createOutline}
@@ -107,7 +107,7 @@ const Profile: React.FC = () => {
                           ios="ios-create"
                           md="md-create"
                         ></IonIcon>
-                      </IonButton> */}
+                      </IonButton>
                     </IonRow>
                     <IonRow className="ion-justify-content-center">
                       <IonLabel color="primary">

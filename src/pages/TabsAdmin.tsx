@@ -10,6 +10,7 @@ import "./TabsAdmin.css";
 import AddPackageAdmin from "./PackageAddAdmin";
 import HomeAdmin from "./HomeAdmin";
 import { useStorage } from "../utils/service";
+import ProfileEdit from "./ProfileEdit";
 
 const TabsAdmin: React.FC = () => {
   const { auth } = useStorage();
@@ -29,6 +30,7 @@ const TabsAdmin: React.FC = () => {
         <Route exact path="/admin/package" component={PackageAdmin} />
         <Route path="/admin/package/detail/:id?" component={AddPackageAdmin} />
         <Route path="/admin/profile" component={Profile} />
+        <Route path="/admin/editProfile" component={ProfileEdit} />
         <Redirect exact path="/admin" to="/admin/home" />
         {/* </Switch> */}
       </IonRouterOutlet>
