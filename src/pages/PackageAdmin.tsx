@@ -31,6 +31,12 @@ import InputAdmin from "../components/InputControlAdmin";
 import { getPackageByCircleId, useStorage } from "../utils/service";
 import "./PackageAdmin.css";
 
+interface PackageContainer {
+  ongoing: Package[];
+  finished: Package[];
+  unknown: Package[];
+}
+
 interface Package {
   created_at: string;
   expedition: string;
@@ -44,9 +50,33 @@ interface Package {
   user_id: number;
 }
 
+const PackageCard = (props: any) => {
+  return (
+    <IonCardContent>
+      <IonItem button className="item-package">
+        <IonThumbnail className="package-thumbnail" slot="start">
+          <img
+            alt={props.sender}
+            className="package-image"
+            src={`https://tiket.adrianfinantyo.com/storage/${props.photoPath}`}
+          />
+        </IonThumbnail>
+        <IonCardHeader>
+          <IonCardTitle className="card-package-title">{props.expedition}</IonCardTitle>
+          <IonCardSubtitle className="card-package-subtitle">{props.roomNumber}</IonCardSubtitle>
+          <IonCardSubtitle className="card-package-subtitle">
+            <IonIcon icon={logoDropbox} style={{ "padding-right": "1vh" }} />
+            {props.receiptNumber}
+          </IonCardSubtitle>
+        </IonCardHeader>
+      </IonItem>
+    </IonCardContent>
+  );
+};
+
 const PackageAdmin: React.FC = () => {
   const [mode, setMode] = useState<"ongoing" | "finished" | "unknown">("ongoing");
-  const [packages, setPackages] = useState<Package[]>([]);
+  const [packages, setPackages] = useState<PackageContainer>({ ongoing: [], finished: [], unknown: [] });
   const { auth } = useStorage();
 
   const selectModeHandler = (selectedValue: "ongoing" | "finished" | "unknown") => {
@@ -62,8 +92,15 @@ const PackageAdmin: React.FC = () => {
   const takePackage = async () => {
     try {
       const res = await getPackageByCircleId(auth.data!.token.value, auth.data!.user.circle_id);
-      setPackages(res.packages);
-      console.log(res.packages);
+      const group = res.packages.reduce(
+        (result: any, curr: any) => {
+          result[curr.status] = [...(result[curr.status] || []), curr];
+          return result;
+        },
+        { ongoing: [], finished: [], unknown: [] }
+      );
+      setPackages(group);
+      console.log(group);
     } catch (error: any) {
       console.log(error);
     }
@@ -95,82 +132,19 @@ const PackageAdmin: React.FC = () => {
 
                 <IonList>
                   {mode === "ongoing" &&
-                    packages?.map(
-                      (p: any, idx: number) =>
-                        p.isTaken == 0 && (
-                          <IonCardContent key={`package-item-${idx}`}>
-                            <IonItem button className="item-package">
-                              <IonThumbnail className="package-thumbnail" slot="start">
-                                <img
-                                  alt={p.sender}
-                                  className="package-image"
-                                  src={`https://tiket.adrianfinantyo.com/storage/${p.photoPath}`}
-                                />
-                              </IonThumbnail>
-                              <IonCardHeader>
-                                <IonCardTitle className="card-package-title">{p.expedition}</IonCardTitle>
-                                <IonCardSubtitle className="card-package-subtitle">{p.roomNumber}</IonCardSubtitle>
-                                <IonCardSubtitle className="card-package-subtitle">
-                                  <IonIcon icon={logoDropbox} style={{ "padding-right": "1vh" }} />
-                                  {p.receiptNumber}
-                                </IonCardSubtitle>
-                              </IonCardHeader>
-                            </IonItem>
-                          </IonCardContent>
-                        )
-                    )}
+                    packages?.ongoing?.map((p: any, idx: number) => (
+                      <PackageCard key={`package-ongoing-item-${idx}`} {...p} />
+                    ))}
 
                   {mode === "finished" &&
-                    packages?.map(
-                      (p) =>
-                        p.isTaken == 1 && (
-                          <IonCardContent>
-                            <IonItem className="item-package">
-                              <IonThumbnail className="package-thumbnail" slot="start">
-                                <img
-                                  alt=""
-                                  className="package-image"
-                                  src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                                />
-                              </IonThumbnail>
-                              <IonCardHeader>
-                                <IonCardTitle className="card-package-title">{p.expedition}</IonCardTitle>
-                                <IonCardSubtitle className="card-package-subtitle">{p.roomNumber}</IonCardSubtitle>
-                                <IonCardSubtitle className="card-package-subtitle">
-                                  <IonIcon icon={logoDropbox} style={{ "padding-right": "1vh" }} />
-                                  {p.receiptNumber}
-                                </IonCardSubtitle>
-                              </IonCardHeader>
-                            </IonItem>
-                          </IonCardContent>
-                        )
-                    )}
+                    packages?.finished?.map((p: any, idx: number) => (
+                      <PackageCard key={`package-finished-item-${idx}`} {...p} />
+                    ))}
 
                   {mode === "unknown" &&
-                    packages?.map(
-                      (p) =>
-                        p.isTaken == 0 && (
-                          <IonCardContent>
-                            <IonItem className="item-package">
-                              <IonThumbnail className="package-thumbnail" slot="start">
-                                <img
-                                  alt=""
-                                  className="package-image"
-                                  src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                                />
-                              </IonThumbnail>
-                              <IonCardHeader>
-                                <IonCardTitle className="card-package-title">{p.expedition}</IonCardTitle>
-                                <IonCardSubtitle className="card-package-subtitle">{p.roomNumber}</IonCardSubtitle>
-                                <IonCardSubtitle className="card-package-subtitle">
-                                  <IonIcon icon={logoDropbox} style={{ "padding-right": "1vh" }} />
-                                  {p.receiptNumber}
-                                </IonCardSubtitle>
-                              </IonCardHeader>
-                            </IonItem>
-                          </IonCardContent>
-                        )
-                    )}
+                    packages?.unknown?.map((p: any, idx: number) => (
+                      <PackageCard key={`package-unknown-item-${idx}`} {...p} />
+                    ))}
                 </IonList>
               </IonGrid>
             </IonCol>
