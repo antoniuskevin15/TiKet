@@ -22,7 +22,7 @@ import { camera, personOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
-import { authRegister, useStorage } from "../utils/service";
+import { authEdit, authRegister, useStorage } from "../utils/service";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import "./ProfileEdit.css";
 import { Link } from "react-router-dom";
@@ -68,14 +68,15 @@ const ProfileEdit: React.FC = () => {
   const onSubmit = async (data: any) => {
     try {
       const formData = new FormData();
+      formData.append("id", auth.data?.user.id);
       formData.append("name", data.name);
       formData.append("telephone", data.telephone);
       formData.append("email", data.email);
       formData.append("photo", data.photo);
 
-      //const res = await authRegister(formData);
-      //auth.set(res);
-      //history.push("/select");
+      const res = await authEdit(formData);
+      auth.set(res);
+      history.push("/user/home");
     } catch (error: any) {
       presentAlert({
         header: "Error",
@@ -147,6 +148,7 @@ const ProfileEdit: React.FC = () => {
                       <IonItem className="input-register">
                         <IonLabel position="floating">Full Name</IonLabel>
                         <IonInput
+                          value={auth.data?.user.name}
                           readonly
                           type="text"
                           {...register("name", {
@@ -169,6 +171,7 @@ const ProfileEdit: React.FC = () => {
                       <IonItem className="input-register">
                         <IonLabel position="floating">Phone Number</IonLabel>
                         <IonInput
+                          value={auth.data?.user.telephone}
                           {...register("telephone", {
                             required: "Phone number is Required",
                             pattern: {
@@ -203,6 +206,7 @@ const ProfileEdit: React.FC = () => {
                       <IonItem className="input-register">
                         <IonLabel position="floating">Email Address</IonLabel>
                         <IonInput
+                          value={auth.data?.user.email}
                           type="email"
                           {...register("email", {
                             required: "Email address is required",
@@ -231,7 +235,7 @@ const ProfileEdit: React.FC = () => {
                         src={
                           tempPhoto
                             ? URL.createObjectURL(tempPhoto)
-                            : AvatarPlaceholder
+                            : `${process.env.REACT_APP_WEB_URL}/storage/${auth.data?.user.photoPath}`
                         }
                         onClick={handleTakePhoto}
                       />

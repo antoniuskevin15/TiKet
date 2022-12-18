@@ -43,6 +43,11 @@ export const authRegister = async (data: FormData) => {
   return res.data;
 };
 
+export const authEdit = async (data: FormData) => {
+  const res = await axios.post(`${BASE_URL}/user/edit`, data);
+  return res.data;
+};
+
 export const circleCreate = async (
   token: string = "",
   circleName: string,
