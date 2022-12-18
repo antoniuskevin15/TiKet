@@ -17,6 +17,7 @@ import {
   IonButtons,
   useIonAlert,
   IonText,
+  IonSpinner,
 } from "@ionic/react";
 import { camera, personOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
@@ -49,6 +50,7 @@ const Register: React.FC = () => {
   const { auth } = useStorage();
   const [presentAlert] = useIonAlert();
   const [tempPhoto, setTempPhoto] = useState<File | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const password = useRef({});
   password.current = watch("password", "");
@@ -56,17 +58,12 @@ const Register: React.FC = () => {
   const photoPlaceholder = useRef<HTMLIonImgElement>(null);
 
   useEffect(() => {
-    if (auth.data && tempPhoto == null) {
-      history.push("/user/home");
-    }
-  }, [auth.data]);
-
-  useEffect(() => {
     register("photo", { required: "Photo is required" });
   }, []);
 
   const onSubmit = async (data: any) => {
     try {
+      setLoading(true);
       const formData = new FormData();
       formData.append("name", data.name);
       formData.append("telephone", data.telephone);
@@ -93,6 +90,8 @@ const Register: React.FC = () => {
           );
         },
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -107,10 +106,7 @@ const Register: React.FC = () => {
     setTempPhoto(filePhoto);
 
     setValue("photo", filePhoto);
-    photoPlaceholder.current?.setAttribute(
-      "src",
-      URL.createObjectURL(filePhoto)
-    );
+    photoPlaceholder.current?.setAttribute("src", URL.createObjectURL(filePhoto));
   };
 
   return (
@@ -132,10 +128,7 @@ const Register: React.FC = () => {
                     <IonLabel className="header">
                       <b>Register Account</b>
                     </IonLabel>
-                    <IonIcon
-                      icon={personOutline}
-                      style={{ paddingLeft: "10px" }}
-                    ></IonIcon>
+                    <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
                     <IonLabel className="subheader">
                       <br />
                       Please register yourself here!
@@ -155,10 +148,7 @@ const Register: React.FC = () => {
                         />
                       </IonItem>
                       {errors.name && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.name.message}
                         </IonText>
                       )}
@@ -177,22 +167,17 @@ const Register: React.FC = () => {
                             },
                             minLength: {
                               value: 10,
-                              message:
-                                "Phone number must be at least 10 digits",
+                              message: "Phone number must be at least 10 digits",
                             },
                             maxLength: {
                               value: 13,
-                              message:
-                                "Phone number must be a maximum of 13 digits",
+                              message: "Phone number must be a maximum of 13 digits",
                             },
                           })}
                         />
                       </IonItem>
                       {errors.telephone && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.telephone.message}
                         </IonText>
                       )}
@@ -214,10 +199,7 @@ const Register: React.FC = () => {
                         />
                       </IonItem>
                       {errors.email && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.email.message}
                         </IonText>
                       )}
@@ -235,10 +217,7 @@ const Register: React.FC = () => {
                         />
                       </IonItem>
                       {errors.password && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.password.message}
                         </IonText>
                       )}
@@ -247,23 +226,16 @@ const Register: React.FC = () => {
                   <IonRow>
                     <IonCol>
                       <IonItem className="input-register">
-                        <IonLabel position="floating">
-                          Confirmation Password
-                        </IonLabel>
+                        <IonLabel position="floating">Confirmation Password</IonLabel>
                         <IonInput
                           type="password"
                           {...register("confirmPassword", {
-                            validate: (value) =>
-                              value === password.current ||
-                              "The passwords do not match",
+                            validate: (value) => value === password.current || "The passwords do not match",
                           })}
                         />
                       </IonItem>
                       {errors.confirmPassword && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.confirmPassword.message}
                         </IonText>
                       )}
@@ -274,27 +246,15 @@ const Register: React.FC = () => {
                       <IonImg
                         className="photo-placeholder"
                         ref={photoPlaceholder}
-                        src={
-                          tempPhoto
-                            ? URL.createObjectURL(tempPhoto)
-                            : AvatarPlaceholder
-                        }
+                        src={tempPhoto ? URL.createObjectURL(tempPhoto) : AvatarPlaceholder}
                         onClick={handleTakePhoto}
                       />
                       {errors.photo && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.photo.message}
                         </IonText>
                       )}
-                      <IonButton
-                        onClick={handleTakePhoto}
-                        className="ion-margin-top"
-                        color="primary"
-                        expand="block"
-                      >
+                      <IonButton onClick={handleTakePhoto} className="ion-margin-top" color="primary" expand="block">
                         Take Picture
                       </IonButton>
                     </IonCol>
@@ -317,13 +277,8 @@ const Register: React.FC = () => {
                   </IonRow>
                   <IonRow>
                     <IonCol>
-                      <IonButton
-                        className="margin-vertical"
-                        color="primary"
-                        expand="block"
-                        type="submit"
-                      >
-                        Register
+                      <IonButton className="margin-vertical" color="primary" expand="block" type="submit">
+                        {loading ? <IonSpinner /> : "Register"}
                       </IonButton>
                     </IonCol>
                   </IonRow>
@@ -337,20 +292,6 @@ const Register: React.FC = () => {
                           <u>Login Account</u>
                         </b>
                       </Link>
-                      {/* <a className="myAnchor" href="/login">
-                  <IonCol className="ion-text-center">
-                    <div className="account subsubheader">
-                      Already have account?{" "}
-                      <Link to="/login">
-                        <b>
-                          <u>Login Account</u>
-                        </b>
-                      </Link>
-                      {/* <a className="myAnchor" href="/login">
-                      <b>
-                        <u>Login Account</u>
-                      </b>
-                    </a> */}
                     </div>
                   </IonCol>
                 </IonRow>

@@ -15,12 +15,6 @@ const TabsUser: React.FC = () => {
   const { auth } = useStorage();
   const history = useHistory();
 
-  // useEffect(() => {
-  //   if (!auth.data) {
-  //     history.push("/login");
-  //   }
-  // }, [auth.data]);
-
   return (
     <IonTabs>
       <IonRouterOutlet>

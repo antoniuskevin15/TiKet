@@ -73,11 +73,6 @@ const Profile: React.FC = () => {
     // backgroundImage: 'url(' + auth.data?.user.gambar + ')'
     background: "url(../assets/profile.jpeg)",
   };
-  // useEffect(()=>{
-  //   if(auth.data){
-  //     takePackage();
-  //   }
-  // }, [auth.data]);
 
   return (
     <IonPage ref={pageRef}>

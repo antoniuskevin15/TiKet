@@ -34,17 +34,6 @@ const Login: React.FC = () => {
   const { auth } = useStorage();
   const [presentAlert] = useIonAlert();
 
-  useEffect(() => {
-    if (auth.data !== null) {
-      console.log(auth.data);
-      if (auth.data.user.admin) {
-        history.push("/admin/home");
-      } else {
-        history.push("/user/home");
-      }
-    }
-  }, [auth.data]);
-
   const handleLogin = async () => {
     const email: string = emailRef?.current?.value as string;
     const pass: string = passwordRef?.current?.value as string;
@@ -53,6 +42,11 @@ const Login: React.FC = () => {
       setLoading(true);
       const res = await authLogin(email, pass);
       auth.set(res);
+      if (res.user.admin) {
+        history.push("/admin/home");
+      } else {
+        history.push("/user/home");
+      }
     } catch (error: any) {
       presentAlert({
         header: "Error",
