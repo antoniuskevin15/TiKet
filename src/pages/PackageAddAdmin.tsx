@@ -36,15 +36,7 @@ import {
   IonImg,
   IonSpinner,
 } from "@ionic/react";
-import {
-  addOutline,
-  camera,
-  colorPalette,
-  giftOutline,
-  globe,
-  logoDropbox,
-  personOutline,
-} from "ionicons/icons";
+import { addOutline, camera, colorPalette, giftOutline, globe, logoDropbox, personOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { base64FromPath } from "@capacitor-community/react-hooks/filesystem";
@@ -68,9 +60,7 @@ interface Package {
 }
 
 const AddPackageAdmin: React.FC = () => {
-  const [mode, setMode] = useState<"ongoing" | "finished" | "unknown">(
-    "ongoing"
-  );
+  const [mode, setMode] = useState<"ongoing" | "finished" | "unknown">("ongoing");
   const [packages, setPackages] = useState<Package[] | null>(null);
   const dateRef = useRef<HTMLIonDatetimeElement>(null);
   const id = useParams<{ id: string | undefined }>().id;
@@ -101,10 +91,7 @@ const AddPackageAdmin: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const res = await getCircle(
-        auth.data!.token.value,
-        auth.data!.user.circle_id
-      );
+      const res = await getCircle(auth.data!.token.value, auth.data!.user.circle_id);
       setCircle(res.data);
       console.log(res.data.users);
     } catch (error: any) {
@@ -186,10 +173,7 @@ const AddPackageAdmin: React.FC = () => {
                     <IonLabel className="header">
                       <b>Tiket</b>
                     </IonLabel>
-                    <IonIcon
-                      icon={personOutline}
-                      style={{ paddingLeft: "10px" }}
-                    ></IonIcon>
+                    <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
                     <IonLabel className="subheader">
                       <br />
                       {id === undefined ? "Add New Package" : "Update Package"}
@@ -209,10 +193,7 @@ const AddPackageAdmin: React.FC = () => {
                         ></IonInput>
                       </IonItem>
                       {errors.sender && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.sender.message}
                         </IonText>
                       )}
@@ -230,10 +211,7 @@ const AddPackageAdmin: React.FC = () => {
                         ></IonInput>
                       </IonItem>
                       {errors.expedition && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.expedition.message}
                         </IonText>
                       )}
@@ -251,10 +229,7 @@ const AddPackageAdmin: React.FC = () => {
                         ></IonInput>
                       </IonItem>
                       {errors.receiptNumber && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.receiptNumber.message}
                         </IonText>
                       )}
@@ -277,10 +252,7 @@ const AddPackageAdmin: React.FC = () => {
                         </IonSelect>
                       </IonItem>
                       {errors.user_id && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.user_id.message}
                         </IonText>
                       )}
@@ -298,10 +270,7 @@ const AddPackageAdmin: React.FC = () => {
                         ></IonInput>
                       </IonItem>
                       {errors.roomNumber && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.roomNumber.message}
                         </IonText>
                       )}
@@ -318,16 +287,9 @@ const AddPackageAdmin: React.FC = () => {
                   <IonRow>
                     <IonCol className="container-image">
                       <div className="image-preview ion-text-center">
-                        {tempPhoto ? (
-                          <IonImg src={URL.createObjectURL(tempPhoto)} />
-                        ) : (
-                          <h3>No photo chosen.</h3>
-                        )}
+                        {tempPhoto ? <IonImg src={URL.createObjectURL(tempPhoto)} /> : <h3>No photo chosen.</h3>}
                         {errors.photo && (
-                          <IonText
-                            className="input-error ion-padding"
-                            color="danger"
-                          >
+                          <IonText className="input-error ion-padding" color="danger">
                             {errors.photo.message}
                           </IonText>
                         )}
@@ -344,20 +306,13 @@ const AddPackageAdmin: React.FC = () => {
                   </IonRow>
                   <IonRow>
                     <IonCol>
-                      <IonButton
-                        className="margin-vertical"
-                        color="primary"
-                        expand="block"
-                        type="submit"
-                      >
+                      <IonButton className="margin-vertical" color="primary" expand="block" type="submit">
                         {loading ? (
                           <IonSpinner />
                         ) : (
                           <>
                             <IonIcon icon={giftOutline} slot="start" />
-                            {id === undefined
-                              ? "Add Package"
-                              : "Update Package"}
+                            {id === undefined ? "Add Package" : "Update Package"}
                           </>
                         )}
                       </IonButton>

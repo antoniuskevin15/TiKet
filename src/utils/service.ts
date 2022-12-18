@@ -125,6 +125,14 @@ export const addPackage = async (token: string = "", data: FormData) => {
   return res.data;
 };
 
+export const togglePackage = async (token: string = "", id: number, status: string) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  const res = await axios.post(`${BASE_URL}/package/toggle`, { packageId: id, status: status }, config);
+  return res.data;
+};
+
 // export const addPackage = async (
 //   token: string = "",
 //   sender: string,

@@ -11,6 +11,7 @@ import PackageDetailUser from "./PackageDetailUser";
 import { useStorage } from "../utils/service";
 import ProfileEdit from "./ProfileEdit";
 import UnknownPackageConfirmUser from "./UnknownPackageConfirmUser";
+import PackageList from "./PackageList";
 
 const TabsUser: React.FC = () => {
   const { auth } = useStorage();
@@ -21,11 +22,11 @@ const TabsUser: React.FC = () => {
       <IonRouterOutlet>
         {/* <Switch> */}
         <Route path="/user/home" component={Home} />
-        <Route path="/user/package" component={PackageUser} />
+        <Route path="/user/package" exact={true} component={PackageList} />
         <Route path="/user/package/unknown/confirm" component={UnknownPackageConfirmUser} />
+        <Route path="/user/package/detail/:idPackage" component={PackageDetailUser} />
         <Route path="/user/profile" component={Profile} />
         <Route path="/user/editProfile" component={ProfileEdit} />
-        <Route path="/user/package/detail/:idPackage" component={PackageDetailUser} />
         <Redirect exact path="/user" to="/user/home" />
         {/* </Switch> */}
       </IonRouterOutlet>

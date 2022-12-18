@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { homeOutline, personCircleOutline, giftOutline } from "ionicons/icons";
 import { Redirect, Route, useHistory } from "react-router";
 import Home from "./Home";
-import PackageAdmin from "./PackageAdmin";
 import Profile from "./Profile";
 import { Switch } from "react-router-dom";
 import "./TabsAdmin.css";
@@ -11,6 +10,7 @@ import AddPackageAdmin from "./PackageAddAdmin";
 import HomeAdmin from "./HomeAdmin";
 import { useStorage } from "../utils/service";
 import ProfileEdit from "./ProfileEdit";
+import PackageList from "./PackageList";
 
 const TabsAdmin: React.FC = () => {
   const { auth } = useStorage();
@@ -21,7 +21,7 @@ const TabsAdmin: React.FC = () => {
       <IonRouterOutlet>
         {/* <Switch> */}
         <Route path="/admin/home" component={HomeAdmin} />
-        <Route exact path="/admin/package" component={PackageAdmin} />
+        <Route exact path="/admin/package" component={PackageList} />
         <Route path="/admin/package/detail/:id?" component={AddPackageAdmin} />
         <Route path="/admin/profile" component={Profile} />
         <Route path="/admin/editProfile" component={ProfileEdit} />
