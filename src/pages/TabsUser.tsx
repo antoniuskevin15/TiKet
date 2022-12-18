@@ -9,16 +9,17 @@ import { Switch } from "react-router-dom";
 import "./TabsUser.css";
 import PackageDetailUser from "./PackageDetailUser";
 import { useStorage } from "../utils/service";
+import ProfileEdit from "./ProfileEdit";
 
 const TabsUser: React.FC = () => {
   const { auth } = useStorage();
   const history = useHistory();
 
-  useEffect(() => {
-    if (!auth.data) {
-      history.push("/login");
-    }
-  }, [auth.data]);
+  // useEffect(() => {
+  //   if (!auth.data) {
+  //     history.push("/login");
+  //   }
+  // }, [auth.data]);
 
   return (
     <IonTabs>
@@ -27,6 +28,7 @@ const TabsUser: React.FC = () => {
         <Route path="/user/home" component={Home} />
         <Route path="/user/package" component={PackageUser} />
         <Route path="/user/profile" component={Profile} />
+        <Route path="/user/editProfile" component={ProfileEdit} />
         <Route path="/user/package/detail/:idPackage" component={PackageDetailUser} />
         <Redirect exact path="/user" to="/user/home" />
         {/* </Switch> */}
