@@ -307,14 +307,14 @@ const AddPackageAdmin: React.FC = () => {
                       )}
                     </IonCol>
                   </IonRow>
-                  <IonRow>
+                  {/* <IonRow>
                     <IonCol>
                       <IonDatetimeButton datetime="datetime" />
                       <IonModal keepContentsMounted={true}>
                         <IonDatetime id="datetime" className="dateTime" />
                       </IonModal>
                     </IonCol>
-                  </IonRow>
+                  </IonRow> */}
                   <IonRow>
                     <IonCol className="container-image">
                       <div className="image-preview ion-text-center">
