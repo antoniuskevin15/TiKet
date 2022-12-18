@@ -25,3 +25,15 @@
       transform: translate(0, 60%);
   }
 }
+
+.resiInput{
+  font-size: 50px;
+  text-align: center;
+  height: 5vh;
+  border-bottom: solid 0.2vh black;
+  size: 2vh;
+}
+
+.resiInput .native-input{
+  padding-left: 0px!important;
+}

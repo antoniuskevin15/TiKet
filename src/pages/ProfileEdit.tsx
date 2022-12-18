@@ -55,11 +55,11 @@ const ProfileEdit: React.FC = () => {
 
   const photoPlaceholder = useRef<HTMLIonImgElement>(null);
 
-  useEffect(() => {
-    if (auth.data && tempPhoto == null) {
-      history.push("/user/home");
-    }
-  }, [auth.data]);
+  // useEffect(() => {
+  //   if (auth.data && tempPhoto == null) {
+  //     history.push("/user/home");
+  //   }
+  // }, [auth.data]);
 
   useEffect(() => {
     register("photo", { required: "Photo is required" });
@@ -147,7 +147,7 @@ const ProfileEdit: React.FC = () => {
                       <IonItem className="input-register">
                         <IonLabel position="floating">Full Name</IonLabel>
                         <IonInput
-                          disabled
+                          readonly
                           type="text"
                           {...register("name", {
                             required: "Full name is required",

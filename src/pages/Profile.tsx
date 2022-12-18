@@ -99,7 +99,7 @@ const Profile: React.FC = () => {
                     <IonRow className="ion-margin-horizontal ion-justify-content-end"></IonRow>
                     <IonRow className="ion-justify-content-center">
                       <div className="ion-margin profile_image" style={divStyle} />
-                      <IonButton className="btnEdit" fill="solid" onClick={() => history.push("editProfile")}>
+                      <IonButton className="btnEdit" fill="solid" href={(auth.data.user.admin && '/admin/editProfile') || '/user/editProfile'}>
                         <IonIcon
                           className="editIcon"
                           src={createOutline}
