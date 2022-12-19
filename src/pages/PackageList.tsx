@@ -16,15 +16,11 @@ import {
   IonFab,
   IonFabButton,
 } from "@ionic/react";
-import { addOutline, logoDropbox, personOutline } from "ionicons/icons";
+import { addOutline, fish, logoDropbox, personOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import InputAdmin from "../components/InputControlAdmin";
-import {
-  getPackageByCircleId,
-  getPackageByUserId,
-  useStorage,
-} from "../utils/service";
+import { getPackageByCircleId, getPackageByUserId, useStorage } from "../utils/service";
 import "./PackageList.css";
 
 interface PackageContainer {
@@ -49,12 +45,7 @@ interface Package {
 const PackageCard = (props: any) => {
   return (
     <IonCardContent>
-      <IonItem
-        className="item-package"
-        routerLink={
-          props.admin ? undefined : `/user/package/detail/${props.id}`
-        }
-      >
+      <IonItem className="item-package" routerLink={props.admin ? undefined : `/user/package/detail/${props.id}`}>
         <IonThumbnail className="package-thumbnail" slot="start">
           <img
             alt={props.sender}
@@ -63,9 +54,7 @@ const PackageCard = (props: any) => {
           />
         </IonThumbnail>
         <IonCardHeader>
-          <IonCardTitle className="card-package-title">
-            {props.expedition}
-          </IonCardTitle>
+          <IonCardTitle className="card-package-title">{props.expedition}</IonCardTitle>
           <IonCardSubtitle className="card-package-subtitle">
             <IonIcon icon={logoDropbox} style={{ paddingRight: "1vh" }} />
             {props.receiptNumber}
@@ -77,9 +66,7 @@ const PackageCard = (props: any) => {
 };
 
 const PackageList: React.FC = () => {
-  const [mode, setMode] = useState<"ongoing" | "finished" | "unknown">(
-    "ongoing"
-  );
+  const [mode, setMode] = useState<"ongoing" | "finished" | "unknown">("ongoing");
   const [packages, setPackages] = useState<PackageContainer>({
     ongoing: [],
     finished: [],
@@ -87,9 +74,7 @@ const PackageList: React.FC = () => {
   });
   const { auth } = useStorage();
 
-  const selectModeHandler = (
-    selectedValue: "ongoing" | "finished" | "unknown"
-  ) => {
+  const selectModeHandler = (selectedValue: "ongoing" | "finished" | "unknown") => {
     setMode(selectedValue);
   };
 
@@ -97,21 +82,17 @@ const PackageList: React.FC = () => {
     if (auth.data) {
       takePackage();
     }
-  }, [auth.data, packages]);
+
+    return () => {
+      setPackages({ ongoing: [], finished: [], unknown: [] });
+    };
+  }, [auth.data]);
 
   const takePackage = async () => {
     try {
-      let res: any;
-      if (auth.data!.admin) {
-        res = await getPackageByCircleId(
-          auth.data!.token.value,
-          auth.data!.user.circle_id
-        );
-      } else {
-        res = await getPackageByUserId(
-          auth.data!.token.value,
-          auth.data!.user.id
-        );
+      let res = await getPackageByCircleId(auth.data!.token.value, auth.data!.user.circle_id);
+      if (!auth.data!.user.admin) {
+        res.packages = res.packages.filter((p: any) => p.user_id === auth.data!.user.id || p.status === "unknown");
       }
       const group = res.packages.reduce(
         (result: any, curr: any) => {
@@ -121,7 +102,6 @@ const PackageList: React.FC = () => {
         { ongoing: [], finished: [], unknown: [] }
       );
       setPackages(group);
-      console.log(group);
     } catch (error: any) {
       console.log(error);
     }
@@ -130,14 +110,9 @@ const PackageList: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen class="ion-padding">
-        {auth.data?.user.admin && (
-          <IonFab
-            slot="fixed"
-            vertical="bottom"
-            horizontal="end"
-            className="myAdminFab"
-          >
-            <IonFabButton color="dark" routerLink="./package/detail">
+        {auth.data?.user?.admin && (
+          <IonFab slot="fixed" vertical="bottom" horizontal="end" className="myAdminFab">
+            <IonFabButton color="dark" routerLink="./package/edit">
               <IonIcon icon={addOutline}></IonIcon>
             </IonFabButton>
           </IonFab>
@@ -151,36 +126,22 @@ const PackageList: React.FC = () => {
                     <IonLabel className="header">
                       <b>TikeT</b>
                     </IonLabel>
-                    <IonIcon
-                      icon={personOutline}
-                      style={{ paddingLeft: "10px" }}
-                    ></IonIcon>
+                    <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
                   </IonCol>
                 </IonRow>
                 <IonRow>
-                  <InputAdmin
-                    selectedValue={mode}
-                    onSelectValue={selectModeHandler}
-                  />
+                  <InputAdmin selectedValue={mode} onSelectValue={selectModeHandler} />
                 </IonRow>
 
                 <IonList>
                   {mode === "ongoing" &&
                     packages?.ongoing?.map((p: any, idx: number) => (
-                      <PackageCard
-                        key={`package-ongoing-item-${idx}`}
-                        {...p}
-                        admin={auth?.data?.admin}
-                      />
+                      <PackageCard key={`package-ongoing-item-${idx}`} {...p} admin={auth?.data?.user?.admin} />
                     ))}
 
                   {mode === "finished" &&
                     packages?.finished?.map((p: any, idx: number) => (
-                      <PackageCard
-                        key={`package-finished-item-${idx}`}
-                        {...p}
-                        admin={auth?.data?.admin}
-                      />
+                      <PackageCard key={`package-finished-item-${idx}`} {...p} admin={auth?.data?.user?.admin} />
                     ))}
 
                   {mode === "unknown" &&
@@ -188,14 +149,11 @@ const PackageList: React.FC = () => {
                       <PackageCard
                         key={`package-unknown-item-${idx}`}
                         {...p}
-                        admin={auth?.data?.admin}
+                        admin={auth?.data?.user?.admin}
                         receiptNumber={
                           auth?.data?.admin
                             ? p.receiptNumber
-                            : p.receiptNumber.substring(
-                                0,
-                                p.receiptNumber?.length - 4
-                              ) + "****"
+                            : p.receiptNumber.substring(0, p.receiptNumber?.length - 4) + "****"
                         }
                       />
                     ))}

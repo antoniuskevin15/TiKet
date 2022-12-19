@@ -22,7 +22,7 @@ const TabsAdmin: React.FC = () => {
         {/* <Switch> */}
         <Route path="/admin/home" component={HomeAdmin} />
         <Route exact path="/admin/package" component={PackageList} />
-        <Route path="/admin/package/detail/:id?" component={AddPackageAdmin} />
+        <Route path="/admin/package/edit/:id?" component={AddPackageAdmin} />
         <Route path="/admin/profile" component={Profile} />
         <Route path="/admin/editProfile" component={ProfileEdit} />
         <Redirect exact path="/admin" to="/admin/home" />

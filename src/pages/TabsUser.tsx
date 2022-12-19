@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { homeOutline, personCircleOutline, giftOutline } from "ionicons/icons";
 import { Redirect, Route, useHistory } from "react-router";
 import Home from "./Home";
-import PackageUser from "./PackageUser";
 import Profile from "./Profile";
 import { Switch } from "react-router-dom";
 import "./TabsUser.css";

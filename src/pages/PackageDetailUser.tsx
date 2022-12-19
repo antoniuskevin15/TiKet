@@ -94,7 +94,6 @@ const PackageDetailUser: React.FC = () => {
         triggerApiCall(status);
       }
     } else {
-
       history.push("/user/package/unknown/confirm", { packages });
     }
   };
@@ -147,23 +146,21 @@ const PackageDetailUser: React.FC = () => {
                       </h1>
                     </IonText>
                     <IonGrid>
-                      <IonRow>
+                      <IonRow className="ion-margin-top">
                         <IonCol>
                           <IonButton className="btnhitam" onClick={() => handleTogglePackage("finished")}>
                             Yes, it's mine
                           </IonButton>
                         </IonCol>
-                        {
-                          packages?.status !== "unknown" && (
-                            <>
-                              <IonCol>
-                                <IonButton className="btnputih" onClick={() => handleTogglePackage("unknown")}>
-                                  Not mine
-                                </IonButton>
-                              </IonCol>
-                            </>
-                          )
-                        }
+                        {packages?.status !== "unknown" && (
+                          <>
+                            <IonCol>
+                              <IonButton className="btnputih" onClick={() => handleTogglePackage("unknown")}>
+                                Not mine
+                              </IonButton>
+                            </IonCol>
+                          </>
+                        )}
                       </IonRow>
                     </IonGrid>
                   </>
