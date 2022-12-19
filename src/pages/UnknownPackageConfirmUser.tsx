@@ -14,15 +14,19 @@ const UnknownPackageConfirmUser: React.FC = () => {
             const form = event.target.form;
             const index = [...form].indexOf(event.target);
             console.log(index)
-            form[index + 1].focus();
-            event.preventDefault();
+            if(index >= 0 && index < 3){
+                form[index + 1].focus();
+                event.preventDefault();
+            }
         }
         else if (event.key === "Backspace") {
             const form = event.target.form;
             const index = [...form].indexOf(event.target);
             console.log(index)
-            form[index - 1].focus();
-            event.preventDefault();
+            if(index > 0 && index < 4){
+                form[index - 1].focus();
+                event.preventDefault();
+            }
         }
     }
 
@@ -47,16 +51,16 @@ const UnknownPackageConfirmUser: React.FC = () => {
                     <form>
                         <IonRow>
                             <IonCol>
-                                <IonInput type="number" min={0} max={9} autofocus className="resiInput" onKeyUp={(e) => handleNextInput(e)} />
+                                <IonInput type="text" maxlength={1} autofocus className="resiInput" onKeyUp={(e) => handleNextInput(e)}/>
                             </IonCol>
                             <IonCol>
-                                <IonInput type="number" min={0} max={9} className="resiInput" onKeyUp={(e) => handleNextInput(e)} />
+                                <IonInput type="text" maxlength={1} className="resiInput" onKeyUp={(e) => handleNextInput(e)} />
                             </IonCol>
                             <IonCol>
-                                <IonInput type="number" min={0} max={9} className="resiInput" onKeyUp={(e) => handleNextInput(e)} />
+                                <IonInput type="text" maxlength={1} className="resiInput" onKeyUp={(e) => handleNextInput(e)} />
                             </IonCol>
                             <IonCol>
-                                <IonInput type="number" min={0} max={9} className="resiInput" onKeyUp={(e) => handleNextInput(e)} />
+                                <IonInput type="text" maxlength={1} className="resiInput" onKeyUp={(e) => handleNextInput(e)} />
                             </IonCol>
                         </IonRow>
                     </form>

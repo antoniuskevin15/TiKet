@@ -36,6 +36,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.40.0",
+    "react-moment": "^1.1.2",
     "react-qr-code": "^2.0.8",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
