@@ -38,8 +38,14 @@ const CreateCircle: React.FC = () => {
     try {
       console.log(auth.data!.token.value); //INI TOKEN
       const formData = new FormData();
-      const res = await circleCreate(auth.data!.token.value, data.circleName, data.address, data.desc, selectedFile!);
-      history.push("/user/home"); //HARUSNYA KE ADMIN
+      const res = await circleCreate(
+        auth.data!.token.value,
+        data.circleName,
+        data.address,
+        data.desc,
+        selectedFile!
+      );
+      history.push("/admin/home");
     } catch (error: any) {
       console.log(error);
     }
@@ -73,7 +79,10 @@ const CreateCircle: React.FC = () => {
             <IonLabel className="header">
               <b>TikeT</b>
             </IonLabel>
-            <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
+            <IonIcon
+              icon={personOutline}
+              style={{ paddingLeft: "10px" }}
+            ></IonIcon>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -153,7 +162,13 @@ const CreateCircle: React.FC = () => {
               <IonCol className="container-image">
                 <div className="image-preview ion-text-center">
                   {!takenPhoto && <h3>No photo chosen.</h3>}
-                  {takenPhoto && <img className="image-preview-rounded" src={takenPhoto} alt="Preview" />}
+                  {takenPhoto && (
+                    <img
+                      className="image-preview-rounded"
+                      src={takenPhoto}
+                      alt="Preview"
+                    />
+                  )}
                 </div>
               </IonCol>
             </IonRow>
@@ -168,7 +183,11 @@ const CreateCircle: React.FC = () => {
                   })}
                   onChange={updateImage}
                 />
-                <IonButton fill="clear" onClick={takePhotoHandler} ref={fileButton}>
+                <IonButton
+                  fill="clear"
+                  onClick={takePhotoHandler}
+                  ref={fileButton}
+                >
                   <IonIcon slot="start" icon={camera} />
                   <IonLabel>Upload Photo</IonLabel>
                 </IonButton>
@@ -176,7 +195,12 @@ const CreateCircle: React.FC = () => {
             </IonRow>
             <IonRow>
               <IonCol>
-                <IonButton class="loginBtn" color="primary" expand="block" type="submit">
+                <IonButton
+                  class="loginBtn"
+                  color="primary"
+                  expand="block"
+                  type="submit"
+                >
                   Create
                 </IonButton>
               </IonCol>
