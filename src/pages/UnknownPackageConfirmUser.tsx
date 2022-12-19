@@ -118,7 +118,7 @@ const UnknownPackageConfirmUser: React.FC = () => {
     try {
       const packageCur: Package = packageDataS.packages;
       await togglePackage(auth?.data?.token?.value, packageCur.id, status, auth?.data?.user?.id);
-      history.push("/user/package", { fetchData: true });
+      window.location.href = "/user/package";
     } catch (error: any) {
       presentAlert({
         header: "Error",

@@ -7,10 +7,12 @@ import { storageContext } from "./StorageContext";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const useStorage = () => {
-  const { store, auth } = useContext(storageContext);
   return {
-    store,
-    auth,
+    ...useContext(storageContext),
+  } as {
+    auth: any;
+    storage: any;
+    app: any;
   };
 };
 

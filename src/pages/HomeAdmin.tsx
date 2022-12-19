@@ -46,10 +46,10 @@ const HomeAdmin: React.FC = () => {
   const { auth } = useStorage();
 
   useEffect(() => {
-    if (auth.data) {
+    if (Object.keys(auth.data || {}).length > 0) {
       takeCircle();
     }
-  }, []);
+  }, [auth.data]);
 
   const takeCircle = async () => {
     try {
@@ -61,6 +61,7 @@ const HomeAdmin: React.FC = () => {
       console.log(error);
     }
   };
+
   return (
     <IonPage>
       <IonContent class="homeadmin" className="ion-padding">

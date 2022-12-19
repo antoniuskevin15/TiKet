@@ -32,6 +32,7 @@ import JoinCircle from "./pages/JoinCircle";
 import { StorageProvider } from "./utils/StorageContext";
 import { App as AppCap } from "@capacitor/app";
 import { useEffect } from "react";
+import { useStorage } from "./utils/service";
 
 setupIonicReact();
 

@@ -30,7 +30,7 @@ import { Package } from "../types/type";
 const PackageDetailUser: React.FC = () => {
   const [packages, setPackages] = useState<Package>({} as Package);
   const idPackage = useParams<{ idPackage: string }>().idPackage;
-  const { auth } = useStorage();
+  const { auth, app } = useStorage();
   const [presentAlert] = useIonAlert();
   const history = useHistory();
 
@@ -50,7 +50,8 @@ const PackageDetailUser: React.FC = () => {
   const triggerApiCall = async (status: "finished" | "unknown") => {
     try {
       await togglePackage(auth?.data?.token?.value, parseInt(idPackage), status, auth?.data?.user?.id);
-      history.push("/user/package", { fetchData: true });
+      app.handler.takePackage();
+      history.push("/user/package");
     } catch (error: any) {
       presentAlert({
         header: "Error",

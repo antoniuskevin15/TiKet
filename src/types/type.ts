@@ -11,3 +11,9 @@ export type Package = {
   user_id: number;
   updated_at: string;
 };
+
+export type PackageContainer = {
+  ongoing: Package[];
+  finished: Package[];
+  unknown: Package[];
+};

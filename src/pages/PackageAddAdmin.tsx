@@ -79,12 +79,11 @@ const AddPackageAdmin: React.FC = () => {
     sender: string;
     expedition: string;
     receiptNumber: string;
-    roomNumber: string;
     photo: File;
     user_id: number;
     errors: any;
   }>();
-  const { auth } = useStorage();
+  const { auth, app } = useStorage();
 
   const [presentAlert] = useIonAlert();
   const [tempPhoto, setTempPhoto] = useState<File | null>(null);
@@ -114,11 +113,11 @@ const AddPackageAdmin: React.FC = () => {
       formData.append("sender", data.sender);
       formData.append("expedition", data.expedition);
       formData.append("receiptNumber", data.receiptNumber);
-      formData.append("roomNumber", data.roomNumber);
       formData.append("photo", data.photo);
       formData.append("user_id", data.user_id);
 
       await addPackage(auth?.data?.token?.value, formData);
+      app.handler.takePackage();
       history.push("/admin/package");
     } catch (error: any) {
       presentAlert({
@@ -246,7 +245,7 @@ const AddPackageAdmin: React.FC = () => {
                         >
                           {circle?.users?.map((user: any, idx: number) => (
                             <IonSelectOption key={idx} value={user.id}>
-                              {user.name}
+                              {user.roomNumber}-{user.name}
                             </IonSelectOption>
                           ))}
                         </IonSelect>
@@ -254,24 +253,6 @@ const AddPackageAdmin: React.FC = () => {
                       {errors.user_id && (
                         <IonText className="input-error ion-padding" color="danger">
                           {errors.user_id.message}
-                        </IonText>
-                      )}
-                    </IonCol>
-                  </IonRow>
-                  <IonRow>
-                    <IonCol>
-                      <IonItem className="input-register">
-                        <IonLabel position="floating">Room Number</IonLabel>
-                        <IonInput
-                          type="text"
-                          {...register("roomNumber", {
-                            required: "Room number is required",
-                          })}
-                        ></IonInput>
-                      </IonItem>
-                      {errors.roomNumber && (
-                        <IonText className="input-error ion-padding" color="danger">
-                          {errors.roomNumber.message}
                         </IonText>
                       )}
                     </IonCol>
