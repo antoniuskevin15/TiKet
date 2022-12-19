@@ -42,18 +42,7 @@ interface Package {
 
 const HomeAdmin: React.FC = () => {
   const [packages, setPackages] = useState<Package[]>([]);
-  const [DATA_APART, setDATA_APART] = useState<any>([
-    {
-      id: "1",
-      name: "",
-      address: "",
-      description: "",
-      photoURL: "https://www.summareconbekasi.com/public/images/gallery/article/14000/mtown-fc3.jpg",
-      users: [
-        { id: "U1", nama: "Vallen", photo: "https://i.pinimg.com/236x/27/98/15/279815f1c5fa2a4f3f378b4be8612632.jpg" },
-      ],
-    },
-  ]);
+  const [DATA_APART, setDATA_APART] = useState<any>([]);
   const { auth } = useStorage();
 
   useEffect(() => {

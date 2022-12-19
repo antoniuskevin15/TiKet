@@ -74,23 +74,28 @@ const PackageDetailUser: React.FC = () => {
   };
 
   const handleTogglePackage = async (status: "finished" | "unknown") => {
-    if (status === "unknown") {
-      await presentAlert({
-        header: "Are you sure?",
-        message: "You can't change this status again",
-        buttons: [
-          {
-            text: "No",
-            role: "cancel",
-          },
-          {
-            text: "Yes",
-            handler: () => triggerApiCall(status),
-          },
-        ],
-      });
+    if (packages?.status !== "unknown") {
+      if (status === "unknown") {
+        await presentAlert({
+          header: "Are you sure?",
+          message: "You can't change this status again",
+          buttons: [
+            {
+              text: "No",
+              role: "cancel",
+            },
+            {
+              text: "Yes",
+              handler: () => triggerApiCall(status),
+            },
+          ],
+        });
+      } else {
+        triggerApiCall(status);
+      }
     } else {
-      triggerApiCall(status);
+
+      history.push("/user/package/unknown/confirm", { packages });
     }
   };
 
@@ -148,11 +153,17 @@ const PackageDetailUser: React.FC = () => {
                             Yes, it's mine
                           </IonButton>
                         </IonCol>
-                        <IonCol>
-                          <IonButton className="btnputih" onClick={() => handleTogglePackage("unknown")}>
-                            Not mine
-                          </IonButton>
-                        </IonCol>
+                        {
+                          packages?.status !== "unknown" && (
+                            <>
+                              <IonCol>
+                                <IonButton className="btnputih" onClick={() => handleTogglePackage("unknown")}>
+                                  Not mine
+                                </IonButton>
+                              </IonCol>
+                            </>
+                          )
+                        }
                       </IonRow>
                     </IonGrid>
                   </>
