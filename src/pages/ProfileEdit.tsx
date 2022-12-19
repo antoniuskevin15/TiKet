@@ -74,7 +74,11 @@ const ProfileEdit: React.FC = () => {
       const res = await authEdit(formData);
       auth.set(res);
       console.log(auth);
-      history.push("/user/home");
+      if(auth.data?.user.admin == true){
+        history.push("/admin/profile");
+      }else{
+        history.push("/user/profile");
+      }
     } catch (error: any) {
       presentAlert({
         header: "Error",
@@ -116,7 +120,12 @@ const ProfileEdit: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/user/profile" />
+            {auth.data?.user.admin == 1 && (
+              <IonBackButton defaultHref="/admin/profile" />
+            )}
+            {auth.data?.user.admin == 0 && (
+              <IonBackButton defaultHref="/user/profile" />
+            )}
           </IonButtons>
         </IonToolbar>
       </IonHeader>
