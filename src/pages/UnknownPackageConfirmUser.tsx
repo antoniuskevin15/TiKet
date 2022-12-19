@@ -1,4 +1,4 @@
-import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonLabel, IonPage, IonRow, IonTitle, IonToolbar, useIonAlert } from '@ionic/react';
+import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonLabel, IonPage, IonRow, IonTitle, IonToolbar, useIonAlert } from '@ionic/react';
 import { personOutline } from 'ionicons/icons';
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router';
@@ -122,6 +122,14 @@ const UnknownPackageConfirmUser: React.FC = () => {
 
     return (
         <IonPage>
+          <IonHeader>
+            <IonToolbar className="toolbarDetail">
+              <IonButtons slot="start">
+                <IonBackButton defaultHref="/user/package" />
+              </IonButtons>
+              <IonTitle>Package</IonTitle>
+            </IonToolbar>
+          </IonHeader>
             <IonContent fullscreen className="ion-padding">
                 <IonGrid>
                     <IonRow>
