@@ -17,7 +17,7 @@ export const useStorage = () => {
 axios.defaults.withCredentials = true;
 
 export const checkSession = async (token: string = "") => {
-  const res = await axios.get(`${BASE_URL}/check-session`, { headers: { Authorization: `Bearer ${token}` } });
+  const res = await axios.get(`${BASE_URL}/verify-session`, { headers: { Authorization: `Bearer ${token}` } });
   return res.data;
 };
 
@@ -86,6 +86,16 @@ export const joinCircle = async (token: string = "", name: string, room: string)
   return res.data;
 };
 
+export const leaveCircle = async (token: string = "") => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const res = await axios.post(`${BASE_URL}/circle/leave`, {}, config);
+  return res.data;
+};
+
 export const getPackageByCircleId = async (token: string = "", id: number) => {
   const config = {
     headers: { Authorization: `Bearer ${token}` },
@@ -126,11 +136,11 @@ export const addPackage = async (token: string = "", data: FormData) => {
   return res.data;
 };
 
-export const togglePackage = async (token: string = "", id: number, status: string) => {
+export const togglePackage = async (token: string = "", id: number, status: string, userId: number) => {
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
-  const res = await axios.post(`${BASE_URL}/package/toggle`, { packageId: id, status: status }, config);
+  const res = await axios.post(`${BASE_URL}/package/toggle`, { packageId: id, status: status, userId: userId }, config);
   return res.data;
 };
 

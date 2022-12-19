@@ -74,6 +74,7 @@ const PackageList: React.FC = () => {
   });
   const { auth } = useStorage();
   const location = useLocation();
+  const { triggerFetch }: any = location.state;
   const render = location.state;
 
   const selectModeHandler = (selectedValue: "ongoing" | "finished" | "unknown") => {
@@ -84,7 +85,7 @@ const PackageList: React.FC = () => {
     if (auth.data) {
       takePackage();
     }
-  }, [auth.data]);
+  }, [auth.data, triggerFetch]);
 
   useEffect(() => {
     takePackage();

@@ -41,26 +41,26 @@ export const StorageProvider = (props: storageProviderTypes) => {
   const [authData, setAuthData] = useState<authDataTypes | null>(null);
   const history = useHistory();
 
-  const initStorage = async () => {
+  const initStorage = () => {
     const newStore = new Storage({
       name: "tiketdb",
     });
 
-    const tempStore = await newStore.create();
-    const authData = await tempStore.get("authData");
-    setStore(tempStore);
-    setAuthData(authData);
+    Promise.all([newStore.create(), newStore.get("authData")]).then(async (res: any) => {
+      const tempStore = res[0];
+      const authData = res[1];
+      setStore(tempStore);
+      setAuthData(authData);
+      console.log("Storage initialized");
 
-    try {
-      const res = await checkSession(authData?.token?.value);
-      console.log(res);
-    } catch (error: any) {
-      console.log(error);
-      setAuth({} as authDataTypes);
-      history.replace("/login");
-    }
-
-    console.log("Storage initialized");
+      try {
+        const res = await checkSession(authData?.token?.value);
+      } catch (error: any) {
+        console.log(error);
+        setAuth({} as authDataTypes);
+        history.replace("/login");
+      }
+    });
   };
 
   useEffect(() => {

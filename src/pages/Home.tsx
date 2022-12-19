@@ -25,7 +25,6 @@ import "./Home.css";
 
 const Home: React.FC = () => {
   const [descActive, setdescActive] = useState<boolean>(true);
-  const [membersActive, setmembersActive] = useState<boolean>(false);
   const [DATA_APART, setDATA_APART] = useState<any>([]);
   const { auth } = useStorage();
 
@@ -76,7 +75,6 @@ const Home: React.FC = () => {
                       className="home-segment-button"
                       value="Description"
                       onClick={() => {
-                        setmembersActive(false);
                         setdescActive(true);
                       }}
                     >
@@ -87,7 +85,6 @@ const Home: React.FC = () => {
                       value="Members"
                       onClick={() => {
                         setdescActive(false);
-                        setmembersActive(true);
                       }}
                     >
                       <IonLabel>Members</IonLabel>
@@ -138,6 +135,7 @@ const Home: React.FC = () => {
                                 <IonRow className="ion-justify-content-center">
                                   <IonCol class="roundedphoto">
                                     <IonImg
+                                      style={{ objectFit: "cover" }}
                                       src={`${process.env.REACT_APP_WEB_URL}/storage/${member.photoPath}`}
                                     ></IonImg>
                                   </IonCol>

@@ -22,7 +22,7 @@ import { camera, personOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
-import { authEdit, authRegister, useStorage } from "../utils/service";
+import { authEdit, authRegister, leaveCircle, useStorage } from "../utils/service";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import "./ProfileEdit.css";
 import { Link } from "react-router-dom";
@@ -74,9 +74,9 @@ const ProfileEdit: React.FC = () => {
       const res = await authEdit(formData);
       auth.set(res);
       console.log(auth);
-      if(auth.data?.user.admin == true){
+      if (auth.data?.user.admin == true) {
         history.push("/admin/profile");
-      }else{
+      } else {
         history.push("/user/profile");
       }
     } catch (error: any) {
@@ -102,9 +102,29 @@ const ProfileEdit: React.FC = () => {
     presentAlert({
       header: "Leave Circle ?",
       message: "Are You Sure Want To Leave This Circle?",
-      buttons: ["Sure", "Cancel"],
+      buttons: [
+        {
+          text: "No",
+          role: "cancel",
+        },
+        {
+          text: "Sure",
+          handler: async () => {
+            try {
+              await leaveCircle(auth.data?.token.value);
+              const tempAuthData = auth.data;
+              tempAuthData.user.circle_id = null;
+              tempAuthData.user.roomNumber = null;
+              auth.set(tempAuthData);
+              history.push("/select");
+            } catch (error: any) {
+              console.log(error);
+            }
+          },
+        },
+      ],
     });
-  }
+  };
 
   const handleTakePhoto = async () => {
     const photo: any = await Camera.getPhoto({
@@ -117,10 +137,7 @@ const ProfileEdit: React.FC = () => {
     setTempPhoto(filePhoto);
 
     setValue("photo", filePhoto);
-    photoPlaceholder.current?.setAttribute(
-      "src",
-      URL.createObjectURL(filePhoto)
-    );
+    photoPlaceholder.current?.setAttribute("src", URL.createObjectURL(filePhoto));
   };
 
   return (
@@ -128,12 +145,8 @@ const ProfileEdit: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            {auth.data?.user.admin == 1 && (
-              <IonBackButton defaultHref="/admin/profile" />
-            )}
-            {auth.data?.user.admin == 0 && (
-              <IonBackButton defaultHref="/user/profile" />
-            )}
+            {auth.data?.user.admin == 1 && <IonBackButton defaultHref="/admin/profile" />}
+            {auth.data?.user.admin == 0 && <IonBackButton defaultHref="/user/profile" />}
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -147,13 +160,10 @@ const ProfileEdit: React.FC = () => {
                     <IonLabel className="header">
                       <b>Edit Profile</b>
                     </IonLabel>
-                    <IonIcon
-                      icon={personOutline}
-                      style={{ paddingLeft: "10px" }}
-                    ></IonIcon>
+                    <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
                     <IonLabel className="subheader">
                       <br />
-                      {auth.data.user.admin ? "Admin" : "User"}
+                      {auth?.data?.user?.admin ? "Admin" : "User"}
                     </IonLabel>
                   </IonCol>
                 </IonRow>
@@ -163,7 +173,7 @@ const ProfileEdit: React.FC = () => {
                       <IonItem className="input-register">
                         <IonLabel position="floating">Full Name</IonLabel>
                         <IonInput
-                          value={auth.data?.user.name}
+                          value={auth?.data?.user?.name}
                           type="text"
                           {...register("name", {
                             required: "Full name is required",
@@ -171,10 +181,7 @@ const ProfileEdit: React.FC = () => {
                         />
                       </IonItem>
                       {errors.name && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.name.message}
                         </IonText>
                       )}
@@ -185,7 +192,7 @@ const ProfileEdit: React.FC = () => {
                       <IonItem className="input-register">
                         <IonLabel position="floating">Phone Number</IonLabel>
                         <IonInput
-                          value={auth.data?.user.telephone}
+                          value={auth?.data?.user?.telephone}
                           {...register("telephone", {
                             required: "Phone number is Required",
                             pattern: {
@@ -194,22 +201,17 @@ const ProfileEdit: React.FC = () => {
                             },
                             minLength: {
                               value: 10,
-                              message:
-                                "Phone number must be at least 10 digits",
+                              message: "Phone number must be at least 10 digits",
                             },
                             maxLength: {
                               value: 13,
-                              message:
-                                "Phone number must be a maximum of 13 digits",
+                              message: "Phone number must be a maximum of 13 digits",
                             },
                           })}
                         />
                       </IonItem>
                       {errors.telephone && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.telephone.message}
                         </IonText>
                       )}
@@ -220,7 +222,7 @@ const ProfileEdit: React.FC = () => {
                       <IonItem className="input-register">
                         <IonLabel position="floating">Email Address</IonLabel>
                         <IonInput
-                          value={auth.data?.user.email}
+                          value={auth?.data?.user?.email}
                           type="email"
                           {...register("email", {
                             required: "Email address is required",
@@ -232,10 +234,7 @@ const ProfileEdit: React.FC = () => {
                         />
                       </IonItem>
                       {errors.email && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.email.message}
                         </IonText>
                       )}
@@ -254,10 +253,7 @@ const ProfileEdit: React.FC = () => {
                         onClick={handleTakePhoto}
                       />
                       {errors.photo && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.photo.message}
                         </IonText>
                       )}
@@ -272,21 +268,15 @@ const ProfileEdit: React.FC = () => {
                       </IonButton>
                     </IonCol>
                   </IonRow>
-                  {!auth.data.user.admin &&
-                    (
-                      <IonRow>
-                        <IonCol>
-                          <IonButton
-                            class="loginBtn"
-                            color="danger"
-                            expand="block"
-                            onClick={showLeaveAlert}
-                          >
-                            Leave Circle
-                          </IonButton>
-                        </IonCol>
-                      </IonRow>
-                    )}
+                  {!auth?.data?.user?.admin && (
+                    <IonRow>
+                      <IonCol>
+                        <IonButton class="loginBtn" color="danger" expand="block" onClick={showLeaveAlert}>
+                          Leave Circle
+                        </IonButton>
+                      </IonCol>
+                    </IonRow>
+                  )}
                   <IonRow>
                     <IonCol>
                       <IonButton
@@ -301,7 +291,6 @@ const ProfileEdit: React.FC = () => {
                     </IonCol>
                   </IonRow>
                 </form>
-
               </IonGrid>
             </IonCol>
           </IonRow>

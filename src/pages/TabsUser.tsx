@@ -18,6 +18,7 @@ const TabsUser: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
+    console.log(auth.data?.user?.circle_id);
     if (Object.keys(auth.data || {}).length > 0 && !auth.data?.user?.circle_id) {
       history.replace("/select");
     }
