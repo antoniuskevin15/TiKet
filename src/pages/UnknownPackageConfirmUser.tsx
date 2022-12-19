@@ -36,23 +36,42 @@ const UnknownPackageConfirmUser: React.FC = () => {
 
   const handleTakePackage = async () => {};
 
-  const handleNextInput = (event: any) => {
+  const handleNextInput = (event: any, prev: number, next: number) => {
     if (
-      (event.key !== "Backspace" && event.keyCode >= 48 && event.keyCode <= 57) ||
-      (event.keyCode >= 65 && event.keyCode <= 90)
+      (event.key !== "Backspace" && next != -1 && event.keyCode >= 48 && event.keyCode <= 57)
     ) {
-      const form = event.target.form;
-      const index = [...form].indexOf(event.target);
-      if (index >= 0 && index < 3) {
-        form[index + 1].focus();
-        event.preventDefault();
+      switch(next){
+        case 1:
+          setTimeout(() => duaRef.current?.setFocus(), 50);
+          break;
+        case 2:
+          setTimeout(() => tigaRef.current?.setFocus(), 50);
+          break;
+        case 3:
+          setTimeout(() => empatRef.current?.setFocus(), 50);
+        // const form = event.target.form;
+        // const index = [...form].indexOf(event.target);
+        // if (index >= 0 && index < 3) {
+        //   form[index + 1].focus();
+        //   event.preventDefault();
+        // }
       }
-    } else if (event.key === "Backspace") {
-      const form = event.target.form;
-      const index = [...form].indexOf(event.target);
-      if (index > 0 && index < 4) {
-        form[index - 1].focus();
-        event.preventDefault();
+    } else if (event.key === "Backspace" && prev != -1) {
+      // const form = event.target.form;
+      // const index = [...form].indexOf(event.target);
+      // if (index > 0 && index < 4) {
+      //   form[index - 1].focus();
+      //   event.preventDefault();
+      // }
+      switch(prev){
+        case 0:
+          setTimeout(() => satuRef.current?.setFocus(), 50);
+          break;
+        case 1:
+          setTimeout(() => duaRef.current?.setFocus(), 50);
+          break;
+        case 2:
+          setTimeout(() => tigaRef.current?.setFocus(), 50);
       }
     }
   };
@@ -122,16 +141,16 @@ const UnknownPackageConfirmUser: React.FC = () => {
                     <form>
                         <IonRow>
                             <IonCol>
-                                <IonInput type="text" maxlength={1} autofocus className="resiInput" onKeyUp={(e) => handleNextInput(e)} ref={satuRef}/>
+                                <IonInput type="tel" maxlength={1} autofocus className="resiInput" inputmode="tel" onKeyDown={(e) => handleNextInput(e, -1, 1)} ref={satuRef}/>
                             </IonCol>
                             <IonCol>
-                                <IonInput type="text" maxlength={1} className="resiInput" onKeyUp={(e) => handleNextInput(e)} ref={duaRef}/>
+                                <IonInput type="tel" maxlength={1} className="resiInput" inputmode="tel" onKeyDown={(e) => handleNextInput(e, 0, 2)} ref={duaRef}/>
                             </IonCol>
                             <IonCol>
-                                <IonInput type="text" maxlength={1} className="resiInput" onKeyUp={(e) => handleNextInput(e)} ref={tigaRef}/>
+                                <IonInput type="tel" maxlength={1} className="resiInput" inputmode="tel" onKeyDown={(e) => handleNextInput(e, 1, 3)} ref={tigaRef}/>
                             </IonCol>
                             <IonCol>
-                                <IonInput type="text" maxlength={1} className="resiInput" onKeyUp={(e) => handleNextInput(e)} ref={empatRef}/>
+                                <IonInput type="tel" maxlength={1} className="resiInput" inputmode="tel" onKeyDown={(e) => handleNextInput(e, 2, -1)} ref={empatRef}/>
                             </IonCol>
                         </IonRow>
                     </form>
