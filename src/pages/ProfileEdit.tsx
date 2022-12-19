@@ -94,6 +94,14 @@ const ProfileEdit: React.FC = () => {
     }
   };
 
+  const showLeaveAlert = () => {
+    presentAlert({
+      header: "Leave Circle ?",
+      message: "Are You Sure Want To Leave This Circle?",
+      buttons: ["Sure", "Cancel"],
+    });
+  }
+
   const handleTakePhoto = async () => {
     const photo: any = await Camera.getPhoto({
       quality: 70,
@@ -255,6 +263,21 @@ const ProfileEdit: React.FC = () => {
                       </IonButton>
                     </IonCol>
                   </IonRow>
+                  {!auth.data.user.admin &&
+                    (
+                      <IonRow>
+                        <IonCol>
+                          <IonButton
+                            class="loginBtn"
+                            color="danger"
+                            expand="block"
+                            onClick={showLeaveAlert}
+                          >
+                            Leave Circle
+                          </IonButton>
+                        </IonCol>
+                      </IonRow>
+                    )}
                   <IonRow>
                     <IonCol>
                       <IonButton
@@ -269,6 +292,7 @@ const ProfileEdit: React.FC = () => {
                     </IonCol>
                   </IonRow>
                 </form>
+
               </IonGrid>
             </IonCol>
           </IonRow>

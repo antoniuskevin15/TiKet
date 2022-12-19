@@ -76,13 +76,13 @@ export const circleCreate = async (
   return res.data;
 };
 
-export const joinCircle = async (token: string = "", name: string) => {
+export const joinCircle = async (token: string = "", name: string, room: string) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  const res = await axios.post(`${BASE_URL}/circle/join/`, { name: name }, config);
+  const res = await axios.post(`${BASE_URL}/circle/join`, { name: name, roomNumber: room }, config);
   return res.data;
 };
 
