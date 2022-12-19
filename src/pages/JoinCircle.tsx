@@ -240,6 +240,18 @@ const JoinCircle: React.FC = () => {
               </IonItem>
             </IonCol>
           </IonRow>
+          <IonRow className="ion-justify-content-center ion-text-center ion-margin-top">
+            <IonCol>
+              <IonButton
+                color="primary"
+                class="loginBtn"
+                onClick={onSubmit}
+                className="circle-join-button"
+              >
+                Join Circle
+              </IonButton>
+            </IonCol>
+          </IonRow>
           <IonRow>
             <IonCol className="ion-text-center">
               <IonLabel className="or-label">
@@ -252,18 +264,6 @@ const JoinCircle: React.FC = () => {
               <IonButton className="circle-button" onClick={startScan}>
                 <IonIcon icon={scanOutline} slot="start" />
                 Start Scan
-              </IonButton>
-            </IonCol>
-          </IonRow>
-          <IonRow className="ion-justify-content-center ion-text-center ion-margin-top">
-            <IonCol>
-              <IonButton
-                color="primary"
-                class="loginBtn"
-                onClick={onSubmit}
-                className="circle-join-button"
-              >
-                Join Circle
               </IonButton>
             </IonCol>
           </IonRow>
