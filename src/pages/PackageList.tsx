@@ -74,7 +74,7 @@ const PackageList: React.FC = () => {
   });
   const { auth } = useStorage();
   const location = useLocation();
-  const { triggerFetch }: any = location.state;
+  const triggerFetch = location.state;
   const render = location.state;
 
   const selectModeHandler = (selectedValue: "ongoing" | "finished" | "unknown") => {
