@@ -97,7 +97,7 @@ const PackageList: React.FC = () => {
     if (auth.data) {
       takePackage();
     }
-  }, [auth.data, packages]);
+  }, [auth.data]);
 
   const takePackage = async () => {
     try {
