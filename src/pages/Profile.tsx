@@ -12,6 +12,7 @@ import {
   IonLabel,
   IonPage,
   IonRow,
+  IonSpinner,
   IonTitle,
   IonToolbar,
   useIonModal,
@@ -28,6 +29,7 @@ import { useHistory } from "react-router";
 const Profile: React.FC = () => {
   const pageRef = useRef();
   const [selectedCode, setSelectedCode] = useState<QRData>();
+  const [loading, setLoading] = useState<boolean>(false);
   const history = useHistory();
 
   const [present, dismiss] = useIonModal(CircleQRCode, {
@@ -57,13 +59,18 @@ const Profile: React.FC = () => {
     }
   };
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     try {
-      await authLogout(auth.data!.token.value);
-      auth.set(null);
-      history.push("/login");
+      setLoading(true);
+      authLogout(auth.data!.token.value).then(() => {
+        auth.set(null);
+        history.push("/login");
+        setLoading(false);
+      });
     } catch (error: any) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -127,43 +134,53 @@ const Profile: React.FC = () => {
                       </IonLabel>
                     </IonRow>
                     <IonRow className="ion-justify-content-center ion-padding-top ion-margin-bottom">
-                      <IonButton
-                        expand="block"
-                        className="btnLogout ion-padding-horizontal"
-                        color="danger"
-                        size="default"
-                        fill="solid"
-                        onClick={handleLogout}
-                      >
-                        <IonIcon
-                          className="logoutIcon ion-margin-start"
-                          src={logOutOutline}
-                          name="create"
-                          ios="ios-create"
-                          md="md-create"
-                        />
-                        <IonLabel className="logoutIcon ion-margin-horizontal">Log Out</IonLabel>
-                      </IonButton>
-                    </IonRow>
-                    {auth?.data?.user?.admin == true && (
-                      <IonRow className="ion-justify-content-center ion-margin-bottom">
+                      <IonCol>
                         <IonButton
                           expand="block"
                           className="btnLogout ion-padding-horizontal"
-                          color="primary"
+                          color="danger"
                           size="default"
                           fill="solid"
-                          onClick={() => showQR()}
+                          onClick={handleLogout}
                         >
-                          <IonIcon
-                            className="logoutIcon ion-margin-start"
-                            src={qrCodeOutline}
-                            name="create"
-                            ios="ios-create"
-                            md="md-create"
-                          />
-                          <IonLabel className="logoutIcon ion-margin-horizontal">Show QR</IonLabel>
+                          {loading ? (
+                            <IonSpinner />
+                          ) : (
+                            <>
+                              <IonIcon
+                                className="logoutIcon ion-margin-start"
+                                src={logOutOutline}
+                                name="create"
+                                ios="ios-create"
+                                md="md-create"
+                              />
+                              <IonLabel className="logoutIcon ion-margin-horizontal">Log Out</IonLabel>
+                            </>
+                          )}
                         </IonButton>
+                      </IonCol>
+                    </IonRow>
+                    {auth?.data?.user?.admin == true && (
+                      <IonRow className="ion-justify-content-center ion-margin-bottom">
+                        <IonCol>
+                          <IonButton
+                            expand="block"
+                            className="btnLogout ion-padding-horizontal"
+                            color="primary"
+                            size="default"
+                            fill="solid"
+                            onClick={() => showQR()}
+                          >
+                            <IonIcon
+                              className="logoutIcon ion-margin-start"
+                              src={qrCodeOutline}
+                              name="create"
+                              ios="ios-create"
+                              md="md-create"
+                            />
+                            <IonLabel className="logoutIcon ion-margin-horizontal">Show QR</IonLabel>
+                          </IonButton>
+                        </IonCol>
                       </IonRow>
                     )}
                   </IonGrid>

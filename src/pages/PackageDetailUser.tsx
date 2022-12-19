@@ -159,7 +159,7 @@ const PackageDetailUser: React.FC = () => {
                       </h1>
                     </IonText>
                     <IonGrid>
-                      <IonRow>
+                      <IonRow className="ion-margin-top">
                         <IonCol>
                           <IonButton
                             className="btnhitam"
