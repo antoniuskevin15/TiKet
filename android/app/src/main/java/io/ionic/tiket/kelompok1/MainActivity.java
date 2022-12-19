@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package io.ionic.tiket.kelompok1;
 
 import com.getcapacitor.BridgeActivity;
 
