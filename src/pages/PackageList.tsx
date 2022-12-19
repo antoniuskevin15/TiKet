@@ -86,8 +86,6 @@ const PackageList: React.FC = () => {
     unknown: [],
   });
   const { auth } = useStorage();
-  const location = useLocation();
-  const packageDataS = location.state;
 
   const selectModeHandler = (
     selectedValue: "ongoing" | "finished" | "unknown"
@@ -96,16 +94,10 @@ const PackageList: React.FC = () => {
   };
 
   useEffect(() => {
-    if (packageDataS === "finished" || packageDataS === "unknown") {
-      console.log("Hi!");
-    }
-  }, []);
-
-  useEffect(() => {
     if (auth.data) {
       takePackage();
     }
-  }, [auth.data]);
+  }, [auth.data, packages]);
 
   const takePackage = async () => {
     try {
