@@ -90,15 +90,15 @@ const JoinCircle: React.FC = () => {
 
     checkPermission();
 
-    return () => {};
+    return () => { };
   }, []);
 
   if (err) {
     return (
-      <IonPage>
+      <IonPage className="ion-padding">
         <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="start">
+          <IonToolbar className="toolbarJoin">
+            <IonButtons className="toolbarJoin" slot="start">
               <IonBackButton defaultHref="/user/package" />
               <IonLabel className="header">
                 <b>TikeT</b>

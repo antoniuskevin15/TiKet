@@ -65,9 +65,9 @@ const ProfileEdit: React.FC = () => {
       formData.append("name", data.name);
       formData.append("telephone", data.telephone);
       formData.append("email", data.email);
-      if(data.photo == undefined){
+      if (data.photo == undefined) {
         // formData.append("photo", auth.data?.user.photoPath);
-      }else{
+      } else {
         formData.append("photo", data.photo);
       }
 
@@ -136,7 +136,7 @@ const ProfileEdit: React.FC = () => {
                     ></IonIcon>
                     <IonLabel className="subheader">
                       <br />
-                      User
+                      {auth.data.user.admin ? "Admin" : "User"}
                     </IonLabel>
                   </IonCol>
                 </IonRow>

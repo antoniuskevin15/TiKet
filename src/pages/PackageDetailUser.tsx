@@ -115,7 +115,7 @@ const PackageDetailUser: React.FC = () => {
         }}
       >
         <IonHeader>
-          <IonToolbar>
+          <IonToolbar className="toolbarDetail">
             <IonButtons slot="start">
               <IonBackButton defaultHref="/user/package" />
             </IonButtons>
@@ -145,9 +145,9 @@ const PackageDetailUser: React.FC = () => {
                 By {packages?.expedition} -{" "}
                 {packages?.status === "unknown"
                   ? packages?.receiptNumber?.substring(
-                      0,
-                      packages?.receiptNumber?.length - 4
-                    ) + "****"
+                    0,
+                    packages?.receiptNumber?.length - 4
+                  ) + "****"
                   : packages?.receiptNumber}
               </IonCardSubtitle>
               <IonCardContent className="ion-margin ion-no-padding">
