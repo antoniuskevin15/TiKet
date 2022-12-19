@@ -53,7 +53,10 @@ const PackageDetailUser: React.FC = () => {
 
   const takePackageById = async () => {
     try {
-      const res = await getPackageById(auth.data!.token.value, parseInt(idPackage));
+      const res = await getPackageById(
+        auth.data!.token.value,
+        parseInt(idPackage)
+      );
       setPackages(res.packages);
     } catch (error: any) {
       console.log(error);
@@ -62,8 +65,12 @@ const PackageDetailUser: React.FC = () => {
 
   const triggerApiCall = async (status: "finished" | "unknown") => {
     try {
-      await togglePackage(auth?.data?.token?.value, parseInt(idPackage), status);
-      history.push("/user/package");
+      await togglePackage(
+        auth?.data?.token?.value,
+        parseInt(idPackage),
+        status
+      );
+      history.push("/user/package", { idPackage });
     } catch (error: any) {
       presentAlert({
         header: "Error",
@@ -94,7 +101,6 @@ const PackageDetailUser: React.FC = () => {
         triggerApiCall(status);
       }
     } else {
-
       history.push("/user/package/unknown/confirm", { packages });
     }
   };
@@ -122,7 +128,10 @@ const PackageDetailUser: React.FC = () => {
               <IonLabel className="header">
                 <b>TikeT</b>
               </IonLabel>
-              <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
+              <IonIcon
+                icon={personOutline}
+                style={{ paddingLeft: "10px" }}
+              ></IonIcon>
             </IonCol>
           </IonRow>
           <IonRow>
@@ -135,7 +144,10 @@ const PackageDetailUser: React.FC = () => {
               <IonCardSubtitle className="ion-margin-horizontal">
                 By {packages?.expedition} -{" "}
                 {packages?.status === "unknown"
-                  ? packages?.receiptNumber?.substring(0, packages?.receiptNumber?.length - 4) + "****"
+                  ? packages?.receiptNumber?.substring(
+                      0,
+                      packages?.receiptNumber?.length - 4
+                    ) + "****"
                   : packages?.receiptNumber}
               </IonCardSubtitle>
               <IonCardContent className="ion-margin ion-no-padding">
@@ -149,21 +161,25 @@ const PackageDetailUser: React.FC = () => {
                     <IonGrid>
                       <IonRow>
                         <IonCol>
-                          <IonButton className="btnhitam" onClick={() => handleTogglePackage("finished")}>
+                          <IonButton
+                            className="btnhitam"
+                            onClick={() => handleTogglePackage("finished")}
+                          >
                             Yes, it's mine
                           </IonButton>
                         </IonCol>
-                        {
-                          packages?.status !== "unknown" && (
-                            <>
-                              <IonCol>
-                                <IonButton className="btnputih" onClick={() => handleTogglePackage("unknown")}>
-                                  Not mine
-                                </IonButton>
-                              </IonCol>
-                            </>
-                          )
-                        }
+                        {packages?.status !== "unknown" && (
+                          <>
+                            <IonCol>
+                              <IonButton
+                                className="btnputih"
+                                onClick={() => handleTogglePackage("unknown")}
+                              >
+                                Not mine
+                              </IonButton>
+                            </IonCol>
+                          </>
+                        )}
                       </IonRow>
                     </IonGrid>
                   </>
@@ -171,7 +187,12 @@ const PackageDetailUser: React.FC = () => {
                   <>
                     <IonText>
                       <h1>
-                        <b>Package already received on {moment(packages?.updated_at).format("dddd, DD MMMM YYYY")}</b>
+                        <b>
+                          Package already received on{" "}
+                          {moment(packages?.updated_at).format(
+                            "dddd, DD MMMM YYYY"
+                          )}
+                        </b>
                       </h1>
                     </IonText>
                   </>

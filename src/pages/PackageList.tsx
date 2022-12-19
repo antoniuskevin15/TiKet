@@ -86,6 +86,8 @@ const PackageList: React.FC = () => {
     unknown: [],
   });
   const { auth } = useStorage();
+  const location = useLocation();
+  const render = location.state;
 
   const selectModeHandler = (
     selectedValue: "ongoing" | "finished" | "unknown"
@@ -98,6 +100,10 @@ const PackageList: React.FC = () => {
       takePackage();
     }
   }, [auth.data]);
+
+  useEffect(() => {
+    takePackage();
+  }, [render]);
 
   const takePackage = async () => {
     try {
