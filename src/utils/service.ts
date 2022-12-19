@@ -44,6 +44,7 @@ export const authRegister = async (data: FormData) => {
 };
 
 export const authEdit = async (data: FormData) => {
+  console.log(data);
   const res = await axios.post(`${BASE_URL}/user/edit`, data);
   return res.data;
 };

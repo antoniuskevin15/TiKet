@@ -17,18 +17,19 @@ import {
   IonButtons,
   useIonAlert,
   IonText,
+  IonSpinner,
 } from "@ionic/react";
 import { camera, personOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
-import { authEdit, authRegister, useStorage } from "../utils/service";
+import { authRegister, useStorage } from "../utils/service";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
-import "./ProfileEdit.css";
+import "./Register.css";
 import { Link } from "react-router-dom";
 import AvatarPlaceholder from "../assets/avatar-placeholder.png";
 
-const ProfileEdit: React.FC = () => {
+const Edit: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -40,6 +41,8 @@ const ProfileEdit: React.FC = () => {
     name: string;
     telephone: string;
     email: string;
+    password: string;
+    confirmPassword: string;
     photo: File;
     errors: any;
   }>();
@@ -47,34 +50,31 @@ const ProfileEdit: React.FC = () => {
   const { auth } = useStorage();
   const [presentAlert] = useIonAlert();
   const [tempPhoto, setTempPhoto] = useState<File | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const password = useRef({});
+  password.current = watch("password", "");
 
   const photoPlaceholder = useRef<HTMLIonImgElement>(null);
 
   useEffect(() => {
-    setValue("name", auth.data?.user.name);
-    setValue("telephone", auth.data?.user.telephone);
-    setValue("email", auth.data?.user.email);
+    register("photo", { required: "Photo is required" });
     console.log(auth);
-  });
+  }, []);
 
   const onSubmit = async (data: any) => {
     try {
+      setLoading(true);
       const formData = new FormData();
-      formData.append("id", auth.data?.user.id);
-      formData.append("token", auth.data?.token.value);
       formData.append("name", data.name);
       formData.append("telephone", data.telephone);
       formData.append("email", data.email);
-      if(data.photo == undefined){
-        // formData.append("photo", auth.data?.user.photoPath);
-      }else{
-        formData.append("photo", data.photo);
-      }
+      formData.append("password", data.password);
+      formData.append("photo", data.photo);
 
-      const res = await authEdit(formData);
+      const res = await authRegister(formData);
       auth.set(res);
-      console.log(auth);
-      history.push("/user/home");
+      history.push("/select");
     } catch (error: any) {
       presentAlert({
         header: "Error",
@@ -91,6 +91,8 @@ const ProfileEdit: React.FC = () => {
           );
         },
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -105,10 +107,7 @@ const ProfileEdit: React.FC = () => {
     setTempPhoto(filePhoto);
 
     setValue("photo", filePhoto);
-    photoPlaceholder.current?.setAttribute(
-      "src",
-      URL.createObjectURL(filePhoto)
-    );
+    photoPlaceholder.current?.setAttribute("src", URL.createObjectURL(filePhoto));
   };
 
   return (
@@ -116,7 +115,7 @@ const ProfileEdit: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/user/profile" />
+            <IonBackButton defaultHref="/user/home" />
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -130,14 +129,7 @@ const ProfileEdit: React.FC = () => {
                     <IonLabel className="header">
                       <b>Edit Profile</b>
                     </IonLabel>
-                    <IonIcon
-                      icon={personOutline}
-                      style={{ paddingLeft: "10px" }}
-                    ></IonIcon>
-                    <IonLabel className="subheader">
-                      <br />
-                      User
-                    </IonLabel>
+                    <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
                   </IonCol>
                 </IonRow>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -154,10 +146,7 @@ const ProfileEdit: React.FC = () => {
                         />
                       </IonItem>
                       {errors.name && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.name.message}
                         </IonText>
                       )}
@@ -168,7 +157,7 @@ const ProfileEdit: React.FC = () => {
                       <IonItem className="input-register">
                         <IonLabel position="floating">Phone Number</IonLabel>
                         <IonInput
-                          value={auth.data?.user.telephone}
+                        value={auth.data?.user.telephone}
                           {...register("telephone", {
                             required: "Phone number is Required",
                             pattern: {
@@ -177,22 +166,17 @@ const ProfileEdit: React.FC = () => {
                             },
                             minLength: {
                               value: 10,
-                              message:
-                                "Phone number must be at least 10 digits",
+                              message: "Phone number must be at least 10 digits",
                             },
                             maxLength: {
                               value: 13,
-                              message:
-                                "Phone number must be a maximum of 13 digits",
+                              message: "Phone number must be a maximum of 13 digits",
                             },
                           })}
                         />
                       </IonItem>
                       {errors.telephone && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.telephone.message}
                         </IonText>
                       )}
@@ -215,10 +199,7 @@ const ProfileEdit: React.FC = () => {
                         />
                       </IonItem>
                       {errors.email && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.email.message}
                         </IonText>
                       )}
@@ -229,42 +210,39 @@ const ProfileEdit: React.FC = () => {
                       <IonImg
                         className="photo-placeholder"
                         ref={photoPlaceholder}
-                        src={
-                          tempPhoto
-                            ? URL.createObjectURL(tempPhoto)
-                            : `${process.env.REACT_APP_WEB_URL}/storage/${auth.data?.user.photoPath}`
-                        }
+                        src={tempPhoto ? URL.createObjectURL(tempPhoto) : AvatarPlaceholder}
                         onClick={handleTakePhoto}
                       />
                       {errors.photo && (
-                        <IonText
-                          className="input-error ion-padding"
-                          color="danger"
-                        >
+                        <IonText className="input-error ion-padding" color="danger">
                           {errors.photo.message}
                         </IonText>
                       )}
-                      <IonButton
-                        class="loginBtn"
-                        onClick={handleTakePhoto}
-                        className="ion-margin-top"
-                        color="primary"
-                        expand="block"
-                      >
-                        Change Picture
+                      <IonButton onClick={handleTakePhoto} className="ion-margin-top" color="primary" expand="block">
+                        Take Picture
                       </IonButton>
                     </IonCol>
                   </IonRow>
                   <IonRow>
                     <IonCol>
-                      <IonButton
-                        class="loginBtn"
-                        className="margin-vertical"
-                        color="primary"
-                        expand="block"
-                        type="submit"
-                      >
-                        Update
+                      <div className="addmargin subheader">
+                        By creating your account, you agree to our{" "}
+                        <a
+                          className="myAnchor"
+                          target="blank"
+                          href="https://www.termsfeed.com/live/531eb5ee-4de2-4199-8d76-f1a1bfb22f01"
+                        >
+                          <u>
+                            <b>Terms & Conditions</b>
+                          </u>
+                        </a>
+                      </div>
+                    </IonCol>
+                  </IonRow>
+                  <IonRow>
+                    <IonCol>
+                      <IonButton className="margin-vertical" color="primary" expand="block" type="submit">
+                        {loading ? <IonSpinner /> : "Register"}
                       </IonButton>
                     </IonCol>
                   </IonRow>
@@ -278,4 +256,4 @@ const ProfileEdit: React.FC = () => {
   );
 };
 
-export default ProfileEdit;
+export default Edit;
