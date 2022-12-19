@@ -30,20 +30,18 @@ import CreateCircle from "./pages/CreateCircle";
 import TabsAdmin from "./pages/TabsAdmin";
 import JoinCircle from "./pages/JoinCircle";
 import { StorageProvider } from "./utils/StorageContext";
-import { App as AppCap } from '@capacitor/app';
+import { App as AppCap } from "@capacitor/app";
 
 setupIonicReact();
 
 const App: React.FC = () => {
-
-  AppCap.addListener('backButton', ({canGoBack}) => {
+  AppCap.addListener("backButton", ({ canGoBack }) => {
     // event.detail.register(10, () => {
     //   console.log('Handler was called!');
     // });
-    if(!canGoBack){
+    if (!canGoBack) {
       AppCap.exitApp();
-    }
-    else{
+    } else {
       window.history.back();
     }
   });
@@ -53,7 +51,6 @@ const App: React.FC = () => {
       <IonApp>
         <IonReactRouter>
           <IonRouterOutlet>
-            <Route exact path="/home" component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/select" component={SelectCircle} />
