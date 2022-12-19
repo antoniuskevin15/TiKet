@@ -14,6 +14,7 @@ import {
   IonSegment,
   IonSegmentButton,
   IonSpinner,
+  IonText,
   IonTitle,
   IonToolbar,
   useIonAlert,
@@ -23,24 +24,31 @@ import { logoGoogle, personOutline } from "ionicons/icons";
 import { useEffect, useRef, useState } from "react";
 import { authLogin, useStorage } from "../utils/service";
 import { Link, useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const Login: React.FC = () => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    setError,
+    watch,
+    formState: { errors },
+  } = useForm<{
+    email: string;
+    password: string;
+  }>();
+
   const [emailActive, setemailActive] = useState<boolean>(true);
-  const [phoneActive, setphoneActive] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const emailRef = useRef<HTMLIonInputElement>(null);
-  const passwordRef = useRef<HTMLIonInputElement>(null);
   const history = useHistory();
   const { auth } = useStorage();
   const [presentAlert] = useIonAlert();
 
-  const handleLogin = async () => {
-    const email: string = emailRef?.current?.value as string;
-    const pass: string = passwordRef?.current?.value as string;
-
+  const onSubmitPassword = async (data: any) => {
     try {
       setLoading(true);
-      const res = await authLogin(email, pass);
+      const res = await authLogin(data.email, data.password);
       auth.set(res);
       if (res.user.admin) {
         history.push("/admin/home");
@@ -84,18 +92,17 @@ const Login: React.FC = () => {
                         className="login-segment-button"
                         value="Email"
                         onClick={() => {
-                          setphoneActive(false);
                           setemailActive(true);
                         }}
                       >
                         <IonLabel>Email</IonLabel>
                       </IonSegmentButton>
                       <IonSegmentButton
+                        disabled
                         className="login-segment-button"
                         value="Phone Number"
                         onClick={() => {
                           setemailActive(false);
-                          setphoneActive(true);
                         }}
                       >
                         <IonLabel>Phone Number</IonLabel>
@@ -104,66 +111,76 @@ const Login: React.FC = () => {
                   </IonRow>
                 </IonGrid>
                 {emailActive && (
-                  <IonGrid className="ion-margin">
-                    <IonRow>
-                      <IonCol>
-                        <IonItem className="input-register">
-                          <IonLabel position="floating">Email Address</IonLabel>
-                          <IonInput type="email" ref={emailRef}></IonInput>
-                        </IonItem>
-                      </IonCol>
-                    </IonRow>
-                    <IonRow>
-                      <IonCol>
-                        <IonItem className="input-register">
-                          <IonLabel position="floating">Password</IonLabel>
-                          <IonInput type="password" ref={passwordRef}></IonInput>
-                        </IonItem>
-                      </IonCol>
-                    </IonRow>
-                    {/* <IonRow className="ion-justify-content-center">
-                      <IonLabel class="forgotPW" className="ion-text-right ion-margin">
-                        <a>Forgot Password?</a>
-                      </IonLabel>
-                    </IonRow> */}
-                    <IonRow>
-                      <IonButton
-                        color="primary"
-                        class="loginBtn"
-                        onClick={handleLogin}
-                        className="ion-text-center ion-justify-content-center login-margin-top"
-                      >
-                        {loading ? <IonSpinner /> : "Login"}
-                      </IonButton>
-                    </IonRow>
-                    {/* <IonRow className='ion-text-center ion-justify-content-center ion-margin'>
-                      <IonLabel class='forgotPW' >Or signup with</IonLabel>
-                    </IonRow>
-                    <IonRow className='ion-text-center ion-justify-content-center'>
-                      <IonCol>
-                        <IonButton color="none" href='https://www.instagram.com/vannessiwata/'>
-                          <IonIcon icon={logoGoogle}></IonIcon>
-                          <IonLabel className="ion-margin-start">Google</IonLabel>
+                  <form onSubmit={handleSubmit(onSubmitPassword)}>
+                    <IonGrid className="ion-margin">
+                      <IonRow>
+                        <IonCol>
+                          <IonItem className="input-register">
+                            <IonLabel position="floating">Email Address</IonLabel>
+                            <IonInput
+                              {...register("email", {
+                                required: "Email is required",
+                              })}
+                            />
+                          </IonItem>
+                          {errors.email && (
+                            <IonRow>
+                              <IonCol>
+                                <IonText className="input-error ion-padding" color="danger">
+                                  {errors.email.message}
+                                </IonText>
+                              </IonCol>
+                            </IonRow>
+                          )}
+                        </IonCol>
+                      </IonRow>
+                      <IonRow>
+                        <IonCol>
+                          <IonItem className="input-register">
+                            <IonLabel position="floating">Password</IonLabel>
+                            <IonInput
+                              type="password"
+                              {...register("password", {
+                                required: "Password is required",
+                              })}
+                            />
+                          </IonItem>
+                          {errors.password && (
+                            <IonText className="input-error ion-padding" color="danger">
+                              {errors.password.message}
+                            </IonText>
+                          )}
+                        </IonCol>
+                      </IonRow>
+                      <IonRow>
+                        <IonButton
+                          color="primary"
+                          class="loginBtn"
+                          type="submit"
+                          className="ion-text-center ion-justify-content-center login-margin-top"
+                        >
+                          {loading ? <IonSpinner /> : "Login"}
                         </IonButton>
-                      </IonCol>
-                    </IonRow> */}
-                    <IonRow className="ion-padding ion-text-center ion-justify-content-center ion-margin">
-                      <IonLabel class="forgotPW">
-                        Not registered yet?{" "}
-                        <Link to="/register">
-                          <b>Create Account</b>
-                        </Link>
-                      </IonLabel>
-                    </IonRow>
-                  </IonGrid>
+                      </IonRow>
+                      <IonRow className="ion-padding ion-text-center ion-justify-content-center ion-margin">
+                        <IonLabel class="forgotPW">
+                          Not registered yet?{" "}
+                          <Link to="/register">
+                            <b>Create Account</b>
+                          </Link>
+                        </IonLabel>
+                      </IonRow>
+                    </IonGrid>
+                  </form>
                 )}
+
                 {!emailActive && (
                   <IonGrid className="ion-margin">
                     <IonRow>
                       <IonCol>
                         <IonItem className="input-register">
                           <IonLabel position="floating">Phone Number</IonLabel>
-                          <IonInput type="number" ref={passwordRef}></IonInput>
+                          <IonInput />
                         </IonItem>
                       </IonCol>
                     </IonRow>

@@ -1,4 +1,4 @@
-import { Redirect, Route, useHistory } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/Home";
@@ -31,6 +31,7 @@ import TabsAdmin from "./pages/TabsAdmin";
 import JoinCircle from "./pages/JoinCircle";
 import { StorageProvider } from "./utils/StorageContext";
 import { App as AppCap } from "@capacitor/app";
+import { useEffect } from "react";
 
 setupIonicReact();
 
@@ -47,29 +48,34 @@ const App: React.FC = () => {
   });
 
   return (
-    <StorageProvider>
-      <IonApp>
-        <IonReactRouter>
-          <IonRouterOutlet>
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/select" component={SelectCircle} />
-            <Route exact path="/circle/create" component={CreateCircle} />
-            <Route exact path="/circle/join" component={JoinCircle} />
-            {/* <Route exact path="/join" component={JoinCircle} /> */}
-            <Route path="/user">
-              <TabsUser />
-            </Route>
-            <Route path="/admin">
-              <TabsAdmin />
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/login" />
-            </Route>
-          </IonRouterOutlet>
-        </IonReactRouter>
-      </IonApp>
-    </StorageProvider>
+    <IonApp>
+      <IonReactRouter>
+        <Switch>
+          <StorageProvider>
+            <IonRouterOutlet>
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/select" component={SelectCircle} />
+              <Route exact path="/circle/create" component={CreateCircle} />
+              <Route exact path="/circle/join" component={JoinCircle} />
+              {/* <Route exact path="/join" component={JoinCircle} /> */}
+              <Route path="/user">
+                <TabsUser />
+              </Route>
+              <Route path="/admin">
+                <TabsAdmin />
+              </Route>
+              <Route exact path="/">
+                <Redirect to="/login" />
+              </Route>
+            </IonRouterOutlet>
+          </StorageProvider>
+          <Route exact path="/*">
+            <Redirect to="/login" />
+          </Route>
+        </Switch>
+      </IonReactRouter>
+    </IonApp>
   );
 };
 

@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Storage } from "@ionic/storage";
+import { checkSession } from "./service";
+import { useHistory } from "react-router";
 
 type storageProviderTypes = {
   children: any;
@@ -37,6 +39,7 @@ export const storageContext = createContext<any>({});
 export const StorageProvider = (props: storageProviderTypes) => {
   const [store, setStore] = useState<Storage>();
   const [authData, setAuthData] = useState<authDataTypes | null>(null);
+  const history = useHistory();
 
   const initStorage = async () => {
     const newStore = new Storage({
@@ -47,6 +50,15 @@ export const StorageProvider = (props: storageProviderTypes) => {
     const authData = await tempStore.get("authData");
     setStore(tempStore);
     setAuthData(authData);
+
+    try {
+      const res = await checkSession(authData?.token?.value);
+      console.log(res);
+    } catch (error: any) {
+      console.log(error);
+      setAuth({} as authDataTypes);
+      history.replace("/login");
+    }
 
     console.log("Storage initialized");
   };

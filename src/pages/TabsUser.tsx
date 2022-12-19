@@ -1,7 +1,7 @@
 import { IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel } from "@ionic/react";
 import React, { useEffect } from "react";
 import { homeOutline, personCircleOutline, giftOutline } from "ionicons/icons";
-import { Redirect, Route, useHistory } from "react-router";
+import { Redirect, Route, useHistory, useLocation } from "react-router";
 import Home from "./Home";
 import Profile from "./Profile";
 import { Switch } from "react-router-dom";
@@ -15,6 +15,13 @@ import PackageList from "./PackageList";
 const TabsUser: React.FC = () => {
   const { auth } = useStorage();
   const history = useHistory();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (Object.keys(auth.data || {}).length > 0 && !auth.data?.user?.circle_id) {
+      history.replace("/select");
+    }
+  }, [auth.data]);
 
   return (
     <IonTabs>

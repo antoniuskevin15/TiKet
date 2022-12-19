@@ -1,48 +1,48 @@
 .hideBg::part(background) {
-    display: none;
+  display: none;
 }
 
-.toolbarJoin{
-    padding-top: 25px;
+.toolbarJoin {
+  padding-top: 25px;
 }
-  
+
 .header {
-    font-size: 3vh;
+  font-size: 3vh;
 }
 
 .subheader {
-    color: grey;
-    font-size: 1.8vh;
+  color: grey;
+  font-size: 1.8vh;
 }
 .scan-box {
-    border: 2px solid #fff;
-    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
-    display: block;
-    left: 50%;
-    height: 70vw;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 70vw;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
+  display: block;
+  left: 50%;
+  height: 70vw;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 70vw;
 }
 
 .or-label:before,
-    .or-label:after {
-        content: "";
-        flex: 1 1;
-        border-bottom: 2px solid #000;
-        margin: 1.5vh;
-    }
+.or-label:after {
+  content: "";
+  flex: 1 1;
+  border-bottom: 2px solid #000;
+  margin: 1.5vh;
+}
 
 .or-label {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
-.circle-button{
-    width: 50%;
+.circle-button {
+  height: 90%;
 }
 
-.circle-join-button{
-    width: 75%;
+.circle-join-button {
+  /* width: 75%; */
 }
