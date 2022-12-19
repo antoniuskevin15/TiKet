@@ -98,13 +98,79 @@ const JoinCircle: React.FC = () => {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Join Circle</IonTitle>
+            <IonButtons slot="start">
+              <IonBackButton defaultHref="/user/package" />
+              <IonLabel className="header">
+                <b>TikeT</b>
+              </IonLabel>
+              <IonIcon
+                icon={personOutline}
+                style={{ paddingLeft: "10px" }}
+              ></IonIcon>
+            </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <IonContent className="ion-padding">
-          <IonRow>
-            <IonText color="danger">{err}</IonText>
-          </IonRow>
+        <IonContent className={hideBg}>
+          <IonGrid hidden={!!hideBg} className="ion-padding">
+            {/* <IonRow className="ion-margin-bottom">
+            <IonCol>
+              <IonLabel className="header">
+                <b>TikeT</b>
+              </IonLabel>
+              <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
+            </IonCol>
+          </IonRow> */}
+            <IonRow>
+              <IonCol>
+                <IonButtons slot="end">
+                  <IonButton color="danger" hidden={!hideBg} onClick={stopScan}>
+                    <IonIcon icon={stopCircleOutline} slot="start" />
+                    Stop Scan
+                  </IonButton>
+                </IonButtons>
+              </IonCol>
+            </IonRow>
+            <IonRow className="ion-justify-content-center">
+              <IonCol className="ion-text-center">
+                <IonLabel className="header">
+                  <b>Join Circle</b>
+                </IonLabel>
+                <IonIcon
+                  icon={personOutline}
+                  style={{ paddingLeft: "10px" }}
+                ></IonIcon>
+                <IonLabel className="subheader">
+                  <br />
+                  Enter circle code or scan QR code!
+                </IonLabel>
+              </IonCol>
+            </IonRow>
+            <IonRow className="ion-justify-content-center ion-margin">
+              <IonCol>
+                <IonItem className="input-register">
+                  <IonLabel position="floating">Circle Name</IonLabel>
+                  <IonInput
+                    type="text"
+                    placeholder="ID Circle"
+                    value={idCircle ? idCircle : ""}
+                    ref={circleRef}
+                  ></IonInput>
+                </IonItem>
+              </IonCol>
+            </IonRow>
+            <IonRow className="ion-justify-content-center ion-text-center ion-margin-top">
+              <IonCol>
+                <IonButton
+                  color="primary"
+                  class="loginBtn"
+                  onClick={onSubmit}
+                  className="circle-join-button"
+                >
+                  Join Circle
+                </IonButton>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
         </IonContent>
       </IonPage>
     );
@@ -119,7 +185,10 @@ const JoinCircle: React.FC = () => {
             <IonLabel className="header">
               <b>TikeT</b>
             </IonLabel>
-            <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
+            <IonIcon
+              icon={personOutline}
+              style={{ paddingLeft: "10px" }}
+            ></IonIcon>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -148,7 +217,10 @@ const JoinCircle: React.FC = () => {
               <IonLabel className="header">
                 <b>Join Circle</b>
               </IonLabel>
-              <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
+              <IonIcon
+                icon={personOutline}
+                style={{ paddingLeft: "10px" }}
+              ></IonIcon>
               <IonLabel className="subheader">
                 <br />
                 Enter circle code or scan QR code!
@@ -185,7 +257,12 @@ const JoinCircle: React.FC = () => {
           </IonRow>
           <IonRow className="ion-justify-content-center ion-text-center ion-margin-top">
             <IonCol>
-              <IonButton color="primary" class="loginBtn" onClick={onSubmit} className="circle-join-button">
+              <IonButton
+                color="primary"
+                class="loginBtn"
+                onClick={onSubmit}
+                className="circle-join-button"
+              >
                 Join Circle
               </IonButton>
             </IonCol>
