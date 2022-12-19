@@ -69,10 +69,11 @@ const Profile: React.FC = () => {
 
   const { auth } = useStorage();
 
-  var  divStyle = {
-      // backgroundImage: 'url(' + auth.data?.user.gambar + ')'
-      background: `url(${process.env.REACT_APP_WEB_URL}/storage/${auth.data?.user.photoPath})`,
-    };
+  var divStyle = {
+    background: `url(${process.env.REACT_APP_WEB_URL}/storage/${auth.data?.user.photoPath})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  };
 
   return (
     <IonPage ref={pageRef}>
@@ -94,7 +95,11 @@ const Profile: React.FC = () => {
                     <IonRow className="ion-margin-horizontal ion-justify-content-end"></IonRow>
                     <IonRow className="ion-justify-content-center">
                       <div className="ion-margin profile_image" style={divStyle} />
-                      <IonButton className="btnEdit" fill="solid" href={(auth.data.user.admin && '/admin/editProfile') || '/user/editProfile'}>
+                      <IonButton
+                        className="btnEdit"
+                        fill="solid"
+                        routerLink={(auth?.data?.user?.admin && "/admin/editProfile") || "/user/editProfile"}
+                      >
                         <IonIcon
                           className="editIcon"
                           src={createOutline}
@@ -107,18 +112,18 @@ const Profile: React.FC = () => {
                     <IonRow className="ion-justify-content-center">
                       <IonLabel color="primary">
                         <h1>
-                          <b>{auth.data?.user.name}</b>
+                          <b>{auth?.data?.user?.name}</b>
                         </h1>
                       </IonLabel>
                     </IonRow>
                     <IonRow className="ion-justify-content-center">
                       <IonLabel className="ion-margin-top">
-                        <h2>{auth.data?.user.telephone}</h2>
+                        <h2>{auth?.data?.user?.telephone}</h2>
                       </IonLabel>
                     </IonRow>
                     <IonRow className="ion-justify-content-center">
                       <IonLabel className="ion-margin-top">
-                        <h2>{auth.data?.user.email}</h2>
+                        <h2>{auth?.data?.user?.email}</h2>
                       </IonLabel>
                     </IonRow>
                     <IonRow className="ion-justify-content-center ion-padding-top ion-margin-bottom">
@@ -140,7 +145,7 @@ const Profile: React.FC = () => {
                         <IonLabel className="logoutIcon ion-margin-horizontal">Log Out</IonLabel>
                       </IonButton>
                     </IonRow>
-                    {auth.data?.user.admin == true && (
+                    {auth?.data?.user?.admin == true && (
                       <IonRow className="ion-justify-content-center ion-margin-bottom">
                         <IonButton
                           expand="block"

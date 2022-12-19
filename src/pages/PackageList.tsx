@@ -1,20 +1,12 @@
 import {
   IonContent,
-  IonHeader,
   IonPage,
-  IonTitle,
-  IonToolbar,
   IonIcon,
   IonGrid,
   IonRow,
   IonLabel,
   IonItem,
-  IonInput,
-  IonButton,
   IonCol,
-  IonSegment,
-  IonSegmentButton,
-  IonCard,
   IonCardContent,
   IonCardHeader,
   IonCardSubtitle,
@@ -23,13 +15,12 @@ import {
   IonThumbnail,
   IonFab,
   IonFabButton,
-  IonFabList,
 } from "@ionic/react";
-import { addOutline, colorPalette, globe, logoDropbox, personOutline } from "ionicons/icons";
+import { addOutline, logoDropbox, personOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import InputAdmin from "../components/InputControlAdmin";
-import { getPackageByCircleId, useStorage } from "../utils/service";
-import "./PackageAdmin.css";
+import { getPackageByCircleId, getPackageByUserId, useStorage } from "../utils/service";
+import "./PackageList.css";
 
 interface PackageContainer {
   ongoing: Package[];
@@ -53,7 +44,7 @@ interface Package {
 const PackageCard = (props: any) => {
   return (
     <IonCardContent>
-      <IonItem button className="item-package">
+      <IonItem className="item-package" routerLink={props.admin ? undefined : `/user/package/detail/${props.id}`}>
         <IonThumbnail className="package-thumbnail" slot="start">
           <img
             alt={props.sender}
@@ -63,9 +54,8 @@ const PackageCard = (props: any) => {
         </IonThumbnail>
         <IonCardHeader>
           <IonCardTitle className="card-package-title">{props.expedition}</IonCardTitle>
-          <IonCardSubtitle className="card-package-subtitle">{props.roomNumber}</IonCardSubtitle>
           <IonCardSubtitle className="card-package-subtitle">
-            <IonIcon icon={logoDropbox} style={{ "padding-right": "1vh" }} />
+            <IonIcon icon={logoDropbox} style={{ paddingRight: "1vh" }} />
             {props.receiptNumber}
           </IonCardSubtitle>
         </IonCardHeader>
@@ -74,7 +64,7 @@ const PackageCard = (props: any) => {
   );
 };
 
-const PackageAdmin: React.FC = () => {
+const PackageList: React.FC = () => {
   const [mode, setMode] = useState<"ongoing" | "finished" | "unknown">("ongoing");
   const [packages, setPackages] = useState<PackageContainer>({ ongoing: [], finished: [], unknown: [] });
   const { auth } = useStorage();
@@ -91,7 +81,12 @@ const PackageAdmin: React.FC = () => {
 
   const takePackage = async () => {
     try {
-      const res = await getPackageByCircleId(auth.data!.token.value, auth.data!.user.circle_id);
+      let res: any;
+      if (auth.data!.admin) {
+        res = await getPackageByCircleId(auth.data!.token.value, auth.data!.user.circle_id);
+      } else {
+        res = await getPackageByUserId(auth.data!.token.value, auth.data!.user.id);
+      }
       const group = res.packages.reduce(
         (result: any, curr: any) => {
           result[curr.status] = [...(result[curr.status] || []), curr];
@@ -109,11 +104,13 @@ const PackageAdmin: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen class="ion-padding">
-        <IonFab slot="fixed" vertical="bottom" horizontal="end" className="myAdminFab">
-          <IonFabButton color="dark" routerLink="./package/detail">
-            <IonIcon icon={addOutline}></IonIcon>
-          </IonFabButton>
-        </IonFab>
+        {auth.data?.admin && (
+          <IonFab slot="fixed" vertical="bottom" horizontal="end" className="myAdminFab">
+            <IonFabButton color="dark" routerLink="./package/detail">
+              <IonIcon icon={addOutline}></IonIcon>
+            </IonFabButton>
+          </IonFab>
+        )}
         <IonGrid>
           <IonRow>
             <IonCol size-sm="12" size-md="8" offset-md="2">
@@ -133,17 +130,26 @@ const PackageAdmin: React.FC = () => {
                 <IonList>
                   {mode === "ongoing" &&
                     packages?.ongoing?.map((p: any, idx: number) => (
-                      <PackageCard key={`package-ongoing-item-${idx}`} {...p} />
+                      <PackageCard key={`package-ongoing-item-${idx}`} {...p} admin={auth?.data?.admin} />
                     ))}
 
                   {mode === "finished" &&
                     packages?.finished?.map((p: any, idx: number) => (
-                      <PackageCard key={`package-finished-item-${idx}`} {...p} />
+                      <PackageCard key={`package-finished-item-${idx}`} {...p} admin={auth?.data?.admin} />
                     ))}
 
                   {mode === "unknown" &&
                     packages?.unknown?.map((p: any, idx: number) => (
-                      <PackageCard key={`package-unknown-item-${idx}`} {...p} />
+                      <PackageCard
+                        key={`package-unknown-item-${idx}`}
+                        {...p}
+                        admin={auth?.data?.admin}
+                        receiptNumber={
+                          auth?.data?.admin
+                            ? p.receiptNumber
+                            : p.receiptNumber.substring(0, p.receiptNumber?.length - 4) + "****"
+                        }
+                      />
                     ))}
                 </IonList>
               </IonGrid>
@@ -155,4 +161,4 @@ const PackageAdmin: React.FC = () => {
   );
 };
 
-export default PackageAdmin;
+export default PackageList;

@@ -1,32 +1,44 @@
-ion-toolbar{
-    border-radius: 3vh;
+ion-toolbar {
+  border-radius: 3vh;
 }
 
-.package-card-bottom{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 40vh;
-    width: 100%;
-    margin: 0;
-    border-radius: 4vh;
+.package-detail h1 {
+  font-size: 1.2rem;
+  color: black;
+}
+
+.package-detail ion-content {
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  --background: transparent;
+}
+
+.package-card-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  border-radius: 4vh;
+  padding-bottom: 5rem;
 }
 
 .btnputih {
-    --background: white !important;
-    color: black;
-    border: 0.1vh solid black;
-    border-radius: 2vh;
-    --border-radius: 2vh;
-    height: 6vh;
-    width: 100%;
+  --background: white !important;
+  color: black;
+  border: 0.1vh solid black;
+  border-radius: 2vh;
+  --border-radius: 2vh;
+  height: 6vh;
+  width: 100%;
 }
 
-.btnhitam{
-    --background: black !important;
-    color: white;
-    --border: 0.1vh solid black;
-    --border-radius: 2vh;
-    height: 6vh;
-    width: 100%;
+.btnhitam {
+  --background: black !important;
+  color: white;
+  --border: 0.1vh solid black;
+  --border-radius: 2vh;
+  height: 6vh;
+  width: 100%;
 }
