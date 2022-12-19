@@ -68,7 +68,7 @@ const CreateCircle: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot="start">
+          <IonButtons className="toolbarCreate" slot="start">
             <IonBackButton defaultHref="/user/package" />
             <IonLabel className="header">
               <b>TikeT</b>

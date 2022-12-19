@@ -1,6 +1,10 @@
 .hideBg::part(background) {
     display: none;
 }
+
+.toolbarJoin{
+    padding-top: 25px;
+}
   
 .header {
     font-size: 3vh;
