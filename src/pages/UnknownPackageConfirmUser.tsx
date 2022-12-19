@@ -1,34 +1,105 @@
-import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonLabel, IonPage, IonRow, IonTitle, IonToolbar, useIonAlert } from '@ionic/react';
 import { personOutline } from 'ionicons/icons';
-import { useHistory, useLocation } from 'react-router';
+import { useEffect, useRef, useState } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router';
 import ExploreContainer from '../components/ExploreContainer';
+import { getPackageById, togglePackage, useStorage } from '../utils/service';
 import './UnknownPackageConfirmUser.css';
 
+interface Package {
+    created_at: string;
+    expedition: string;
+    id: number;
+    isTaken: number;
+    photoPath: string;
+    receiptNumber: string;
+    status: "ongoing" | "finished" | "unknown";
+    sender: string;
+    updated_id: string;
+    user_id: number;
+    updated_at: string;
+  }
+
+  
 const UnknownPackageConfirmUser: React.FC = () => {
     const location = useLocation();
-    const packageDataS = location.state;
+    const packageDataS: any = location.state;
     const history = useHistory();
+    const satuRef = useRef<HTMLIonInputElement>(null);
+    const duaRef = useRef<HTMLIonInputElement>(null);
+    const tigaRef = useRef<HTMLIonInputElement>(null);
+    const empatRef = useRef<HTMLIonInputElement>(null);
+    const { auth } = useStorage();
+    const [presentAlert] = useIonAlert();
 
-    const handleNextInput = (event: any) => {
-        if (event.key === "1" || event.key === "2" || event.key === "3" || event.key === "4" || event.key === "5" || event.key === "6" || event.key === "7" || event.key === "8" || event.key === "9" || event.key === "0") {
-            const form = event.target.form;
-            const index = [...form].indexOf(event.target);
-            console.log(index)
-            if(index >= 0 && index < 3){
-                form[index + 1].focus();
-                event.preventDefault();
-            }
-        }
-        else if (event.key === "Backspace") {
-            const form = event.target.form;
-            const index = [...form].indexOf(event.target);
-            console.log(index)
-            if(index > 0 && index < 4){
-                form[index - 1].focus();
-                event.preventDefault();
-            }
+  console.log(packageDataS);
+
+  const handleTakePackage = async () => {};
+
+  const handleNextInput = (event: any) => {
+    if (
+      (event.key !== "Backspace" && event.keyCode >= 48 && event.keyCode <= 57) ||
+      (event.keyCode >= 65 && event.keyCode <= 90)
+    ) {
+      const form = event.target.form;
+      const index = [...form].indexOf(event.target);
+      if (index >= 0 && index < 3) {
+        form[index + 1].focus();
+        event.preventDefault();
+      }
+    } else if (event.key === "Backspace") {
+      const form = event.target.form;
+      const index = [...form].indexOf(event.target);
+      if (index > 0 && index < 4) {
+        form[index - 1].focus();
+        event.preventDefault();
+      }
+    }
+  };
+
+    const submitForm = () => {
+        const satu: string = satuRef?.current?.value as string;
+        const dua: string = duaRef?.current?.value as string;
+        const tiga: string = tigaRef?.current?.value as string;
+        const empat: string = empatRef?.current?.value as string;
+
+        const input = satu+dua+tiga+empat;
+        console.log(satu+dua+tiga+empat);
+        const packageCur: Package = packageDataS.packages;
+        const lastString = packageCur?.receiptNumber?.substring(
+            packageCur?.receiptNumber?.length - 4,
+            packageCur?.receiptNumber?.length
+          )
+        console.log(lastString);
+        if(lastString == input){
+            triggerApiCall("finished");
+        }else{
+            presentAlert({
+              header: "Error",
+              message: "Nomor resi tidak sesuai!",
+              buttons: ["OK"],
+            });
         }
     }
+    
+  const triggerApiCall = async (status: "finished" | "unknown") => {
+    try {
+      const packageCur: Package = packageDataS.packages;
+      await togglePackage(
+        auth?.data?.token?.value,
+        packageCur.id,
+        status
+      );
+      history.push("/user/package", packageCur.id );
+    } catch (error: any) {
+      presentAlert({
+        header: "Error",
+        message: error.message,
+        buttons: ["OK"],
+      });
+    }
+  };
+
 
     return (
         <IonPage>
@@ -51,21 +122,21 @@ const UnknownPackageConfirmUser: React.FC = () => {
                     <form>
                         <IonRow>
                             <IonCol>
-                                <IonInput type="text" maxlength={1} autofocus className="resiInput" onKeyUp={(e) => handleNextInput(e)}/>
+                                <IonInput type="text" maxlength={1} autofocus className="resiInput" onKeyUp={(e) => handleNextInput(e)} ref={satuRef}/>
                             </IonCol>
                             <IonCol>
-                                <IonInput type="text" maxlength={1} className="resiInput" onKeyUp={(e) => handleNextInput(e)} />
+                                <IonInput type="text" maxlength={1} className="resiInput" onKeyUp={(e) => handleNextInput(e)} ref={duaRef}/>
                             </IonCol>
                             <IonCol>
-                                <IonInput type="text" maxlength={1} className="resiInput" onKeyUp={(e) => handleNextInput(e)} />
+                                <IonInput type="text" maxlength={1} className="resiInput" onKeyUp={(e) => handleNextInput(e)} ref={tigaRef}/>
                             </IonCol>
                             <IonCol>
-                                <IonInput type="text" maxlength={1} className="resiInput" onKeyUp={(e) => handleNextInput(e)} />
+                                <IonInput type="text" maxlength={1} className="resiInput" onKeyUp={(e) => handleNextInput(e)} ref={empatRef}/>
                             </IonCol>
                         </IonRow>
                     </form>
                     <IonRow className='ion-text-start ion-justify-content-center'>
-                        <IonButton expand='block' fill="solid" className='btnSelect' >
+                        <IonButton expand='block' fill="solid" className='btnSelect' onClick={submitForm}>
                             <IonLabel>confirm</IonLabel>
                         </IonButton>
                     </IonRow>

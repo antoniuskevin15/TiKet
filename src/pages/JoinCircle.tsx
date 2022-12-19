@@ -29,15 +29,20 @@ const JoinCircle: React.FC = () => {
   const [err, setErr] = useState<string>();
   const [hideBg, setHideBg] = useState("");
   const [idCircle, setIdCircle] = useState("");
+  const [roomNo, setRoomNo] = useState("");
   const circleRef = useRef<HTMLIonInputElement>(null);
+  const roomNoRef = useRef<HTMLIonInputElement>(null);
   const { auth } = useStorage();
   const history = useHistory();
 
   const onSubmit = async () => {
     const circleName: string = circleRef?.current?.value as string;
+    const room: string = roomNoRef?.current?.value as string;
+    setRoomNo(room);
+    console.log(roomNo);
     console.log(circleName);
     try {
-      const res = await joinCircle(auth.data!.token.value, circleName);
+      const res = await joinCircle(auth.data!.token.value, circleName, roomNo);
       auth.set(res);
       console.log(auth);
       history.push("/user/home");
@@ -154,6 +159,19 @@ const JoinCircle: React.FC = () => {
                     placeholder="ID Circle"
                     value={idCircle ? idCircle : ""}
                     ref={circleRef}
+                  ></IonInput>
+                </IonItem>
+              </IonCol>
+            </IonRow>
+            <IonRow className="ion-justify-content-center ion-margin">
+              <IonCol>
+                <IonItem className="input-register">
+                  <IonLabel position="floating">Room number</IonLabel>
+                  <IonInput
+                    type="text"
+                    placeholder="Room Number"
+                    value={roomNo ? roomNo : ""}
+                    ref={roomNoRef}
                   ></IonInput>
                 </IonItem>
               </IonCol>
