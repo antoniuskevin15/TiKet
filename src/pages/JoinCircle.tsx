@@ -202,8 +202,8 @@ const JoinCircle: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
+        <IonToolbar >
+          <IonButtons className="toolbarJoin" slot="start">
             <IonBackButton defaultHref="/user/package" />
             <IonLabel className="header">
               <b>TikeT</b>

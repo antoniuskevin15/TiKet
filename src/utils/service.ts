@@ -71,7 +71,7 @@ export const circleCreate = async (
   formData.append("description", desc);
   formData.append("photo", photo);
   const res = await axios.post(
-    `${BASE_URL}/circle/create/`,
+    `${BASE_URL}/circle/create`,
     { name: circleName, address: address, description: desc, photo: photo },
     config
   );

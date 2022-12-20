@@ -26,6 +26,7 @@ import ExploreContainer from "../components/ExploreContainer";
 import { getCircle, getPackageByCircleId, useStorage } from "../utils/service";
 import { cubeOutline, personCircleOutline, personOutline } from "ionicons/icons";
 import "./HomeAdmin.css";
+import { Circle } from "../types/type";
 
 interface Package {
   created_at: string;
@@ -42,25 +43,29 @@ interface Package {
 
 const HomeAdmin: React.FC = () => {
   const [packages, setPackages] = useState<Package[]>([]);
-  const [DATA_APART, setDATA_APART] = useState<any>([]);
-  const { auth } = useStorage();
+  // const [DATA_APART, setDATA_APART] = useState<any>([]);
+  const { auth, app } = useStorage();
+  // const packagesLength = app?.data?.packages.unknown.length + app?.data?.packages.finished.length + app?.data?.packages.ongoing.length;
 
   useEffect(() => {
     if (Object.keys(auth.data || {}).length > 0) {
-      takeCircle();
+      app.handler.takeCircle();
+      app.handler.takePackage();
+      console.log(app?.data.circle);
     }
   }, [auth.data]);
-
-  const takeCircle = async () => {
-    try {
-      const res = await getCircle(auth.data!.token.value, auth.data!.user.circle_id);
-      setDATA_APART([res.data]);
-      const res2 = await getPackageByCircleId(auth.data!.token.value, auth.data!.user.id);
-      setPackages(res2.packages);
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
+  console.log(app?.data?.packages.unknown.length, app?.data?.packages.finished.length, app?.data?.packages.ongoing.length)
+  // const takeCircle = async () => {
+  //   try {
+  //     console.log(auth.data!.user.circle_id);
+  //     const res = await getCircle(auth.data!.token.value, auth.data!.user.circle_id);
+  //     setDATA_APART([res.data]);
+  //     const res2 = await getPackageByCircleId(auth.data!.token.value, auth.data!.user.id);
+  //     setPackages(res2.packages);
+  //   } catch (error: any) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <IonPage>
@@ -68,70 +73,68 @@ const HomeAdmin: React.FC = () => {
         <IonGrid>
           <IonRow>
             <IonCol size-sm="12" size-md="8" offset-md="2">
-              {DATA_APART.map((apart: any) => (
-                <IonGrid>
-                  <IonRow>
-                    <IonCol>
-                      <IonLabel className="header">
-                        <b>TikeT</b>
-                      </IonLabel>
-                      <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
-                    </IonCol>
-                  </IonRow>
-                  <IonRow className="ion-padding">
-                    <IonLabel class="headerfont">
-                      <h3>Welcome, Admin</h3>
+              <IonGrid>
+                <IonRow>
+                  <IonCol>
+                    <IonLabel className="header">
+                      <b>TikeT</b>
                     </IonLabel>
-                  </IonRow>
-                  <IonRow class="header-card">
-                    <IonCard>
-                      <IonCardHeader className="ion-padding">
-                        <IonCardSubtitle>Circle Name</IonCardSubtitle>
-                        <IonCardTitle class="cardTitle">
-                          <IonLabel>
-                            <h1>{apart.name}</h1>
-                          </IonLabel>
-                        </IonCardTitle>
-                      </IonCardHeader>
-                    </IonCard>
-                  </IonRow>
-                  <IonRow className="ion-padding">
-                    <IonLabel class="status">
-                      <h2>Status</h2>
-                    </IonLabel>
-                  </IonRow>
-                  <IonRow className="ion-justify-content-center ion-align-items-center" class="header-card">
-                    <IonCard>
-                      <IonCardContent>
-                        <IonRow>
-                          <IonCol size="auto" class="icon-size" className="ion-justify-content-center ion-no-padding">
-                            <IonIcon icon={personCircleOutline}></IonIcon>
-                          </IonCol>
-                          <IonCol>
-                            <IonCardSubtitle>Total Resident</IonCardSubtitle>
-                            <IonCardTitle>{apart.users.length}</IonCardTitle>
-                          </IonCol>
-                        </IonRow>
-                      </IonCardContent>
-                    </IonCard>
-                  </IonRow>
-                  <IonRow className="ion-justify-content-center ion-align-items-center" class="content-card">
-                    <IonCard>
-                      <IonCardContent>
-                        <IonRow>
-                          <IonCol size="auto" class="icon-size" className="ion-justify-content-center ion-no-padding">
-                            <IonIcon icon={cubeOutline}></IonIcon>
-                          </IonCol>
-                          <IonCol>
-                            <IonCardSubtitle>Total Package</IonCardSubtitle>
-                            <IonCardTitle>{packages.length}</IonCardTitle>
-                          </IonCol>
-                        </IonRow>
-                      </IonCardContent>
-                    </IonCard>
-                  </IonRow>
-                </IonGrid>
-              ))}
+                    <IonIcon icon={personOutline} style={{ paddingLeft: "10px" }}></IonIcon>
+                  </IonCol>
+                </IonRow>
+                <IonRow className="ion-padding">
+                  <IonLabel class="headerfont">
+                    <h3>Welcome, Admin</h3>
+                  </IonLabel>
+                </IonRow>
+                <IonRow class="header-card">
+                  <IonCard>
+                    <IonCardHeader className="ion-padding">
+                      <IonCardSubtitle>Circle Name</IonCardSubtitle>
+                      <IonCardTitle class="cardTitle">
+                        <IonLabel>
+                          <h1>{app?.data?.circle?.name}</h1>
+                        </IonLabel>
+                      </IonCardTitle>
+                    </IonCardHeader>
+                  </IonCard>
+                </IonRow>
+                <IonRow className="ion-padding">
+                  <IonLabel class="status">
+                    <h2>Status</h2>
+                  </IonLabel>
+                </IonRow>
+                <IonRow className="ion-justify-content-center ion-align-items-center" class="header-card">
+                  <IonCard>
+                    <IonCardContent>
+                      <IonRow>
+                        <IonCol size="auto" class="icon-size" className="ion-justify-content-center ion-no-padding">
+                          <IonIcon icon={personCircleOutline}></IonIcon>
+                        </IonCol>
+                        <IonCol>
+                          <IonCardSubtitle>Total Resident</IonCardSubtitle>
+                          <IonCardTitle>{app?.data?.circle?.users.length}</IonCardTitle>
+                        </IonCol>
+                      </IonRow>
+                    </IonCardContent>
+                  </IonCard>
+                </IonRow>
+                <IonRow className="ion-justify-content-center ion-align-items-center" class="content-card">
+                  <IonCard>
+                    <IonCardContent>
+                      <IonRow>
+                        <IonCol size="auto" class="icon-size" className="ion-justify-content-center ion-no-padding">
+                          <IonIcon icon={cubeOutline}></IonIcon>
+                        </IonCol>
+                        <IonCol>
+                          <IonCardSubtitle>Total Package</IonCardSubtitle>
+                          <IonCardTitle>{app?.data?.packages?.unknown?.length + app?.data?.packages?.finished?.length + app?.data?.packages?.ongoing?.length}</IonCardTitle>
+                        </IonCol>
+                      </IonRow>
+                    </IonCardContent>
+                  </IonCard>
+                </IonRow>
+              </IonGrid>
             </IonCol>
           </IonRow>
         </IonGrid>

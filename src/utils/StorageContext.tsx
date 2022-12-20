@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Storage } from "@ionic/storage";
-import { checkSession, getPackageByCircleId } from "./service";
+import { checkSession, getCircle, getPackageByCircleId } from "./service";
 import { useHistory } from "react-router";
-import { PackageContainer } from "../types/type";
+import { Circle, PackageContainer } from "../types/type";
 
 type storageProviderTypes = {
   children: any;
@@ -37,6 +37,7 @@ type authDataTypes = {
 
 type appDataTypes = {
   packages: PackageContainer;
+  circle: Circle;
 };
 
 export const storageContext = createContext<any>({});
@@ -93,8 +94,20 @@ export const StorageProvider = (props: storageProviderTypes) => {
         },
         { ongoing: [], finished: [], unknown: [] }
       );
-      setAppData({ ...appData, packages: group });
-      await store?.set("appData", { packages: group });
+      setAppData({ ...appData as appDataTypes, packages: group });
+      await store?.set("appData", { ...appData as appDataTypes, packages: group });
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  const takeCircle = async () => {
+    console.log("takeCircle");
+    try {
+      console.log(authData!.user.circle_id);
+      const res = await getCircle(authData!.token.value, authData!.user.circle_id);
+      setAppData({ ...appData as appDataTypes, circle: res.data });
+      await store?.set("appData", { ...appData as appDataTypes, circle: res.data });
     } catch (error: any) {
       console.log(error);
     }
@@ -122,6 +135,7 @@ export const StorageProvider = (props: storageProviderTypes) => {
       data: appData,
       handler: {
         takePackage: takePackage,
+        takeCircle: takeCircle
       },
     },
   };

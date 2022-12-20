@@ -16,6 +16,8 @@ import {
   IonImg,
   IonBackButton,
   IonButtons,
+  IonSpinner,
+  useIonAlert,
 } from "@ionic/react";
 import { camera, personOutline } from "ionicons/icons";
 import { useRef, useState } from "react";
@@ -25,18 +27,30 @@ import { circleCreate, useStorage } from "../utils/service";
 import "./CreateCircle.css";
 
 const CreateCircle: React.FC = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    setError
+  } = useForm<{ circleName: string, address: string, desc: string, photo: File }>();
   const { auth } = useStorage();
   const history = useHistory();
   const [selectedFile, setSelectedFile] = useState<File>();
   const [fileName, setFileName] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [presentAlert] = useIonAlert();
+
 
   const fileButton = useRef<HTMLIonButtonElement>(null);
 
   const onSubmit = async (data: any) => {
     console.log(JSON.stringify(data));
+    // debugger
     try {
+      setLoading(true);
       console.log(auth.data!.token.value); //INI TOKEN
+
       const formData = new FormData();
       const res = await circleCreate(
         auth.data!.token.value,
@@ -45,9 +59,33 @@ const CreateCircle: React.FC = () => {
         data.desc,
         selectedFile!
       );
+      // console.log(res.data.id);
+      const tempAdminData = auth.data;
+      // console.log(auth.data);
+      tempAdminData.user.circle_id = res.data.id;
+      tempAdminData.user.admin = true;
+      auth.set(tempAdminData);
+      console.log(auth.data);
       history.push("/admin/home");
     } catch (error: any) {
-      console.log(error);
+      presentAlert({
+        header: "Error",
+        message: error.response.data.message,
+        buttons: ["OK"],
+        onDidDismiss: () => {
+          const errorState = Object.keys(error.response.data.error)[0];
+          console.log(errorState);
+          setError(
+            errorState as any,
+            { type: "focus", message: error.response.data.error[errorState] },
+            {
+              shouldFocus: true,
+            }
+          );
+        },
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -201,7 +239,7 @@ const CreateCircle: React.FC = () => {
                   expand="block"
                   type="submit"
                 >
-                  Create
+                  {loading ? <IonSpinner /> : "Create Circle"}
                 </IonButton>
               </IonCol>
             </IonRow>

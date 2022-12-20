@@ -12,6 +12,27 @@ export type Package = {
   updated_at: string;
 };
 
+export type Circle = {
+  id: number;
+  name: string;
+  description: string;
+  address: string;
+  owner_id: string;
+  photoURL: string;
+  owner: User;
+  users: User[];
+};
+
+export type User = {
+  id: number;
+  name: string;
+  telephone: string;
+  photoPath: string;
+  admin: boolean;
+  roomNumber: string;
+  circle_id: string;
+}
+
 export type PackageContainer = {
   ongoing: Package[];
   finished: Package[];
