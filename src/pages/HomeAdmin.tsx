@@ -45,27 +45,14 @@ const HomeAdmin: React.FC = () => {
   const [packages, setPackages] = useState<Package[]>([]);
   // const [DATA_APART, setDATA_APART] = useState<any>([]);
   const { auth, app } = useStorage();
-  // const packagesLength = app?.data?.packages.unknown.length + app?.data?.packages.finished.length + app?.data?.packages.ongoing.length;
 
   useEffect(() => {
-    if (Object.keys(auth.data || {}).length > 0) {
+    if (auth.data) {
       app.handler.takeCircle();
       app.handler.takePackage();
-      console.log(app?.data.circle);
+      console.log(app?.data);
     }
   }, [auth.data]);
-  console.log(app?.data?.packages.unknown.length, app?.data?.packages.finished.length, app?.data?.packages.ongoing.length)
-  // const takeCircle = async () => {
-  //   try {
-  //     console.log(auth.data!.user.circle_id);
-  //     const res = await getCircle(auth.data!.token.value, auth.data!.user.circle_id);
-  //     setDATA_APART([res.data]);
-  //     const res2 = await getPackageByCircleId(auth.data!.token.value, auth.data!.user.id);
-  //     setPackages(res2.packages);
-  //   } catch (error: any) {
-  //     console.log(error);
-  //   }
-  // };
 
   return (
     <IonPage>
@@ -113,7 +100,7 @@ const HomeAdmin: React.FC = () => {
                         </IonCol>
                         <IonCol>
                           <IonCardSubtitle>Total Resident</IonCardSubtitle>
-                          <IonCardTitle>{app?.data?.circle?.users.length}</IonCardTitle>
+                          <IonCardTitle>{app?.data?.circle?.users?.length}</IonCardTitle>
                         </IonCol>
                       </IonRow>
                     </IonCardContent>
@@ -128,7 +115,7 @@ const HomeAdmin: React.FC = () => {
                         </IonCol>
                         <IonCol>
                           <IonCardSubtitle>Total Package</IonCardSubtitle>
-                          <IonCardTitle>{app?.data?.packages?.unknown?.length + app?.data?.packages?.finished?.length + app?.data?.packages?.ongoing?.length}</IonCardTitle>
+                          <IonCardTitle>{app?.data?.packages?.unknown?.length + app?.data?.packages?.finished?.length + app?.data?.packages?.ongoing?.length + 0}</IonCardTitle>
                         </IonCol>
                       </IonRow>
                     </IonCardContent>

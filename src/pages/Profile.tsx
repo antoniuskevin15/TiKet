@@ -64,6 +64,7 @@ const Profile: React.FC = () => {
       setLoading(true);
       authLogout(auth.data!.token.value).then(() => {
         auth.set(null);
+        app.set(null);
         history.push("/login");
         setLoading(false);
       });
@@ -74,7 +75,7 @@ const Profile: React.FC = () => {
     }
   };
 
-  const { auth } = useStorage();
+  const { auth, app } = useStorage();
 
   var divStyle = {
     background: `url(${process.env.REACT_APP_WEB_URL}/storage/${auth.data?.user.photoPath})`,

@@ -121,6 +121,10 @@ export const StorageProvider = (props: storageProviderTypes) => {
     setAuthData(data);
     await store?.set("authData", data);
   };
+  const setApp = async (data: appDataTypes) => {
+    setAppData(data);
+    await store?.set("appData", data);
+  };
 
   const defaultValue = {
     store: {
@@ -137,6 +141,7 @@ export const StorageProvider = (props: storageProviderTypes) => {
         takePackage: takePackage,
         takeCircle: takeCircle
       },
+      set: (data: appDataTypes) => setApp(data),
     },
   };
 
