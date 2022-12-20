@@ -49,8 +49,6 @@ const HomeAdmin: React.FC = () => {
   useEffect(() => {
     if (auth.data) {
       app.handler.takeCircle();
-      app.handler.takePackage();
-      console.log(app?.data);
     }
   }, [auth.data]);
 

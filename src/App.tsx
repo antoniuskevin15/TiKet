@@ -33,6 +33,7 @@ import { StorageProvider } from "./utils/StorageContext";
 import { App as AppCap } from "@capacitor/app";
 import { useEffect } from "react";
 import { useStorage } from "./utils/service";
+import Splash from "./pages/Splash";
 
 setupIonicReact();
 
@@ -56,6 +57,7 @@ const App: React.FC = () => {
             <IonRouterOutlet>
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
+              <Route exact path="/splash" component={Splash} />
               <Route exact path="/select" component={SelectCircle} />
               <Route exact path="/circle/create" component={CreateCircle} />
               <Route exact path="/circle/join" component={JoinCircle} />
@@ -67,12 +69,12 @@ const App: React.FC = () => {
                 <TabsAdmin />
               </Route>
               <Route exact path="/">
-                <Redirect to="/login" />
+                <Redirect to="/splash" />
               </Route>
             </IonRouterOutlet>
           </StorageProvider>
           <Route exact path="/*">
-            <Redirect to="/login" />
+            <Redirect to="/splash" />
           </Route>
         </Switch>
       </IonReactRouter>

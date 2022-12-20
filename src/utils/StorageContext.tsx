@@ -105,9 +105,23 @@ export const StorageProvider = (props: storageProviderTypes) => {
     console.log("takeCircle");
     try {
       console.log(authData!.user.circle_id);
-      const res = await getCircle(authData!.token.value, authData!.user.circle_id);
-      setAppData({ ...appData as appDataTypes, circle: res.data });
-      await store?.set("appData", { ...appData as appDataTypes, circle: res.data });
+      let res = await getCircle(authData!.token.value, authData!.user.circle_id);
+
+      let packageRes = await getPackageByCircleId(authData!.token.value, authData!.user.circle_id);
+
+      if (!authData!.user.admin) {
+        packageRes.packages = packageRes.packages.filter((p: any) => p.user_id === authData!.user.id || p.status === "unknown");
+      }
+      const group = packageRes.packages.reduce(
+        (result: any, curr: any) => {
+          result[curr.status] = [...(result[curr.status] || []), curr];
+          return result;
+        },
+        { ongoing: [], finished: [], unknown: [] }
+      );
+      console.log(res.data);
+      setAppData({ ...appData as appDataTypes, circle: res.data, packages: group });
+      await store?.set("appData", { ...appData as appDataTypes, circle: res.data, packages: group });
     } catch (error: any) {
       console.log(error);
     }

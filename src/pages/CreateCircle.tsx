@@ -34,7 +34,7 @@ const CreateCircle: React.FC = () => {
     setValue,
     setError
   } = useForm<{ circleName: string, address: string, desc: string, photo: File }>();
-  const { auth } = useStorage();
+  const { auth, app } = useStorage();
   const history = useHistory();
   const [selectedFile, setSelectedFile] = useState<File>();
   const [fileName, setFileName] = useState("");
@@ -66,6 +66,8 @@ const CreateCircle: React.FC = () => {
       tempAdminData.user.admin = true;
       auth.set(tempAdminData);
       console.log(auth.data);
+
+      app.handler.takeCircle();
       history.push("/admin/home");
     } catch (error: any) {
       presentAlert({

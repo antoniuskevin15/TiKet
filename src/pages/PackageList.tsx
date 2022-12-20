@@ -61,7 +61,7 @@ const PackageList: React.FC = () => {
 
   useEffect(() => {
     if (auth.data) {
-      app.handler.takePackage();
+      app.handler.takeCircle();
     }
   }, [auth.data]);
 

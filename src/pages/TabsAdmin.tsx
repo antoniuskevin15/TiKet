@@ -11,6 +11,7 @@ import HomeAdmin from "./HomeAdmin";
 import { useStorage } from "../utils/service";
 import ProfileEdit from "./ProfileEdit";
 import PackageList from "./PackageList";
+import Splash from "./Splash";
 
 const TabsAdmin: React.FC = () => {
   const { auth } = useStorage();
@@ -25,6 +26,7 @@ const TabsAdmin: React.FC = () => {
         <Route path="/admin/package/edit/:id?" component={AddPackageAdmin} />
         <Route path="/admin/profile" component={Profile} />
         <Route path="/admin/editProfile" component={ProfileEdit} />
+        <Route path="/admin/splash" component={Splash} />
         <Redirect exact path="/admin" to="/admin/home" />
         {/* </Switch> */}
       </IonRouterOutlet>
