@@ -266,7 +266,7 @@ const Register: React.FC = () => {
                         <a
                           className="myAnchor"
                           target="blank"
-                          href="https://www.termsfeed.com/live/531eb5ee-4de2-4199-8d76-f1a1bfb22f01"
+                          href="https://www.termsfeed.com/live/34f2728c-264b-4dde-aeed-2a29ffc6f482"
                         >
                           <u>
                             <b>Terms & Conditions</b>
